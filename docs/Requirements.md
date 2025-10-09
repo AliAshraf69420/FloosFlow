@@ -1,22 +1,22 @@
 # Requirements: 
 
 ## Page requirements:
-- [ ]  Landing / Home Page 
+- [x]  Landing / Home Page 
 	- Introduction or entry point.
 	- Navbar
 	- Services(Check Balance, Due , Quick Pay, Share Account) 
 	- Accounts (For each bank account)
 - [ ]  Dashboard Page – with at least one chart or visualization.
-	- Check Recipes, Settings, Help, Transactions
-- [ ]  List/Overview Page 
-	- browse or view all items (transactions, recipes, or movies).
-- [ ]  Detail Page 
+	- Settings, Help, Transactions
+- [x]  List/Overview Page 
+	- browse or view all items (transactions).
+- [x]  Detail Page 
 	- display details of a single item.
 - [ ]  Form Page
 	- to add/edit data (e.g., add expense, recipe, or movie).
 - [ ]  Authentication Pages 
 	- Login and Register.
-- [ ] Profile page
+- [x] Profile page
 	- shows your name
 	- shows your profile picture
 	- allow to change password
