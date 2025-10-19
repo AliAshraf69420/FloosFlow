@@ -13,11 +13,16 @@
             "state": {
               "type": "markdown",
               "state": {
+<<<<<<< HEAD
                 "file": "Plan.md",
+=======
+                "file": "Requirements.md",
+>>>>>>> origin/dev
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
+<<<<<<< HEAD
               "title": "Plan"
             }
           },
@@ -47,6 +52,9 @@
               },
               "icon": "lucide-file",
               "title": "ColorScheme"
+=======
+              "title": "Requirements"
+>>>>>>> origin/dev
             }
           }
         ],
@@ -202,9 +210,14 @@
   "lastOpenFiles": [
     "Plan.md",
     "Requirements.md",
+<<<<<<< HEAD
     "Used Libraries.md",
     "Tasks.md",
     "ColorScheme.md",
+=======
+    "Tasks.md",
+    "Used Libraries.md",
+>>>>>>> origin/dev
     "Project/Tasks.md",
     "Project/Requirements.md",
     "Project/Plan.md",
