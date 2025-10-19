@@ -11,13 +11,15 @@
 ## Tasks:
 - [ ] Create wireframes and mockups for at least 7 key pages (see list below).
 	- Figma or Excalidraw
+	- [x] Wireframe
+	- [/] Mockup 
 - [ ]  Build a static prototype using HTML5 + Tailwind-CSS (no interactivity).
 	- No JS or forms or etc..
-- [ ]  Ensure accessibility and responsiveness (desktop & mobile).
+- [b]  Ensure accessibility and responsiveness (desktop & mobile).
 	- Use ARIA Labels
 	- SEO
 	- WCAG 2.2
-- [ ]  Every page must have both a desktop version and a mobile version.
+- [!]  Every page must have both a desktop version and a mobile version.
 	- Tailwind
  - ### Required Pages (minimum set):
 	- [ ]  Landing / Home Page – introduction or entry point.

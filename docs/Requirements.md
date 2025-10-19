@@ -7,11 +7,11 @@
 	- Services(Check Balance, Due , Quick Pay, Share Account) 
 	- Accounts (For each bank account)
 - [ ]  Dashboard Page – with at least one chart or visualization.
-	- Check Recipes, Settings, Help, Transactions
+	- Check Settings, Help, Transactions
 - [ ]  List/Overview Page 
 	- browse or view all items (transactions, recipes, or movies).
 - [ ]  Detail Page 
-	- display details of a single item.
+	- display details of a single transaction.
 - [ ]  Form Page
 	- to add/edit data (e.g., add expense, recipe, or movie).
 - [ ]  Authentication Pages 
@@ -52,6 +52,10 @@
 	- allow to switch theme
 - ### Send money page:
 	- Allows user to send money to specific user with their id
+- ### NavBar:
+	- Profile used to prompt a login 
+	- once logged in, users click on profile picture to navigate to settings
+	- 
 ---
 ## DevOps reqs: 
 - ### Testing Coverage:
