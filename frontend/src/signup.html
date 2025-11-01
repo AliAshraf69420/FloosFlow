@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FloosFlow-Login</title>
+  <title>FloosFlow - Signup</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -47,65 +47,81 @@
   </nav>
  
   <main class="flex-grow pt-28 px-10 flex flex-col items-center space-y-12 mb-24">
-       <div class="bg-white/10 backdrop-blur-xl border border-white/20 
+
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 
                 rounded-2xl shadow-lg p-10 flex items-center space-x-6 
                 w-[1200px] h-[180px] text-left 
                 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black 
                 transition-all duration-300">
-      <img src="../public/logo.svg" alt="Profile Picture" 
-           class="w-33 h-28  object-cover  
-                  hover:scale-110 transition-transform duration-300">
-      <h1 class="text-3xl font-bold">Welcome back !</h1>
+      <img src="../public/logo.svg" alt="Logo" 
+           class="w-33 h-28 object-cover hover:scale-110 transition-transform duration-300">
+      <h1 class="text-3xl font-bold">Create Your Account</h1>
     </div>
 
     <div class="bg-white/10 backdrop-blur-xl border border-white/20 
                 rounded-2xl shadow-lg p-10 flex items-center space-x-6 
-                w-[1200px] h-[550px] text-left ">
-      <form class="flex flex-col space-y-6">
+                w-[1200px] h-[650px] text-left">
+      <form class="flex flex-col space-y-6 w-full">
+
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="fullname" class="text-lg font-medium w-32">Full Name</label>
+          <input type="text" id="fullname" placeholder="Enter your full name"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
         <div class="flex items-center space-x-4 mb-6">
           <label for="email" class="text-lg font-medium w-32">Email</label>
           <input type="email" id="email" placeholder="Enter your email"
-                 class="w-[900px] p-3 rounded-lg bg-white/20 border border-white/30 
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
                         placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
         </div>
 
-        <div class="flex items-center space-x-4">
+        <!-- Password -->
+        <div class="flex items-center space-x-4 mb-6">
           <label for="password" class="text-lg font-medium w-32">Password</label>
-          <input type="password" id="password" placeholder="Enter your password"
-                 class="w-[900px] flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+          <input type="password" id="password" placeholder="Create a password"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
                         placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
         </div>
 
-        <button type="submit"
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="confirm-password" class="text-lg font-medium w-32">Confirm</label>
+          <input type="password" id="confirm-password" placeholder="Re-enter your password"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <button type="button"
                 class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
                        text-white font-semibold py-3 rounded-xl shadow-md 
                        hover:scale-105 transition-transform duration-150 
                        flex items-center justify-between px-6">
-          <span>Login with Google</span>
+          <span>Sign up with Google</span>
           <img src="../public/google-icon-logo-svgrepo-com.svg" alt="Google Icon" class="w-6 h-6">
         </button>
 
-        <button type="submit"
+        <button type="button"
                 class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
                        text-white font-semibold py-3 rounded-xl shadow-md 
                        hover:scale-105 transition-transform duration-150 
                        flex items-center justify-between px-6">
-          <span>Login with Apple</span>
+          <span>Sign up with Apple</span>
           <img src="../public/apple-logo-svgrepo-com.svg" alt="Apple Icon" class="w-6 h-6">
         </button>
       </form>
     </div>
 
     <button type="submit"
-            class="w-28 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+            class="w-36 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
                    text-white font-semibold py-3 rounded-xl shadow-md 
                    hover:scale-105 transition-transform duration-300">
-      Login
+      Sign Up
     </button>
-        <p class="text-gray-400 text-sm">Do not have a account 
-      <a href="./signup.html" class="text-green-400 hover:underline">Sign Up here</a>
-    </p>
 
+    <p class="text-gray-400 text-sm">Already have an account? 
+      <a href="./login.html" class="text-green-400 hover:underline">Login here</a>
+    </p>
   </main>
 
   <footer class="bg-[#1E1E1E]/90 backdrop-blur-sm border-t border-gray-700 text-gray-400 py-6 text-center">
