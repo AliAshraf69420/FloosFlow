@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FloosFlow - Signup</title>
+  <title>FloosFlow - Help</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -11,13 +11,12 @@
 
   <nav class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-1 flex justify-between items-center h-16">
-
       <div class="flex items-center space-x-3">
         <img src="../public/logo.svg" alt="logo" class="w-36 h-14 object-contain">
       </div>
 
       <ul class="hidden md:flex space-x-8 text-lg items-center">
-        <li><a href="./Home.html" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a></li>
+        <li><a href="Home.html" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a></li>
         <li><a href="#" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Services</a></li>
         <li><a href="#" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Dashboard</a></li>
         <li><a href="./help.html" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Help</a></li>
@@ -45,7 +44,7 @@
       </div>
     </div>
   </nav>
- 
+
   <main class="flex-grow pt-28 px-10 flex flex-col items-center space-y-12 mb-24">
 
     <div class="bg-white/10 backdrop-blur-xl border border-white/20 
@@ -55,75 +54,80 @@
                 transition-all duration-300">
       <img src="../public/logo.svg" alt="Logo" 
            class="w-33 h-28 object-cover hover:scale-110 transition-transform duration-300">
-      <h1 class="text-3xl font-bold">Create Your Account</h1>
+      <h1 class="text-3xl font-bold">How Can We Help You?</h1>
     </div>
 
-    <div class="bg-white/10 backdrop-blur-xl border border-white/20 
-                rounded-2xl shadow-lg p-10 flex items-center space-x-6 
-                w-[1200px] h-[650px] text-left">
-      <form class="flex flex-col space-y-6 w-full">
+    <section class="bg-white/10 backdrop-blur-xl border border-white/20 
+                    rounded-2xl shadow-lg p-10 w-[1200px] space-y-6">
+      <h2 class="text-2xl font-semibold text-[#65E67F] mb-4">Frequently Asked Questions</h2>
 
-        <div class="flex items-center space-x-4 mb-6">
-          <label for="fullname" class="text-lg font-medium w-32">Full Name</label>
-          <input type="text" id="fullname" placeholder="Enter your full name"
+      <div>
+        <h3 class="text-xl font-semibold mb-2">How do I reset my password?</h3>
+        <p class="text-gray-300">Click on the “Forgot Password?” link on the login page. Enter your email, and we’ll send you a reset link to create a new password.</p>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2">How do I create a new FloosFlow account?</h3>
+        <p class="text-gray-300">Go to the Sign Up page, fill in your personal details, email, and password, and click on “Create Account.” You can also sign up using Google or Apple.</p>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2">Why is NOt my transaction showing up?</h3>
+        <p class="text-gray-300">Transactions may take a few minutes to update. Try refreshing your dashboard. If the issue continues, contact support below.</p>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2">How can I contact customer support?</h3>
+        <p class="text-gray-300">You can use the form below to send us a message or email us directly at <span class="text-green-400">support@floosflow.com</span>.</p>
+      </div>
+    </section>
+
+    <section class="bg-white/10 backdrop-blur-xl border border-white/20 
+                    rounded-2xl shadow-lg p-10 w-[1200px] space-y-6">
+      <h2 class="text-2xl font-semibold text-[#65E67F] mb-6">Contact Support</h2>
+      <form class="flex flex-col space-y-6">
+        <div class="flex items-center space-x-4">
+          <label for="name" class="text-lg font-medium w-32">Name</label>
+          <input type="text" id="name" placeholder="Enter your full name"
                  class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
                         placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
         </div>
 
-        <div class="flex items-center space-x-4 mb-6">
+        <div class="flex items-center space-x-4">
           <label for="email" class="text-lg font-medium w-32">Email</label>
-          <input type="email" id="email" placeholder="Enter your email"
+          <input type="email" id="email" placeholder="Enter your email address"
                  class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
                         placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
         </div>
 
-        
-        <div class="flex items-center space-x-4 mb-6">
-          <label for="password" class="text-lg font-medium w-32">Password</label>
-          <input type="password" id="password" placeholder="Create a password"
-                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
-                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        <div class="flex items-start space-x-4">
+          <label for="message" class="text-lg font-medium w-32">Message</label>
+          <textarea id="message" rows="4" placeholder="Describe your issue or question..."
+                    class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                           placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
         </div>
 
-        <div class="flex items-center space-x-4 mb-6">
-          <label for="confirm-password" class="text-lg font-medium w-32">Confirm</label>
-          <input type="password" id="confirm-password" placeholder="Re-enter your password"
-                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
-                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
-        </div>
-
-        <button type="button"
-                class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+        <button type="submit"
+                class="w-40 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
                        text-white font-semibold py-3 rounded-xl shadow-md 
-                       hover:scale-105 transition-transform duration-150 
-                       flex items-center justify-between px-6">
-          <span>Sign up with Google</span>
-          <img src="../public/google-icon-logo-svgrepo-com.svg" alt="Google Icon" class="w-6 h-6">
-        </button>
-
-        <button type="button"
-                class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
-                       text-white font-semibold py-3 rounded-xl shadow-md 
-                       hover:scale-105 transition-transform duration-150 
-                       flex items-center justify-between px-6">
-          <span>Sign up with Apple</span>
-          <img src="../public/apple-logo-svgrepo-com.svg" alt="Apple Icon" class="w-6 h-6">
+                       hover:scale-105 transition-transform duration-300">
+          Send Message
         </button>
       </form>
+    </section>
+
+    <div class="bg-gradient-to-r from-[#62A6BF]/20 via-[#49EB8C]/20 to-[#65E67F]/20 
+                backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 w-[1200px] text-center">
+      <h2 class="text-2xl font-semibold mb-4 text-[#65E67F]">Still Need Help?</h2>
+      <p class="text-gray-300 mb-6">Our team is available 24/7. You can reach us directly by email or visit our <span class="text-green-400">Support Center</span> for quick answers.</p>
+      <a href="mailto:support@floosflow.com"
+         class="bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+                text-black font-semibold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
+        Contact Support
+      </a>
     </div>
 
-    <button type="submit"
-            class="w-36 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
-                   text-white font-semibold py-3 rounded-xl shadow-md 
-                   hover:scale-105 transition-transform duration-300">
-      Sign Up
-    </button>
-
-    <p class="text-gray-400 text-sm">Already have an account? 
-      <a href="./login.html" class="text-green-400 hover:underline">Login here</a>
-    </p>
   </main>
-
   <footer class="bg-[#1E1E1E]/90 backdrop-blur-sm border-t border-gray-700 text-gray-400 py-6 text-center">
     <div class="max-w-7xl mx-auto px-4">
       <p class="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>
