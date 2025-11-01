@@ -7,22 +7,22 @@
   - Navbar
   - Services(Check Balance, Due , Quick Pay, Share Account)
   - Accounts (For each bank account)
-- [ ] Dashboard Page – with at least one chart or visualization.
+- [x] Dashboard Page – with at least one chart or visualization.
   - Check Settings, Help, Transactions
-- [ ] List/Overview Page
+- [x] List/Overview Page
   - browse or view all items (transactions, recipes, or movies).
-- [ ] Detail Page
+- [x] Detail Page
   - display details of a single transaction.
-- [ ] Form Page
+- [x] Form Page
   - to add/edit data (e.g., add expense, recipe, or movie).
-- [ ] Authentication Pages
+- [x] Authentication Pages
   - Login and Register.
 - [x] Profile page
   - shows your name
   - shows your profile picture
   - allow to change password
   - allow to switch theme
-- [ ] Send Money Page
+- [x] Send Money Page
   - Send to a user by their id
 
 ---
