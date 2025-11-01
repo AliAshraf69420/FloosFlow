@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FloosFlow - Signup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
+
+  <nav class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-1 flex justify-between items-center h-16">
+
+      <div class="flex items-center space-x-3">
+        <img src="../public/logo.svg" alt="logo" class="w-36 h-14 object-contain">
+      </div>
+
+      <ul class="hidden md:flex space-x-8 text-lg items-center">
+        <li><a href="./Home.html" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a></li>
+        <li><a href="#" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Services</a></li>
+        <li><a href="#" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Dashboard</a></li>
+        <li><a href="./help.html" class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Help</a></li>
+      </ul>
+
+      <div class="hidden md:flex items-center space-x-8 ml-10">
+        <div class="relative mr-6">
+          <img src="../public/search-outline-svgrepo-com.svg" alt="search"
+               class="absolute left-3 top-2.5 w-5 h-5 opacity-70 cursor-pointer" />
+          <input 
+            type="text" 
+            placeholder="Search"
+            id="searchInput"
+            class="pl-10 pr-4 py-2 rounded-lg bg-[#2A2A2A]/80 text-gray-100 placeholder-gray-400 
+                   focus:outline-none focus:ring-2 focus:ring-green-400 w-64 transition-all duration-200
+                   hover:bg-[#333333]/90"
+          />
+        </div>
+
+        <div class="flex items-center">
+          <img src="../public/mefr.webp" alt="Profile" 
+               class="w-12 h-12 object-cover rounded-full border-2 border-green-400 
+                      hover:scale-110 transition-transform duration-200 cursor-pointer hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F]">
+        </div>
+      </div>
+    </div>
+  </nav>
+ 
+  <main class="flex-grow pt-28 px-10 flex flex-col items-center space-y-12 mb-24">
+
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 
+                rounded-2xl shadow-lg p-10 flex items-center space-x-6 
+                w-[1200px] h-[180px] text-left 
+                hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black 
+                transition-all duration-300">
+      <img src="../public/logo.svg" alt="Logo" 
+           class="w-33 h-28 object-cover hover:scale-110 transition-transform duration-300">
+      <h1 class="text-3xl font-bold">Create Your Account</h1>
+    </div>
+
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 
+                rounded-2xl shadow-lg p-10 flex items-center space-x-6 
+                w-[1200px] h-[650px] text-left">
+      <form class="flex flex-col space-y-6 w-full">
+
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="fullname" class="text-lg font-medium w-32">Full Name</label>
+          <input type="text" id="fullname" placeholder="Enter your full name"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="email" class="text-lg font-medium w-32">Email</label>
+          <input type="email" id="email" placeholder="Enter your email"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="password" class="text-lg font-medium w-32">Password</label>
+          <input type="password" id="password" placeholder="Create a password"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <div class="flex items-center space-x-4 mb-6">
+          <label for="confirm-password" class="text-lg font-medium w-32">Confirm</label>
+          <input type="password" id="confirm-password" placeholder="Re-enter your password"
+                 class="flex-1 p-3 rounded-lg bg-white/20 border border-white/30 
+                        placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-green-400">
+        </div>
+
+        <button type="button"
+                class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+                       text-white font-semibold py-3 rounded-xl shadow-md 
+                       hover:scale-105 transition-transform duration-150 
+                       flex items-center justify-between px-6">
+          <span>Sign up with Google</span>
+          <img src="../public/google-icon-logo-svgrepo-com.svg" alt="Google Icon" class="w-6 h-6">
+        </button>
+
+        <button type="button"
+                class="w-[1100px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+                       text-white font-semibold py-3 rounded-xl shadow-md 
+                       hover:scale-105 transition-transform duration-150 
+                       flex items-center justify-between px-6">
+          <span>Sign up with Apple</span>
+          <img src="../public/apple-logo-svgrepo-com.svg" alt="Apple Icon" class="w-6 h-6">
+        </button>
+      </form>
+    </div>
+
+    <button type="submit"
+            class="w-36 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+                   text-white font-semibold py-3 rounded-xl shadow-md 
+                   hover:scale-105 transition-transform duration-300">
+      Sign Up
+    </button>
+
+    <p class="text-gray-400 text-sm">Already have an account? 
+      <a href="./login.html" class="text-green-400 hover:underline">Login here</a>
+    </p>
+  </main>
+
+  <footer class="bg-[#1E1E1E]/90 backdrop-blur-sm border-t border-gray-700 text-gray-400 py-6 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>
+      <div class="flex justify-center space-x-6 mt-3">
+        <a href="#" class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Privacy Policy</a>
+        <a href="#" class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Terms of Service</a>
+        <a href="#" class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
