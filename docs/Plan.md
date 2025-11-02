@@ -9,11 +9,11 @@
 2. Design the system’s user interface and user experience.  ( Wireframe -> Figma polish) [1st weekend + 2nd weekend]
 3. ==A static prototype (HTML + Tailwind, no  Backend).== [3rd and 4th weekends]
 ## Tasks:
-- [ ] Create wireframes and mockups for at least 7 key pages (see list below).
+- [x] Create wireframes and mockups for at least 7 key pages (see list below).
 	- Figma or Excalidraw
 	- [x] Wireframe
-	- [/] Mockup 
-- [ ]  Build a static prototype using HTML5 + Tailwind-CSS (no interactivity).
+	- [x] Mockup 
+- [x]  Build a static prototype using HTML5 + Tailwind-CSS (no interactivity).
 	- No JS or forms or etc..
 - [b]  Ensure accessibility and responsiveness (desktop & mobile).
 	- Use ARIA Labels
@@ -22,27 +22,27 @@
 - [!]  Every page must have both a desktop version and a mobile version.
 	- Tailwind
  - ### Required Pages (minimum set):
-	- [ ]  Landing / Home Page – introduction or entry point.
+	- [x]  Landing / Home Page – introduction or entry point.
 		- Navbar
 		- Services(Check Balance, Due , Quick Pay, Share Account) 
 		- Accounts (For each bank account)
-	- [ ]  Dashboard Page – with at least one chart or visualization.
+	- [x]  Dashboard Page – with at least one chart or visualization.
 		- Check Recipes, Settings, Help, Transactions
-	- [ ]  List/Overview Page 
+	- [x]  List/Overview Page 
 		- browse or view all items (transactions, recipes, or movies).
-	- [ ]  Detail Page 
+	- [x]  Detail Page 
 		- display details of a single item.
-	- [ ]  Form Page
+	- [x]  Form Page
 		- to add/edit data (e.g., add expense, recipe, or movie).
-	- [ ]  Authentication Pages 
+	- [x]  Authentication Pages 
 		- Login and Register.
-	- [ ] One Extra Page 
+	- [x] One Extra Page 
 		- Profile, settings, or project-specific feature.
-	- [ ] Send Money Page
+	- [x] Send Money Page
 		- Send to a user by their id
 - ### Deliverables:
-	- [ ] Wireframes/mockups (desktop + mobile).
-	- [ ] Static frontend prototype (HTML + Tailwind).
+	- [x] Wireframes/mockups (desktop + mobile).
+	- [x] Static frontend prototype (HTML + Tailwind).
 ---
 # Phase 3: Core React Components:
 

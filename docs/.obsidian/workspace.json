@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Requirements.md",
+                "file": "Plan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Requirements"
+              "title": "Plan"
             }
           }
         ]
@@ -168,9 +168,10 @@
   },
   "active": "4d5d9baad497bfb1",
   "lastOpenFiles": [
+    "Project.md",
+    "Requirements.md",
     "ColorScheme.md",
     "Plan.md",
-    "Requirements.md",
     "Used Libraries.md",
     "Tasks.md",
     "Untitled.base"
