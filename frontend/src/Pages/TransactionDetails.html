@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Transaction Details</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="../../dist/output.css" />
   </head>
@@ -11,57 +11,75 @@
   <body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
     <nav
       class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md"
+      role="navigation"
+      aria-label="Main Navigation"
     >
       <div
-        class="max-w-7xl mx-auto px-1 flex justify-between items-center h-16"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative"
       >
-        <div class="flex items-center space-x-3">
+        <a
+          href="#"
+          aria-label="FloosFlow Home"
+          class="inline-flex items-center"
+        >
           <img
             src="../../public/logo.svg"
-            alt="logo"
-            class="w-36 h-14 object-contain"
+            alt="FloosFlow Logo"
+            class="w-45 h-40 object-contain"
           />
-        </div>
+        </a>
 
-        <ul class="hidden md:flex space-x-8 text-lg items-center">
-          <li>
+        <ul
+          class="hidden md:flex space-x-8 text-lg items-center"
+          role="menubar"
+          aria-label="Main menu"
+        >
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Home.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Home</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Transactions.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Services</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Dashboard.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Dashboard</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="help.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Help</a
             >
           </li>
         </ul>
 
-        <div class="hidden md:flex items-center space-x-8 ml-10">
-          <div class="relative mr-6">
+        <div class="hidden md:flex items-center space-x-6">
+          <div class="relative">
+            <label for="searchInput" class="sr-only"
+              >Search the dashboard</label
+            >
             <img
               src="../../public/search-outline-svgrepo-com.svg"
-              alt="search"
-              class="absolute left-3 top-2.5 w-5 h-5 opacity-70 cursor-pointer"
+              alt="Search icon"
+              class="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none"
             />
             <input
+              aria-label="Search dashboard"
               type="text"
               placeholder="Search"
               id="searchInput"
@@ -69,85 +87,158 @@
             />
           </div>
 
-          <div class="flex items-center">
+          <button
+            aria-label="Open profile menu"
+            class="inline-flex items-center"
+          >
             <img
               src="../../public/mefr.webp"
-              alt="Profile"
-              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F]"
+              alt="User profile picture"
+              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer"
             />
-          </div>
+          </button>
+        </div>
+
+        <div class="md:hidden relative">
+          <input
+            type="checkbox"
+            id="menu-toggle"
+            class="peer hidden"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          />
+          <label
+            for="menu-toggle"
+            class="cursor-pointer flex flex-col space-y-1 w-6 h-5 justify-center z-50 relative"
+            aria-hidden="true"
+          >
+            <span
+              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:rotate-45 peer-checked:translate-y-1.5"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-white transition-opacity duration-200 peer-checked:opacity-0"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"
+            ></span>
+          </label>
+
+          <ul
+            id="mobile-menu"
+            class="hidden peer-checked:flex flex-col absolute top-16 right-0 w-56 bg-[#1E1E1E]/90 p-4 space-y-2 rounded-md shadow-lg z-40"
+            role="menu"
+            aria-label="Mobile main menu"
+          >
+            <li role="none">
+              <a
+                href="Home.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Home</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="AddTransaction.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Services</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="Dashboard.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Dashboard</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="help.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Help</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
 
-    <main class="flex-grow pt-24 px-8 text-center">
-      <!-- Transaction Details Card -->
+    <main class="flex-grow pt-24 px-4 sm:px-6 lg:px-8 text-center">
       <div
-        class="group bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 text-left w-full max-w-4xl mx-auto hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+        class="group bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 text-left w-full max-w-6xl mx-auto hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
       >
-        <!-- Transaction Header -->
-        <h2 class="text-3xl font-semibold mb-8 text-center">
+        <h2 class="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 text-center">
           Grocery Shopping
         </h2>
 
-        <!-- Info Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Amount -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        >
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Amount</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               $150.00
             </p>
           </div>
 
-          <!-- Type -->
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Type</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               Expense
             </p>
           </div>
 
-          <!-- Merchant -->
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Where</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               Walmart
             </p>
           </div>
 
-          <!-- Message (if transfer) -->
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Message</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               Weekly groceries
             </p>
           </div>
 
-          <!-- Date -->
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Date</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               Oct 30, 2025
             </p>
           </div>
 
-          <!-- Card Used -->
           <div
             class="bg-white/20 border border-white/30 rounded-xl p-4 text-center group-hover:bg-[#1e1e1e]/90 transition"
           >
             <p class="text-sm text-white/60">Card Used</p>
-            <p class="text-xl font-semibold mt-2 group-hover:text-white/60">
+            <p
+              class="text-lg sm:text-xl font-semibold mt-2 group-hover:text-white/60"
+            >
               Visa **** 2451
             </p>
           </div>
@@ -156,7 +247,7 @@
     </main>
 
     <footer
-      class="bg-[#1E1E1E]/90 backdrop-blur-md border-t border-gray-700 text-gray-400 py-6 text-center"
+      class="bg-[#1E1E1E]/90 backdrop-blur-md border-t border-gray-700 text-gray-400 py-6 text-center mt-10"
     >
       <div class="max-w-7xl mx-auto px-4">
         <p class="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>

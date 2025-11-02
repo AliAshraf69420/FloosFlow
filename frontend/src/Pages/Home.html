@@ -11,57 +11,75 @@
   <body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
     <nav
       class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md"
+      role="navigation"
+      aria-label="Main Navigation"
     >
       <div
-        class="max-w-7xl mx-auto px-1 flex justify-between items-center h-16"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative"
       >
-        <div class="flex items-center space-x-3">
+        <a
+          href="#"
+          aria-label="FloosFlow Home"
+          class="inline-flex items-center"
+        >
           <img
             src="../../public/logo.svg"
-            alt="logo"
-            class="w-36 h-14 object-contain"
+            alt="FloosFlow Logo"
+            class="w-45 h-40 object-contain"
           />
-        </div>
+        </a>
 
-        <ul class="hidden md:flex space-x-8 text-lg items-center">
-          <li>
+        <ul
+          class="hidden md:flex space-x-8 text-lg items-center"
+          role="menubar"
+          aria-label="Main menu"
+        >
+          <li role="none">
             <a
-              href="/Home"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Home.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Home</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Transactions.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Services</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="#"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="Dashboard.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Dashboard</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
-              href="./help.html"
-              class="block px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+              role="menuitem"
+              href="help.html"
+              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold"
               >Help</a
             >
           </li>
         </ul>
 
-        <div class="hidden md:flex items-center space-x-8 ml-10">
-          <div class="relative mr-6">
+        <div class="hidden md:flex items-center space-x-6">
+          <div class="relative">
+            <label for="searchInput" class="sr-only"
+              >Search the dashboard</label
+            >
             <img
               src="../../public/search-outline-svgrepo-com.svg"
-              alt="search"
-              class="absolute left-3 top-2.5 w-5 h-5 opacity-70 cursor-pointer"
+              alt="Search icon"
+              class="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none"
             />
             <input
+              aria-label="Search dashboard"
               type="text"
               placeholder="Search"
               id="searchInput"
@@ -69,73 +87,141 @@
             />
           </div>
 
-          <div class="flex items-center">
+          <button
+            aria-label="Open profile menu"
+            class="inline-flex items-center"
+          >
             <img
               src="../../public/mefr.webp"
-              alt="Profile"
-              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F]"
+              alt="User profile picture"
+              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer"
             />
-          </div>
+          </button>
+        </div>
+
+        <div class="md:hidden relative">
+          <input
+            type="checkbox"
+            id="menu-toggle"
+            class="peer hidden"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          />
+          <label
+            for="menu-toggle"
+            class="cursor-pointer flex flex-col space-y-1 w-6 h-5 justify-center z-50 relative"
+            aria-hidden="true"
+          >
+            <span
+              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:rotate-45 peer-checked:translate-y-1.5"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-white transition-opacity duration-200 peer-checked:opacity-0"
+            ></span>
+            <span
+              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"
+            ></span>
+          </label>
+
+          <ul
+            id="mobile-menu"
+            class="hidden peer-checked:flex flex-col absolute top-16 right-0 w-56 bg-[#1E1E1E]/90 p-4 space-y-2 rounded-md shadow-lg z-40"
+            role="menu"
+            aria-label="Mobile main menu"
+          >
+            <li role="none">
+              <a
+                href="Home.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Home</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="AddTransaction.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Services</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="Dashboard.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Dashboard</a
+              >
+            </li>
+            <li role="none">
+              <a
+                href="help.html"
+                role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black"
+                >Help</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
-    <main class="flex-grow pt-24 px-8 flex flex-col items-center space-y-10">
+
+    <main
+      class="flex-grow pt-24 px-4 sm:px-8 flex flex-col items-center space-y-10"
+    >
       <div
-        class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center space-x-6 w-[1200px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+        class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full max-w-5xl text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
       >
         <img
           src="../../public/mefr.webp"
           alt="Profile Picture"
-          class="w-28 h-28 rounded-full object-cover border-4 border-green-400 hover:scale-110 transition-transform duration-300"
+          class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-green-400 hover:scale-110 transition-transform duration-300"
         />
-        <h1 class="text-2xl font-bold">Welcome, Mr Wael Al Abyd</h1>
+        <h1 class="text-xl sm:text-2xl font-bold">Welcome, Mr Wael Al Abyd</h1>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 justify-items-center">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 justify-items-center w-full max-w-6xl"
+      >
         <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
         >
           <p class="font-semibold">Service 1</p>
         </div>
-
         <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
         >
           <p class="font-semibold">Service 2</p>
         </div>
-
         <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
         >
           <p class="font-semibold">Service 3</p>
         </div>
         <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
         >
-          <p class="font-semibold">service 4</p>
-        </div>
-
-        <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
-        >
-          <p class="font-semibold">Service 1</p>
-        </div>
-
-        <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
-        >
-          <p class="font-semibold">Service 2</p>
-        </div>
-
-        <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
-        >
-          <p class="font-semibold">Service 3</p>
+          <p class="font-semibold">Service 4</p>
         </div>
         <div
-          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center justify-center w-[280px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
         >
-          <p class="font-semibold">service 4</p>
+          <p class="font-semibold">Service 5</p>
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+        >
+          <p class="font-semibold">Service 6</p>
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+        >
+          <p class="font-semibold">Service 7</p>
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex items-center justify-center w-full h-44 text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300"
+        >
+          <p class="font-semibold">Service 8</p>
         </div>
       </div>
     </main>
