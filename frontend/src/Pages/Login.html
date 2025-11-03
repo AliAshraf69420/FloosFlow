@@ -1,219 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FloosFlow - Login</title>
-
-    <!-- SEO -->
-    <meta name="description"
-      content="FloosFlow Login — securely sign in to your FloosFlow Finance account to manage profile, security and connected providers." />
-    <meta name="keywords" content="FloosFlow, finance, login, sign in, account, dashboard" />
-    <meta name="author" content="FloosFlow Inc." />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.yoursite.com/login" />
-    <meta name="theme-color" content="#1E1E1E" />
-    <link rel="icon" href="/favicon.ico" />
-
-    <!-- Tailwind CDN -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <link rel="stylesheet" href="../../dist/output.css" />
-
-    <style>
-      /* subtle focus indication for keyboard users */
-      :focus {
-        outline: 3px solid rgba(73, 235, 140, 0.18);
-        outline-offset: 2px;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="FloosFlow Login — securely sign in to your FloosFlow Finance account to manage profile, security and connected providers." />
+  <meta name="keywords" content="FloosFlow, finance, login, sign in, account, dashboard" />
+  <meta name="author" content="FloosFlow Inc." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#1E1E1E" />
+  <title>FloosFlow - Login</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="../../dist/output.css" />
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
 
-      html {
-        scroll-behavior: smooth;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-    </style>
-  </head>
+    }
 
-  <body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
-    <!-- Skip link for keyboard users -->
-    <a href="#login-form"
-      class="sr-only focus:not-sr-only focus:inline-block bg-green-500 text-black px-3 py-2 rounded z-50 fixed top-4 left-4">Skip
-      to login</a>
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
 
-    <!-- Navbar -->
-    <nav class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md" role="navigation"
-      aria-label="Main Navigation">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative">
-        <a href="#" aria-label="FloosFlow Home" class="inline-flex items-center">
-          <img src="../../public/logo.svg" alt="FloosFlow Logo" class="w-45 h-40 object-contain" />
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
+
+  <nav class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md" role="navigation"
+    aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative">
+      <a href="Home.html" aria-label="FloosFlow Home" class="inline-flex items-center">
+        <img src="../../public/logo.svg" alt="FloosFlow Logo" class="w-45 h-40 object-contain" />
+      </a>
+
+      <ul class="hidden md:flex space-x-8 text-lg items-center" role="menubar" aria-label="Main menu">
+        <li role="none">
+          <a role="menuitem" href="Home.html"
+            class="px-4 py-2 rounded-md transition-all duration-200 font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="TransactionsHistory.html"
+            class="px-4 py-2 rounded-md transition-all duration-200 font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Services</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="Dashboard.html"
+            class="px-4 py-2 rounded-md transition-all duration-200 font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Dashboard</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="help.html"
+            class="px-4 py-2 rounded-md transition-all duration-200 font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Help</a>
+        </li>
+      </ul>
+
+      <div class="hidden md:flex items-center space-x-6">
+        <div class="relative">
+          <label for="searchInput" class="sr-only">Search the account dashboard</label>
+          <img src="../../public/search-outline-svgrepo-com.svg" alt="Search icon"
+            class="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none" />
+          <input aria-label="Search account dashboard" type="text" placeholder="Search" id="searchInput"
+            class="pl-10 pr-4 py-2 rounded-lg bg-[#2A2A2A]/80 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 w-64 transition-all duration-200 hover:bg-[#333333]/90" />
+        </div>
+
+        <a href="Settings.html" aria-label="Open profile menu" class="hidden xl:inline-flex">
+          <img src="../../public/mefr.webp" alt="User profile picture"
+            class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer" />
         </a>
+      </div>
 
-        <ul class="hidden md:flex space-x-8 text-lg items-center" role="menubar" aria-label="Main menu">
-          <li role="none">
-            <a role="menuitem" href="Home.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Home</a>
+      <div class="md:hidden relative">
+        <input type="checkbox" id="menu-toggle" class="peer hidden" aria-controls="mobile-menu"
+          aria-expanded="false" />
+        <label for="menu-toggle" class="cursor-pointer flex flex-col space-y-1 w-6 h-5 justify-center z-50 relative"
+          aria-hidden="true">
+          <span
+            class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:rotate-45 peer-checked:translate-y-1.5"></span>
+          <span class="block h-0.5 w-full bg-white transition-opacity duration-200 peer-checked:opacity-0"></span>
+          <span
+            class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"></span>
+        </label>
+
+        <ul id="mobile-menu"
+          class="hidden peer-checked:flex flex-col absolute top-16 right-0 w-56 bg-[#1E1E1E]/90 p-4 space-y-2 rounded-md shadow-lg z-40"
+          role="menu" aria-label="Mobile main menu">
+          <li><a href="Home.html"
+              class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a>
           </li>
-          <li role="none">
-            <a role="menuitem" href="TransactionsHistory.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Services</a>
+          <li><a href="TransactionsHistory.html"
+              class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Services</a>
           </li>
-          <li role="none">
-            <a role="menuitem" href="Dashboard.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Dashboard</a>
+          <li><a href="Dashboard.html"
+              class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Dashboard</a>
           </li>
-          <li role="none">
-            <a role="menuitem" href="help.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Help</a>
+          <li><a href="help.html"
+              class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Help</a>
           </li>
+          <li class="pt-2 border-t border-zinc-800">
+            <form role="search" class="px-2">
+              <label for="mobile-search" class="sr-only">Search</label>
+              <input id="mobile-search" type="search" placeholder="Search"
+                class="w-full px-3 py-2 rounded-md bg-zinc-800 text-gray-200" />
+            </form>
+          </li>
+          <li><a href="Settings.html"
+              class="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</a></li>
         </ul>
+      </div>
+    </div>
+  </nav>
 
-        <div class="hidden md:flex items-center space-x-6">
-          <div class="relative">
-            <label for="searchInput" class="sr-only">Search the account dashboard</label>
-            <img src="../../public/search-outline-svgrepo-com.svg" alt="Search icon"
-              class="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none" />
-            <input aria-label="Search account dashboard" type="text" placeholder="Search" id="searchInput"
-              class="pl-10 pr-4 py-2 rounded-lg bg-[#2A2A2A]/80 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 w-64 transition-all duration-200 hover:bg-[#333333]/90" />
+  <main class="flex-grow pt-28 px-6 sm:px-8 flex flex-col items-center space-y-12 mb-24">
+
+    <div
+      class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 sm:p-10 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 w-[1100px] h-[200px] max-w-5xl text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-500 ease-out animate-[fadeIn_1s_ease-out_forwards]">
+      <img src='../../public/logo.svg' alt='Logo' class='w-36 h-36 object-contain' />
+      <h1 class="text-3xl font-bold">Welcome Back!</h1>
+    </div>
+
+    <div
+      class="w-full max-w-[1100px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-8 text-left animate-[fadeInScale_1s_ease-out_0.3s_forwards]">
+      <form class="flex flex-col space-y-6" novalidate>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+          <label for="email" class="text-lg font-medium w-32 mb-2 sm:mb-0">Email</label>
+          <div class="flex-1">
+            <input type="email" id="email" placeholder="Enter your email"
+              class="w-full p-3 rounded-lg bg-[#2A2A2A]/80 border border-white/10 placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400" />
           </div>
-
-          <a href="Settings.html" aria-label="Open profile menu" class="hidden xl:inline-flex">
-            <img src="../../public/mefr.webp" alt="User profile picture"
-              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer" />
-          </a>
         </div>
 
-        <div class="md:hidden relative">
-          <input type="checkbox" id="menu-toggle" class="peer hidden" aria-controls="mobile-menu"
-            aria-expanded="false" />
-          <label for="menu-toggle" class="cursor-pointer flex flex-col space-y-1 w-6 h-5 justify-center z-50 relative"
-            aria-hidden="true">
-            <span
-              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:rotate-45 peer-checked:translate-y-1.5"></span>
-            <span class="block h-0.5 w-full bg-white transition-opacity duration-200 peer-checked:opacity-0"></span>
-            <span
-              class="block h-0.5 w-full bg-white transition-transform duration-200 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"></span>
-          </label>
-
-          <ul id="mobile-menu"
-            class="hidden peer-checked:flex flex-col absolute top-16 right-0 w-56 bg-[#1E1E1E]/90 p-4 space-y-2 rounded-md shadow-lg z-40"
-            role="menu" aria-label="Mobile main menu">
-            <li role="none">
-              <a href="Home.html" role="menuitem"
-                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Home</a>
-            </li>
-            <li role="none">
-              <a href="TransactionsHistory.html" role="menuitem"
-                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Services</a>
-            </li>
-            <li role="none">
-              <a href="Dashboard.html" role="menuitem"
-                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Dashboard</a>
-            </li>
-            <li role="none">
-              <a href="help.html" role="menuitem"
-                class="block px-4 py-2 rounded-md font-semibold hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">Help</a>
-            </li>
-
-            <li role="none" class="pt-2 border-t border-zinc-800">
-              <form role="search" class="px-2">
-                <label for="mobile-search" class="sr-only">Search</label>
-                <input id="mobile-search" type="search" placeholder="Search"
-                  class="w-full px-3 py-2 rounded-md bg-zinc-800 text-gray-200" aria-label="Mobile search" />
-              </form>
-            </li>
-            <li role="none">
-              <a href="#" role="menuitem" class="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</a>
-            </li>
-          </ul>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+          <label for="password" class="text-lg font-medium w-32 mb-2 sm:mb-0">Password</label>
+          <div class="flex-1">
+            <input type="password" id="password" placeholder="Enter your password"
+              class="w-full p-3 rounded-lg bg-[#2A2A2A]/80 border border-white/10 placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400" />
+          </div>
         </div>
-      </div>
-    </nav>
-    <!-- Main content -->
-    <main id="main-content" role="main" aria-labelledby="page-heading"
-      class="flex-grow pt-28 px-6 flex flex-col items-center space-y-12 mb-24">
-      <!-- Top welcome card (dark card style) -->
-      <div
-        class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 flex items-center space-x-6 text-left transition-all duration-300">
-        <img src="../../public/logo.svg" alt="Logo" class="w-45 h-40 object-cover" />
-        <h1 id="page-heading" class="text-3xl font-bold text-white">
-          Welcome back!
-        </h1>
-      </div>
 
-      <!-- Login form card using the same dark card style & responsive layout -->
-      <div class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 text-left">
-        <form id="login-form" role="form" aria-labelledby="login-heading" class="flex flex-col space-y-6" novalidate>
-          <h2 id="login-heading" class="sr-only">Login form</h2>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
+          <button type="button"
+            class="w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6">
+            <span>Login with Google</span>
+            <img src='../../public/google-icon-logo-svgrepo-com.svg' alt='Google Icon' class='w-6 h-6 ml-4' />
+          </button>
 
-          <!-- Email row: label left, input stretches to card edge -->
-          <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-            <label for="email" class="text-lg font-medium w-32 text-white mb-2 sm:mb-0">Email</label>
-            <div class="flex-1">
-              <input type="email" id="email" name="email" placeholder="Enter your email" aria-label="Email address"
-                aria-required="true"
-                class="w-full p-3 rounded-lg bg-zinc-800 border border-white/10 placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400" />
-            </div>
-          </div>
-
-          <!-- Password row -->
-          <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-            <label for="password" class="text-lg font-medium w-32 text-white mb-2 sm:mb-0">Password</label>
-            <div class="flex-1">
-              <input type="password" id="password" name="password" placeholder="Enter your password"
-                aria-label="Password" aria-required="true"
-                class="w-full p-3 rounded-lg bg-zinc-800 border border-white/10 placeholder-gray-400 text-gray-200 focus:outline-none focus:ring-2 focus:ring-green-400" />
-            </div>
-          </div>
-
-          <!-- Social login buttons — responsive -->
-          <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0" role="group"
-            aria-label="Social login options">
-            <button type="button" aria-label="Login with Google"
-              class="w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-150 flex items-center justify-between px-6">
-              <span>Login with Google</span>
-              <img src="../../public/google-icon-logo-svgrepo-com.svg" alt="Google Icon" class="w-6 h-6 ml-4" />
-            </button>
-
-            <button type="button" aria-label="Login with Apple"
-              class="w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-150 flex items-center justify-between px-6">
-              <span>Login with Apple</span>
-              <img src="../../public/apple-logo-svgrepo-com.svg" alt="Apple Icon" class="w-6 h-6 ml-4" />
-            </button>
-          </div>
-
-          <!-- Primary submit -->
-          <div class="flex justify-center">
-            <button type="submit" aria-label="Sign in"
-              class="w-full sm:w-56 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
-              Login
-            </button>
-          </div>
-
-          <p class="text-gray-400 text-sm text-center">
-            Don't have an account?
-            <a href="./signup.html" class="text-green-400 hover:underline">Sign up here</a>
-          </p>
-        </form>
-      </div>
-    </main>
-
-    <!-- Footer matching site style -->
-    <footer role="contentinfo" aria-label="Footer"
-      class="bg-[#1E1E1E]/90 backdrop-blur-sm border-t border-gray-700 text-gray-400 py-6 text-center">
-      <div class="max-w-[1600px] mx-auto px-4">
-        <p class="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>
-        <div class="flex justify-center space-x-6 mt-3">
-          <a href="#"
-            class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md"
-            aria-label="Privacy Policy">Privacy Policy</a>
-          <a href="#"
-            class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md"
-            aria-label="Terms of Service">Terms of Service</a>
-          <a href="#"
-            class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md"
-            aria-label="Contact">Contact</a>
+          <button type="button"
+            class="w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6">
+            <span>Login with Apple</span>
+            <img src='../../public/apple-logo-svgrepo-com.svg' alt='Apple Icon' class='w-6 h-6 ml-4' />
+          </button>
         </div>
+
+        <div class="flex justify-center">
+          <button type="submit"
+            class="w-full sm:w-56 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
+            Login
+          </button>
+        </div>
+
+        <p class="text-gray-400 text-sm text-center">
+          Don’t have an account?
+          <a href="./signup.html" class="text-green-400 hover:underline">Sign up here</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-[#1E1E1E]/90 backdrop-blur-md border-t border-gray-700 text-gray-400 py-6 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>
+      <div class="flex justify-center space-x-6 mt-3">
+        <a href="#"
+          class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Privacy
+          Policy</a>
+        <a href="#"
+          class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Terms
+          of Service</a>
+        <a href="#"
+          class="transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black px-3 py-1 rounded-md">Contact</a>
       </div>
-    </footer>
-  </body>
+    </div>
+  </footer>
+</body>
 
 </html>
