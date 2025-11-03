@@ -133,16 +133,16 @@
       aria-labelledby="help-heading">
       <h1 id="help-heading" class="sr-only">FloosFlow Help</h1>
 
-      <!-- Top card (dark style) -->
+      <!-- Top card (responsive glass with gradient hover) -->
       <div
-        class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 flex items-center space-x-6 text-left transition-all duration-300">
-        <img src="../../public/logo.svg" alt="FloosFlow Logo" class="w-28 h-20 object-cover" />
-        <h2 class="text-3xl font-bold text-white">How Can We Help You?</h2>
+        class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 flex items-center space-x-6 w-full max-w-[1100px] h-[180px] text-left hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black transition-all duration-300">
+        <img src="../../public/logo.svg" alt="FloosFlow Logo" class="w-36 h-28 object-contain hover:scale-110 transition-transform duration-300" />
+        <h2 class="text-3xl font-bold">How Can We Help You?</h2>
       </div>
 
       <!-- FAQ card -->
       <section aria-labelledby="faq-heading"
-        class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 space-y-6 text-left">
+        class="w-full max-w-[1100px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-8 space-y-6 text-left transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
         <h3 id="faq-heading" class="text-2xl font-semibold text-[#65E67F]">Frequently Asked Questions</h3>
 
         <div>
@@ -172,7 +172,7 @@
 
       <!-- Contact Support card -->
       <section aria-labelledby="contact-heading"
-        class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 space-y-6 text-left">
+        class="w-full max-w-[1100px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-8 space-y-6 text-left transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
         <h3 id="contact-heading" class="text-2xl font-semibold text-[#65E67F]">Contact Support</h3>
 
         <form id="support-form" role="form" aria-labelledby="contact-heading" class="flex flex-col space-y-6"
@@ -209,14 +209,14 @@
         </form>
       </section>
 
-      <!-- Support CTA card -->
-      <div class="w-full max-w-[1100px] bg-zinc-900 rounded-2xl shadow-lg p-8 space-y-6 text-center">
-        <h2 class="text-2xl font-semibold mb-4 text-[#65E67F]">
-          <h3 class="text-2xl font-semibold mb-4 text-[#65E67F]">Still Need Help?</h3>
+      <div class="w-full max-w-[1100px] bg-gradient-to-r from-[#62A6BF]/20 via-[#49EB8C]/20 to-[#65E67F]/20 
+                backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-10 w-[1200px] text-center">
+        <h3 class="text-2xl font-semibold mb-4 text-[#65E67F]">Still Need Help?</h3>
           <p class="text-gray-300 mb-6">Our team is available 24/7. You can reach us directly by email or visit our
             Support Center for quick answers.</p>
           <a href="mailto:support@floosflow.com" aria-label="Email support"
-            class="inline-flex items-center justify-center bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-black font-semibold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
+            class="inline-flex items-center justify-center bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] 
+                text-black font-semibold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition-transform duration-300">
             Contact Support
           </a>
       </div>
