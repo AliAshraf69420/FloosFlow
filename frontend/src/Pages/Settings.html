@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FloosFlow - Settings</title>
 
-    
+
     <meta name="description"
       content="FloosFlow Finance — manage your account, profile, security settings, connected providers and theme preferences in one secure dashboard." />
     <meta name="keywords" content="finance, account settings, profile, security, 2FA, OAuth, FloosFlow" />
@@ -31,51 +31,63 @@
   </head>
 
   <body class="bg-[#1E1E1E] text-gray-100 flex flex-col min-h-screen">
-    
+
     <a href="#main-content"
       class="sr-only focus:not-sr-only focus:inline-block bg-green-500 text-black px-3 py-2 rounded z-50 fixed top-4 left-4">Skip
       to content</a>
 
-    
+
     <nav class="bg-[#1E1E1E]/80 backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md" role="navigation"
       aria-label="Main Navigation">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 relative">
-        <a href="#" aria-label="FloosFlow Home" class="inline-flex items-center">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6 flex items-center justify-between h-20 gap-4">
+        <a href="#" aria-label="FloosFlow Home" class="inline-flex items-center flex-shrink-0">
           <img src="../../public/logo.svg" alt="FloosFlow Logo" class="w-45 h-40 object-contain" />
         </a>
 
-        <ul class="hidden md:flex space-x-8 text-lg items-center" role="menubar" aria-label="Main menu">
+        <ul class="hidden md:flex flex-1 justify-center items-center space-x-6 text-lg" role="menubar"
+          aria-label="Main menu">
           <li role="none">
             <a role="menuitem" href="Home.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Home</a>
+              class="px-3 py-2 rounded-md font-semibold transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Home
+            </a>
           </li>
           <li role="none">
             <a role="menuitem" href="TransactionsHistory.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Services</a>
+              class="px-3 py-2 rounded-md font-semibold transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Services
+            </a>
           </li>
           <li role="none">
             <a role="menuitem" href="Dashboard.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Dashboard</a>
+              class="px-3 py-2 rounded-md font-semibold transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Dashboard
+            </a>
           </li>
           <li role="none">
             <a role="menuitem" href="help.html"
-              class="px-4 py-2 rounded-md transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black font-semibold">Help</a>
+              class="px-3 py-2 rounded-md font-semibold transition-all duration-200 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Help
+            </a>
           </li>
         </ul>
 
-        <div class="hidden md:flex items-center space-x-6">
+        <div class="hidden md:flex items-center gap-4 flex-shrink-0">
           <div class="relative">
             <label for="searchInput" class="sr-only">Search the account dashboard</label>
             <img src="../../public/search-outline-svgrepo-com.svg" alt="Search icon"
               class="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none" />
-            <input aria-label="Search account dashboard" type="text" placeholder="Search" id="searchInput"
-              class="pl-10 pr-4 py-2 rounded-lg bg-[#2A2A2A]/80 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 w-64 transition-all duration-200 hover:bg-[#333333]/90" />
+            <input aria-label="Search account dashboard" type="text" placeholder="Search" id="searchInput" class="pl-10 pr-4 py-2 rounded-lg bg-[#2A2A2A]/80 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400
+               transition-all duration-200 hover:bg-[#333333]/90 text-base
+               w-40 sm:w-52 lg:w-60 xl:w-72" />
           </div>
-          <a href="Settings.html" aria-label="Open profile menu" class="hidden xl:inline-flex">
+
+          <a href="Settings.html" aria-label="Open profile menu" class="inline-flex">
             <img src="../../public/mefr.webp" alt="User profile picture"
-              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-110 transition-transform duration-200 cursor-pointer" />
+              class="w-12 h-12 object-cover rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer" />
           </a>
         </div>
+
 
         <div class="md:hidden relative">
           <input type="checkbox" id="menu-toggle" class="peer hidden" aria-controls="mobile-menu"
@@ -117,7 +129,8 @@
               </form>
             </li>
             <li role="none">
-              <a href="#" role="menuitem" class="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</a>
+              <a href="Settings.html" role="menuitem"
+                class="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</a>
             </li>
           </ul>
         </div>
@@ -125,280 +138,284 @@
     </nav>
 
     <main id="main-content" role="main" aria-labelledby="page-heading" class="flex-grow pt-24 px-4">
-    <h1 id="page-heading" class="sr-only">
+      <h1 id="page-heading" class="sr-only">
         FloosFlow Finance — Account & Settings
       </h1>
 
 
-<aside aria-label="Settings sidebar"
-  class="hidden lg:block w-63 h-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-xl fixed top-1/2 left-8 -translate-y-1/2 shadow-lg">
-  <ul class="flex flex-col space-y-4" role="navigation" aria-label="Settings sections">
-    <li>
-      <a href="#profile"
-        class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-        Profile
-      </a>
-    </li>
-    <li>
-      <a href="#theme"
-        class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-        Theme
-      </a>
-    </li>
-    <li>
-      <a href="#personal"
-        class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-        Personal Information
-      </a>
-    </li>
-    <li>
-      <a href="#account"
-        class="block px-4 py-2 rounded-md text-red-500 text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-        Account Settings
-      </a>
-    </li>
-  </ul>
-</aside>
+      <aside aria-label="Settings sidebar"
+        class="hidden lg:block w-63 h-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-xl fixed top-1/2 left-8 -translate-y-1/2 shadow-lg">
+        <ul class="flex flex-col space-y-4" role="navigation" aria-label="Settings sections">
+          <li>
+            <a href="#profile"
+              class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Profile
+            </a>
+          </li>
+          <li>
+            <a href="#theme"
+              class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Theme
+            </a>
+          </li>
+          <li>
+            <a href="#personal"
+              class="block px-4 py-2 rounded-md text-white text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Personal Information
+            </a>
+          </li>
+          <li>
+            <a href="#account"
+              class="block px-4 py-2 rounded-md text-red-500 text-xl font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+              Account Settings
+            </a>
+          </li>
+        </ul>
+      </aside>
 
 
-<div class="lg:ml-80 p-6 lg:p-10 space-y-10 max-w-[1100px] mx-auto text-left">
+      <div class="lg:ml-80 p-6 lg:p-10 space-y-10 max-w-[1100px] mx-auto text-left">
 
-  <section id="profile" aria-labelledby="profile-heading"
-    class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
-    <h2 id="profile-heading" class="text-3xl font-bold text-white mb-6">
-      Profile
-    </h2>
+        <section id="profile" aria-labelledby="profile-heading"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
+          <h2 id="profile-heading" class="text-3xl font-bold text-white mb-6">
+            Profile
+          </h2>
 
-    <ul class="space-y-8 text-lg font-bold">
+          <ul class="space-y-8 text-lg font-bold">
 
-      
-      <li>
-        <p class="text-white mb-3">
-          Communication Preferences (SMS, Email, Notifications)
-        </p>
-        <div class="space-y-2 text-gray-400" role="group" aria-labelledby="comm-pref-label">
-          <span id="comm-pref-label" class="sr-only">Communication preference options</span>
 
-          <label for="pref-sms" class="block">
-            <input id="pref-sms" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />SMS Notifications
-          </label>
+            <li>
+              <p class="text-white mb-3">
+                Communication Preferences (SMS, Email, Notifications)
+              </p>
+              <div class="space-y-2 text-gray-400" role="group" aria-labelledby="comm-pref-label">
+                <span id="comm-pref-label" class="sr-only">Communication preference options</span>
 
-          <label for="pref-email" class="block">
-            <input id="pref-email" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />Email Notifications
-          </label>
+                <label for="pref-sms" class="block">
+                  <input id="pref-sms" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />SMS
+                  Notifications
+                </label>
 
-          <label for="pref-inapp" class="block">
-            <input id="pref-inapp" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />In-App Notifications
-          </label>
+                <label for="pref-email" class="block">
+                  <input id="pref-email" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />Email
+                  Notifications
+                </label>
 
-          <div class="mt-3">
-            <button id="save-comm"
-              class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-              Save Preferences
-            </button>
-          </div>
-        </div>
-      </li>
+                <label for="pref-inapp" class="block">
+                  <input id="pref-inapp" name="comm-pref" type="checkbox" class="mr-2 accent-[#49EB8C]" />In-App
+                  Notifications
+                </label>
 
-      <li>
-        <p class="text-white mb-3">Change Profile Image</p>
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-          <input id="profile-file" type="file" accept="image/*" class="sr-only" />
-
-          <label for="profile-file"
-            class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold cursor-pointer transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-            Choose File
-          </label>
-
-          <button id="upload-btn"
-            class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-            Upload
-          </button>
-        </div>
-        <p class="text-gray-400 text-sm mt-2">No file chosen</p>
-      </li>
-
-      <li>
-        <p class="text-white mb-3">Manage Connected Accounts (OAuth)</p>
-
-        <div class="space-y-4 text-gray-300">
-
-          <div>
-            <p class="text-gray-400 mb-2">Currently connected:</p>
-            <div id="oauth-list" class="space-y-3">
-
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3">
-                <div class="flex items-center gap-3 flex-1 sm:flex-none">
-                  <div
-                    class="px-4 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-1 rounded-xl shadow-md hover:scale-105 transition-transform duration-200">
-                    Google
-                  </div>
-                  <p class="text-sm text-gray-400">connected <span class="ml-2 text-xs text-gray-500">—</span></p>
+                <div class="mt-3">
+                  <button id="save-comm"
+                    class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                    Save Preferences
+                  </button>
                 </div>
-                <button data-provider="Google"
+              </div>
+            </li>
+
+            <li>
+              <p class="text-white mb-3">Change Profile Image</p>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                <input id="profile-file" type="file" accept="image/*" class="sr-only" />
+
+                <label for="profile-file"
+                  class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold cursor-pointer transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                  Choose File
+                </label>
+
+                <button id="upload-btn"
                   class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-                  Disconnect
+                  Upload
                 </button>
               </div>
+              <p class="text-gray-400 text-sm mt-2">No file chosen</p>
+            </li>
 
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3">
-                <div class="flex items-center gap-3 flex-1 sm:flex-none">
-                  <div
-                    class="px-4 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-1 rounded-xl shadow-md hover:scale-105 transition-transform duration-200">
-                    GitHub
+            <li>
+              <p class="text-white mb-3">Manage Connected Accounts (OAuth)</p>
+
+              <div class="space-y-4 text-gray-300">
+
+                <div>
+                  <p class="text-gray-400 mb-2">Currently connected:</p>
+                  <div id="oauth-list" class="space-y-3">
+
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3">
+                      <div class="flex items-center gap-3 flex-1 sm:flex-none">
+                        <div
+                          class="px-4 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-1 rounded-xl shadow-md hover:scale-105 transition-transform duration-200">
+                          Google
+                        </div>
+                        <p class="text-sm text-gray-400">connected <span class="ml-2 text-xs text-gray-500">—</span></p>
+                      </div>
+                      <button data-provider="Google"
+                        class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                        Disconnect
+                      </button>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3">
+                      <div class="flex items-center gap-3 flex-1 sm:flex-none">
+                        <div
+                          class="px-4 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-1 rounded-xl shadow-md hover:scale-105 transition-transform duration-200">
+                          GitHub
+                        </div>
+                        <p class="text-sm text-gray-400">connected <span class="ml-2 text-xs text-gray-500">—</span></p>
+                      </div>
+                      <button data-provider="GitHub"
+                        class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                        Disconnect
+                      </button>
+                    </div>
+
                   </div>
-                  <p class="text-sm text-gray-400">connected <span class="ml-2 text-xs text-gray-500">—</span></p>
                 </div>
-                <button data-provider="GitHub"
-                  class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-                  Disconnect
+
+                <div>
+                  <label for="provider-select" class="block text-gray-400 mb-2">Connect new provider</label>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <select id="provider-select"
+                      class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold shadow-md">
+                      <option class="bg-zinc-900">Google</option>
+                      <option class="bg-zinc-900">GitHub</option>
+                      <option class="bg-zinc-900">Twitter</option>
+                      <option class="bg-zinc-900">LinkedIn</option>
+                    </select>
+
+                    <details class="w-full sm:w-auto">
+                      <summary
+                        class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black cursor-pointer">
+                        Connect
+                      </summary>
+
+                      <div class="mt-3 p-3 bg-[#1E1E1E]/90 rounded-md border border-white/10">
+                        <p class="mb-3 text-white"><strong>Step:</strong> Authorize the provider below.</p>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                          <input type="email" placeholder="Account email for provider"
+                            class="bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md w-full sm:w-64" />
+                          <button
+                            class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                            Authorize
+                          </button>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-400">Authorization will be handled by your provider.</p>
+                      </div>
+                    </details>
+                  </div>
+                  <p id="oauth-msg" class="text-sm text-gray-400 mt-2" role="status" aria-live="polite">
+                    No recent activity
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+
+        <section id="theme" aria-labelledby="theme-heading"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
+          <h2 id="theme-heading" class="text-3xl font-bold text-white mb-6">Theme</h2>
+
+          <ul class="space-y-6 text-lg font-bold">
+            <li>
+              <p class="text-white">Brightness</p>
+              <div class="mt-3">
+                <label for="brightness-range" class="sr-only">Adjust brightness</label>
+                <input id="brightness-range" type="range" min="0" max="100"
+                  class="w-full sm:w-1/2 accent-[#49EB8C] cursor-pointer" />
+              </div>
+            </li>
+
+            <li>
+              <p class="text-white">Main Theme (Dark / Light / System)</p>
+              <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <button type="button"
+                  class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                  Dark
+                </button>
+                <button type="button"
+                  class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                  Light
+                </button>
+                <button type="button"
+                  class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                  System
                 </button>
               </div>
+            </li>
+          </ul>
+        </section>
 
-            </div>
-          </div>
 
-          <div>
-            <label for="provider-select" class="block text-gray-400 mb-2">Connect new provider</label>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-              <select id="provider-select"
-                class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold shadow-md">
-                <option class="bg-zinc-900">Google</option>
-                <option class="bg-zinc-900">GitHub</option>
-                <option class="bg-zinc-900">Twitter</option>
-                <option class="bg-zinc-900">LinkedIn</option>
-              </select>
+        <section id="personal" aria-labelledby="personal-heading"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
+          <h2 id="personal-heading" class="text-3xl font-bold text-white mb-6">Personal Information</h2>
 
-              <details class="w-full sm:w-auto">
-                <summary
-                  class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black cursor-pointer">
-                  Connect
-                </summary>
+          <ul class="space-y-4 text-lg font-bold">
 
-                <div class="mt-3 p-3 bg-[#1E1E1E]/90 rounded-md border border-white/10">
-                  <p class="mb-3 text-white"><strong>Step:</strong> Authorize the provider below.</p>
-                  <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <input type="email" placeholder="Account email for provider"
-                      class="bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md w-full sm:w-64" />
-                    <button
-                      class="inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-                      Authorize
-                    </button>
-                  </div>
-                  <p class="mt-2 text-sm text-gray-400">Authorization will be handled by your provider.</p>
+            <li>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+                <label for="country-input" class="sm:w-40 text-white mb-2 sm:mb-0">Country</label>
+                <input id="country-input" type="text" placeholder="Enter your country" readonly
+                  class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
+              </div>
+            </li>
+
+            <li>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+                <label for="birthdate-input" class="sm:w-40 text-white mb-2 sm:mb-0">Birth Date</label>
+                <input id="birthdate-input" type="date" readonly
+                  class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
+              </div>
+            </li>
+
+            <li>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+                <label for="connected-email-input" class="sm:w-40 text-white mb-2 sm:mb-0">Connected Email</label>
+                <input id="connected-email-input" type="email" readonly placeholder="example@mail.com"
+                  class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
+              </div>
+            </li>
+
+            <li>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+                <label for="phone-input" class="sm:w-40 text-white mb-2 sm:mb-0">Phone Number</label>
+                <input id="phone-input" type="text" readonly placeholder="+201..."
+                  class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
+              </div>
+            </li>
+
+            <li>
+              <div class="flex flex-col sm:flex-row sm:items-start sm:space-x-6">
+                <label class="sm:w-40 text-white mb-2 sm:mb-0">2FA Settings</label>
+                <div class="flex-1 space-y-2">
+                  <label class="block text-gray-300">
+                    <input id="2fa-phone" type="checkbox" class="mr-2 accent-[#49EB8C]" /> Phone Number
+                  </label>
+                  <label class="block text-gray-300">
+                    <input id="2fa-email" type="checkbox" class="mr-2 accent-[#49EB8C]" /> Email
+                  </label>
+                  <button
+                    class="mt-3 inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
+                    Enable 2FA
+                  </button>
                 </div>
-              </details>
-            </div>
-            <p id="oauth-msg" class="text-sm text-gray-400 mt-2" role="status" aria-live="polite">
-              No recent activity
-            </p>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </section>
+              </div>
+            </li>
+          </ul>
+        </section>
 
-
-  <section id="theme" aria-labelledby="theme-heading"
-    class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
-    <h2 id="theme-heading" class="text-3xl font-bold text-white mb-6">Theme</h2>
-
-    <ul class="space-y-6 text-lg font-bold">
-      <li>
-        <p class="text-white">Brightness</p>
-        <div class="mt-3">
-          <label for="brightness-range" class="sr-only">Adjust brightness</label>
-          <input id="brightness-range" type="range" min="0" max="100"
-            class="w-full sm:w-1/2 accent-[#49EB8C] cursor-pointer" />
-        </div>
-      </li>
-
-      <li>
-        <p class="text-white">Main Theme (Dark / Light / System)</p>
-        <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <button type="button"
-            class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-            Dark
-          </button>
-          <button type="button"
-            class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-            Light
-          </button>
-          <button type="button"
-            class="px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-            System
-          </button>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  
-  <section id="personal" aria-labelledby="personal-heading"
-    class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
-    <h2 id="personal-heading" class="text-3xl font-bold text-white mb-6">Personal Information</h2>
-
-    <ul class="space-y-4 text-lg font-bold">
-      
-      <li>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
-          <label for="country-input" class="sm:w-40 text-white mb-2 sm:mb-0">Country</label>
-          <input id="country-input" type="text" placeholder="Enter your country" readonly
-            class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
-        </div>
-      </li>
-
-      <li>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
-          <label for="birthdate-input" class="sm:w-40 text-white mb-2 sm:mb-0">Birth Date</label>
-          <input id="birthdate-input" type="date" readonly
-            class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
-        </div>
-      </li>
-
-      <li>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
-          <label for="connected-email-input" class="sm:w-40 text-white mb-2 sm:mb-0">Connected Email</label>
-          <input id="connected-email-input" type="email" readonly placeholder="example@mail.com"
-            class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
-        </div>
-      </li>
-
-      <li>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
-          <label for="phone-input" class="sm:w-40 text-white mb-2 sm:mb-0">Phone Number</label>
-          <input id="phone-input" type="text" readonly placeholder="+201..." 
-            class="flex-1 bg-[#2A2A2A]/80 text-gray-300 p-2 rounded-md border border-white/10" />
-        </div>
-      </li>
-
-      <li>
-        <div class="flex flex-col sm:flex-row sm:items-start sm:space-x-6">
-          <label class="sm:w-40 text-white mb-2 sm:mb-0">2FA Settings</label>
-          <div class="flex-1 space-y-2">
-            <label class="block text-gray-300">
-              <input id="2fa-phone" type="checkbox" class="mr-2 accent-[#49EB8C]" /> Phone Number
-            </label>
-            <label class="block text-gray-300">
-              <input id="2fa-email" type="checkbox" class="mr-2 accent-[#49EB8C]" /> Email
-            </label>
-            <button
-              class="mt-3 inline-block px-4 py-2 rounded-md bg-[#2A2A2A]/80 border border-white/20 text-white text-lg font-bold transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] hover:text-black">
-              Enable 2FA
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-        <section id="account" aria-labelledby="account-heading" class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
+        <section id="account" aria-labelledby="account-heading"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
           <h2 id="account-heading" class="text-3xl font-bold text-white mb-6">
             Account Settings
           </h2>
 
           <ul class="space-y-4 text-lg font-bold">
-   
+
             <li>
               <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
                 <label for="username-input" class="sm:w-40 text-white block mb-2 sm:mb-0">Change Username</label>
@@ -432,8 +449,8 @@
             </li>
 
             <li>
-              <div class="flex items-start gap-6">
-                <label for="old-password" class="w-40 text-white mt-2">Change Password</label>
+              <div class="flex flex-col sm:flex-row sm:items-start gap-6">
+                <label for="old-password" class="sm:w-40 text-white mt-2">Change Password</label>
 
                 <div class="flex-1">
                   <input id="old-password" type="password" placeholder="Old Password" aria-label="Old password"
@@ -449,6 +466,7 @@
                   </div>
                 </div>
               </div>
+
             </li>
 
             <li>
@@ -470,7 +488,8 @@
           </ul>
         </section>
 
-        <section id="support" aria-labelledby="support-heading" class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
+        <section id="support" aria-labelledby="support-heading"
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 lg:p-8 transition-all duration-300 hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 hover:shadow-xl">
           <h2 id="support-heading" class="text-2xl font-bold text-white mb-4">
             Support
           </h2>
