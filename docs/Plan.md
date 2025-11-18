@@ -45,6 +45,14 @@
 	- [x] Static frontend prototype (HTML + Tailwind).
 ---
 # Phase 3: Core React Components:
-
+- ## Objective: 
+	- Develop the functional frontend with React.
+- ## Tasks:
+	- Implement reusable React components (buttons, forms, layouts, navigation).
+	- Set up React Router for page navigation.
+	- Apply state management for basic UI interactions.
+	- Ensure responsive design with Tailwind.
+- ## Deliverables:
+	- Functional React frontend with working navigation.
 
 [[Project]]
