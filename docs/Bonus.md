@@ -1,0 +1,18 @@
+# Bonus Requirements:
+- ## Advanced UI/UX Enhancements (+1 out of 20 Grade):
+	- [ ] Dark mode/theme switching.
+	- [/] Advanced animations or transitions using libraries like Framer Motion.
+	- [x] Accessibility improvements (e.g., keyboard navigation, ARIA roles, screen-reader support).
+- ## Data Visualization (+1 out of 20 Grade):
+	- [<] More sophisticated dashboards with multiple charts (4 charts) (e.g., line, bar, pie).
+	- [?] Must include 2 Interactive charts (filters, drill-down, real-time updates using public API).
+- ## Authentication & Authorization (+1 out of 20 Grade):
+	- [?] Implement role-based UI (e.g., admin vs. normal user dashboards, hide/show pages).
+	- [ ] Connect forms to a public authentication mock API (e.g., ReqRes) OR simulate authentication using local storage (store token/session data) to test user roles.
+- ## Testing Coverage (+1 out of 20 Grade):
+	- [ ] Automated unit testing for at least 3 React components (e.g., form validation, button clicks, API rendering).
+	- [ ] Optional integration testing for routing and page rendering.
+	- [ ] Use tools like Jest + React Testing Library.
+- ## Deployment Excellence (+1 out of 20 Grade):
+	- [ ] Deploy project to a hosting service like Vercel or Netlify.
+	- [ ] Add CI/CD pipeline (e.g., GitHub Actions) to automate build and testing before deployment.

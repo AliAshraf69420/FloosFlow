@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Plan.md",
+                "file": "Requirements.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Plan"
+              "title": "Requirements"
+            }
+          },
+          {
+            "id": "ac1a25f2569f9cb4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Rubric.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Rubric"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -166,14 +181,16 @@
       "bases:Create new base": false
     }
   },
-  "active": "4d5d9baad497bfb1",
+  "active": "ac1a25f2569f9cb4",
   "lastOpenFiles": [
-    "Project.md",
+    "Bonus.md",
+    "Rubric.md",
     "Requirements.md",
-    "ColorScheme.md",
-    "Plan.md",
     "Used Libraries.md",
     "Tasks.md",
+    "Plan.md",
+    "Project.md",
+    "ColorScheme.md",
     "Untitled.base"
   ]
 }
