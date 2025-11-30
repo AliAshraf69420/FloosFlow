@@ -1,0 +1,36 @@
+name: "Check Assigned Issue"
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  check-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Check if PR author has an assigned issue
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const prAuthor = context.payload.pull_request.user.login;
+          const repo = context.repo.repo;
+          const owner = context.repo.owner;
+
+          // List open issues assigned to PR author
+          const issues = await github.rest.issues.listForRepo({
+            owner,
+            repo,
+            assignee: prAuthor,
+            state: "open",
+          });
+
+          if (issues.data.length === 0) {
+            core.setFailed(`PR author ${prAuthor} has no open assigned issues.`);
+          } else {
+            console.log(`PR author ${prAuthor} has assigned issues. ✅`);
+          }
