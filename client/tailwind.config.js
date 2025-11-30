@@ -3,12 +3,15 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx,html}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
         "ff-bg-light": "#FFFFFF",
         "ff-bg-dark": "#1E1E1E",
-        "ff-input": "#2A2A2A",        
+        "ff-input": "#2A2A2A",
         "ff-input-hover": "#333333",
-         "ff-accent": "#49EB8C",  
+        "ff-accent": "#49EB8C",
       },
       backgroundImage: {
         "ff-gradient":
