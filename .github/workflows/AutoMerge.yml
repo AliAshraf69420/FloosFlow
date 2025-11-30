@@ -3,11 +3,14 @@ name: Auto Merge Feature Branch on Push
 on:
   push:
     branches-ignore:
-      - develop   # Don't trigger on the target branch
+      - dev
+      - refs/heads/dev # Don't trigger on the target branch
       - main      # Optional: ignore other main branches
+      - refs/heads/main
       - backup
+      - refs/heads/backup
       - convertToReact
-
+      - refs/heads/convertToReact
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
