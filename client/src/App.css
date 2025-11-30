@@ -1,9 +1,17 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;  /* remove 1280px limit */
+  text-align: left; /* stop centering everything */
 }
+
+.app-container {
+  max-width: 1100px;   
+  margin: 0 auto;      /* centers the content */
+  padding: 2rem;       /* keeps spacing */
+}
+
 
 .logo {
   height: 6em;

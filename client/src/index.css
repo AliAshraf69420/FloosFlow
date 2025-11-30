@@ -33,16 +33,26 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
   min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
+
+
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+
+
+/* keep anchors from forcing dimensions (safe guard) */
+a.inline-flex {
+  max-width: none;
+}
+
 
 button {
   border-radius: 8px;
