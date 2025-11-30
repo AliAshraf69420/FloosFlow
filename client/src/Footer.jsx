@@ -4,8 +4,8 @@ const Footer = () => {
   return (
     <footer
       style={{
-        backgroundColor: 'var(--footer-bg-color)',
-        color: 'var(--footer-text-color)',
+        backgroundColor: 'var(--bg-color)',
+        color: 'var(--text-color)',
       }}
       className="backdrop-blur-md border-t border-gray-700 py-6 text-center fixed bottom-0 left-0 w-full"
     >

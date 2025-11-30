@@ -18,8 +18,8 @@
   --primary-color: #62A6BF;
   --secondary-color: #49EB8C;
   --accent-color: #65E67F;
-  --footer-bg-color: #1E1E1E;
-  --footer-text-color: #B0B0B0;
+  --bg-color: #1E1E1E;
+  --text-color: #B0B0B0;
 }
 
 a {
