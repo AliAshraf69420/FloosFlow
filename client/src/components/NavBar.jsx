@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SearchBar from "./SearchBar";
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -61,34 +62,8 @@ const NavBar = () => {
 
         {/* RIGHT: Search + Profile */}
         <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-          <div
-            className="relative"
-            style={{
-              width: "clamp(120px, 20vw, 260px)" // smoothly shrinks
-            }}
-          >
-            <label htmlFor="searchInput" className="sr-only">
-              Search the account dashboard
-            </label>
+          <SearchBar />
 
-            <img
-              src="/search-outline-svgrepo-com.svg"
-              alt="Search icon"
-              className="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none"
-            />
-
-            <input
-              id="searchInput"
-              type="text"
-              placeholder="Search"
-              aria-label="Search account dashboard"
-              className="pl-10 pr-4 py-2 rounded-lg bg-ff-input/80 text-gray-100 placeholder-gray-400 
-                         focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 w-full"
-              style={{
-                fontSize: "clamp(0.75rem, 1.2vw, 1rem)"
-              }}
-            />
-          </div>
 
           {/* Profile Image */}
           <Link
@@ -138,12 +113,8 @@ const NavBar = () => {
             <li><Link to="/dashboard" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Dashboard</Link></li>
             <li><Link to="/help" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Help</Link></li>
 
-            <li className="pt-2 border-t border-zinc-800">
-              <input
-                type="search"
-                placeholder="Search"
-                className="w-full px-3 py-2 rounded-md bg-zinc-800 text-gray-200"
-              />
+            <li>
+              <SearchBar className="w-full" inputId="mobileSearch" />
             </li>
 
             <li>
