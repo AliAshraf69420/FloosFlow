@@ -11,13 +11,15 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
       <NavBar />
-      <Routes>
-        <Route path="/home" element={<Home />} />
-      </Routes>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
