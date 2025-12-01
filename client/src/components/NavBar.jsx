@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,8 +14,8 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex items-center justify-between h-20 gap-4">
 
         {/* LOGO */}
-        <a
-          href="#"
+        <Link
+          to="/"
           aria-label="FloosFlow Home"
           className="inline-flex items-center flex-shrink-0"
         >
@@ -27,10 +28,7 @@ const NavBar = () => {
               height: "auto"
             }}
           />
-        </a>
-
-
-
+        </Link>
 
         {/* CENTER MENU (fluid shrinking) */}
         <div className="hidden md:flex flex-1 min-w-0 overflow-hidden justify-center">
@@ -40,22 +38,22 @@ const NavBar = () => {
             aria-label="Main menu"
           >
             {[
-              ["Home.html", "Home"],
-              ["TransactionsHistory.html", "Services"],
-              ["Dashboard.html", "Dashboard"],
-              ["help.html", "Help"]
-            ].map(([href, label]) => (
+              ["/home", "Home"],
+              ["/services", "Services"],
+              ["/dashboard", "Dashboard"],
+              ["/help", "Help"]
+            ].map(([path, label]) => (
               <li key={label} role="none" className="flex-shrink min-w-[60px]">
-                <a
+                <Link
                   role="menuitem"
-                  href={href}
+                  to={path}
                   className="px-2 py-1 rounded-md font-semibold transition-all duration-200 hover:bg-ff-gradient hover:text-white block text-center"
                   style={{
                     fontSize: "clamp(0.75rem, 1.4vw, 1.1rem)"
                   }}
                 >
                   {label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -93,8 +91,8 @@ const NavBar = () => {
           </div>
 
           {/* Profile Image */}
-          <a
-            href="Settings.html"
+          <Link
+            to="/settings"
             aria-label="Open profile menu"
             className="inline-flex flex-shrink-0 w-12 h-12"
           >
@@ -103,7 +101,7 @@ const NavBar = () => {
               alt="User profile picture"
               className="rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
             />
-          </a>
+          </Link>
 
         </div>
 
@@ -135,10 +133,10 @@ const NavBar = () => {
             role="menu"
             aria-label="Mobile Main Menu"
           >
-            <li><a href="Home.html" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Home</a></li>
-            <li><a href="TransactionsHistory.html" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Services</a></li>
-            <li><a href="Dashboard.html" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Dashboard</a></li>
-            <li><a href="help.html" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Help</a></li>
+            <li><Link to="/home" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Home</Link></li>
+            <li><Link to="/services" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Services</Link></li>
+            <li><Link to="/dashboard" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Dashboard</Link></li>
+            <li><Link to="/help" className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white">Help</Link></li>
 
             <li className="pt-2 border-t border-zinc-800">
               <input
@@ -149,11 +147,10 @@ const NavBar = () => {
             </li>
 
             <li>
-              <a href="Settings.html" className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</a>
+              <Link to="/settings" className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800">Profile</Link>
             </li>
           </ul>
         </div>
-
 
       </div>
     </nav>
