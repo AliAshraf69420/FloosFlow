@@ -10,4 +10,9 @@ frontend/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
 client/node_modules
+=======
+
+client/node_modules/
+>>>>>>> origin/main

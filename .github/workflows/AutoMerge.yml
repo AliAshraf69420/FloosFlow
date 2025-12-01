@@ -1,0 +1,61 @@
+name: Auto Merge Feature Branch on Push
+
+on:
+  push:
+    branches-ignore:
+      - dev
+      - refs/heads/dev # Don't trigger on the target branch
+      - main      # Optional: ignore other main branches
+      - refs/heads/main
+      - backup
+      - refs/heads/backup
+      - convertToReact
+      - refs/heads/convertToReact
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref_name }}
+
+    - name: Setup git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Check if branch can merge into target
+      id: merge-check
+      run: |
+        TARGET_BRANCH="convertToReact"  # Change to your target branch
+        git fetch origin $TARGET_BRANCH
+        git checkout $TARGET_BRANCH
+        git merge --no-commit --no-ff ${{ github.ref_name }} || echo "conflict" > merge_status.txt
+        if [ -f merge_status.txt ]; then
+          echo "mergeable=false" >> $GITHUB_OUTPUT
+        else
+          echo "mergeable=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Auto merge
+      if: steps.merge-check.outputs.mergeable == 'true'
+      run: |
+        git checkout $TARGET_BRANCH
+        git merge --no-ff ${{ github.ref_name }}
+        git push origin $TARGET_BRANCH
+
+    - name: Notify if conflicts
+      if: steps.merge-check.outputs.mergeable == 'false'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const branch = process.env.GITHUB_REF_NAME || context.ref.split("/").pop();
+          github.rest.repos.createCommitComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            commit_sha: context.sha,
+            body: `⚠️ Branch \`${branch}\` has merge conflicts with \`develop\`. Please resolve them.`
+          })
