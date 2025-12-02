@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 // import Transactions from "./routes/Transactions";
 import AddTransactionPage from "./routes/AddTransactionsPage";
-
+import HelpPage from "./routes/HelpPage";
 function App() {
   // const [count, setCount] = useState(0);
 
@@ -15,6 +15,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/AddTransaction" element={<AddTransactionPage />} />
+          <Route path="Help" element={HelpPage} />
         </Routes>
       </main>
       <Footer />
