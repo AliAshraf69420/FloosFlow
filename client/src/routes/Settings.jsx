@@ -31,11 +31,11 @@ import React, { useEffect } from "react";
 import Sidebar from "../components/Settings/Sidebar";
 import MobileMenu from "../components/Settings/MobileMenu";
 
-import ProfileSection from "./SettingSections/ProfileSection";
-import ThemeSection from "./SettingSections/ThemeSection";
-import PersonalInfoSection from "./SettingSections/PersonalInfoSection";
-import AccountSection from "./SettingSections/AccountSection";
-import SupportSection from "./SettingSections/SupportSection";
+import ProfileSection from "../components/Settings/SettingSections/ProfileSection";
+import ThemeSection from "../components/Settings/SettingSections/ThemeSection";
+import PersonalInfoSection from "../components/Settings/SettingSections/PersonalInfoSection";
+import AccountSection from "../components/Settings/SettingSections/AccountSection";
+import SupportSection from "../components/Settings/SettingSections/SupportSection";
 
 import useSettings from "../hooks/useSettings";
 
@@ -80,7 +80,7 @@ export default function SettingsPage() {
             {/* ERROR STATE */}
             {error && (
               <div className="p-4 rounded-lg bg-red-500/20 border border-red-500 text-red-300 text-center">
-                Failed to load settings.  
+                Failed to load settings.
                 <button
                   onClick={refresh}
                   className="underline ml-2 text-red-200 hover:text-red-100"
@@ -91,32 +91,30 @@ export default function SettingsPage() {
             )}
 
             {/* CONTENT */}
-            {/* {!loading && !error && ( */}
+            {!loading && !error && (
               <>
-                {/* <ProfileSection
-                  data={settings?.profile}
-                  onSave={save.profile}
-                  onDisconnect={disconnectProvider}
-                />  */}
+                <section id="profile">
+                  <ProfileSection />
+                </section>
 
-                 {/* <ThemeSection
-                  data={settings?.theme}
-                  onSave={save.theme}
-                /> */}
+                <section id="theme">
+                  <ThemeSection />
+                </section>
 
-                {/* <PersonalInfoSection
-                  data={settings?.personal}
-                  onSave={save.personal}
-                /> */}
+                <section id="personal">
+                  <PersonalInfoSection />
+                </section>
 
-                {/* <AccountSection
-                  data={settings?.account}
-                  onSave={save.account}
-                /> */}
+                <section id="account">
+                  <AccountSection />
+                </section>
 
-                <SupportSection />
+                <section id="support">
+                  <SupportSection />
+
+                </section>
               </>
-            {/* )} */}
+            )}
           </div>
         </div>
       </main>

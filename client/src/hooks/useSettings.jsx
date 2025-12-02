@@ -24,11 +24,12 @@ import { useEffect, useRef, useState } from "react";
  * - Simulates network delays with setTimeout
  * - Returns Promise for async methods
  */
+
 const STORAGE_KEY = "floosflow_settings_v1";
 const DEFAULT_SETTINGS = {
   preferences: { email: true, sms: false, marketing: false },
   avatarUrl: null,
-  providers: [], // { id, name, connectedAt }
+  providers: [],
   personal: {
     firstName: "",
     lastName: "",
@@ -51,11 +52,12 @@ function readStorage() {
     return DEFAULT_SETTINGS;
   }
 }
+
 function writeStorage(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (err) {
-    // swallow
+  } catch {
+    // ignore
   }
 }
 
@@ -67,15 +69,18 @@ export default function useSettings() {
 
   useEffect(() => {
     setLoading(true);
-    // simulate fetch
     const t = setTimeout(() => {
       setSettings(readStorage());
       setLoading(false);
     }, 300);
-    return () => clearTimeout(t);
+
+    return () => {
+      clearTimeout(t);
+      if (saveTimer.current) clearTimeout(saveTimer.current);
+    };
   }, []);
 
-  // internal save to storage (debounced)
+  // debounced save
   const debouncedSave = (next) => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
@@ -96,41 +101,56 @@ export default function useSettings() {
 
   const updatePreferences = async (prefs) => {
     setError(null);
-    const next = { ...settings, preferences: { ...settings.preferences, ...prefs } };
-    setSettings(next);
-    debouncedSave(next);
+    let nextPrefs;
+    setSettings(prev => {
+      nextPrefs = { ...prev.preferences, ...prefs };
+      const next = { ...prev, preferences: nextPrefs };
+      debouncedSave(next);
+      return next;
+    });
     await fakeNetwork(400);
-    return next.preferences;
+    return nextPrefs;
   };
 
   const uploadAvatar = async (file) => {
     setError(null);
-    // Simulate upload and return blob URL stored in localStorage
     await fakeNetwork(700);
-    // create object URL (non-persistent) — in real app upload returns a hosted url
-    const url = URL.createObjectURL(file);
-    const next = { ...settings, avatarUrl: url };
-    setSettings(next);
-    debouncedSave(next);
+
+    const reader = new FileReader();
+    const url = await new Promise((res) => {
+      reader.onload = () => res(reader.result);
+      reader.readAsDataURL(file);
+    });
+
+    setSettings(prev => {
+      const next = { ...prev, avatarUrl: url };
+      debouncedSave(next);
+      return next;
+    });
+
     return url;
   };
 
   const removeAvatar = async () => {
     setError(null);
     await fakeNetwork(300);
-    const next = { ...settings, avatarUrl: null };
-    setSettings(next);
-    debouncedSave(next);
+    setSettings(prev => {
+      const next = { ...prev, avatarUrl: null };
+      debouncedSave(next);
+      return next;
+    });
     return null;
   };
 
   const disconnectProvider = async (providerId) => {
     setError(null);
-    // optimistic update
-    const nextProviders = (settings.providers || []).filter((p) => p.id !== providerId);
-    const next = { ...settings, providers: nextProviders };
-    setSettings(next);
-    debouncedSave(next);
+    let nextProviders;
+    setSettings(prev => {
+      nextProviders = (prev.providers || []).filter(p => p.id !== providerId);
+      const next = { ...prev, providers: nextProviders };
+      debouncedSave(next);
+      return next;
+    });
     await fakeNetwork(400);
     return nextProviders;
   };
@@ -144,45 +164,51 @@ export default function useSettings() {
       connectedAt: new Date().toISOString(),
       meta: { email },
     };
-    const next = { ...settings, providers: [...(settings.providers || []), newProvider] };
-    setSettings(next);
-    debouncedSave(next);
+    setSettings(prev => {
+      const next = { ...prev, providers: [...(prev.providers || []), newProvider] };
+      debouncedSave(next);
+      return next;
+    });
     return newProvider;
   };
 
   const updatePersonalInfo = async (payload) => {
     setError(null);
-    const next = { ...settings, personal: { ...settings.personal, ...payload } };
-    setSettings(next);
-    debouncedSave(next);
+    let updatedPersonal;
+    setSettings(prev => {
+      updatedPersonal = { ...prev.personal, ...payload };
+      const next = { ...prev, personal: updatedPersonal };
+      debouncedSave(next);
+      return next;
+    });
     await fakeNetwork(400);
-    return next.personal;
+    return updatedPersonal;
   };
 
   const updateEmail = async (email) => {
     setError(null);
-    // in a real app you'd verify email, send confirmation
-    const next = { ...settings, account: { ...settings.account, email } };
-    setSettings(next);
-    debouncedSave(next);
+    let updatedAccount;
+    setSettings(prev => {
+      updatedAccount = { ...prev.account, email };
+      const next = { ...prev, account: updatedAccount };
+      debouncedSave(next);
+      return next;
+    });
     await fakeNetwork(600);
-    return next.account;
+    return updatedAccount;
   };
 
   const updatePassword = async ({ current, new: newPass, confirm }) => {
     setError(null);
-    // naive validation
     if (!current || !newPass) throw new Error("Missing password fields");
     if (newPass !== confirm) throw new Error("Passwords do not match");
     await fakeNetwork(700);
-    // password never stored here; just simulate success
     return { success: true };
   };
 
   const deleteAccount = async () => {
     setError(null);
     await fakeNetwork(800);
-    // simulate deletion by clearing storage and resetting to defaults
     localStorage.removeItem(STORAGE_KEY);
     setSettings(DEFAULT_SETTINGS);
     return { deleted: true };
@@ -190,11 +216,15 @@ export default function useSettings() {
 
   const changeTheme = async (theme) => {
     setError(null);
-    const next = { ...settings, theme };
-    setSettings(next);
-    debouncedSave(next);
+    let updatedTheme;
+    setSettings(prev => {
+      updatedTheme = theme;
+      const next = { ...prev, theme };
+      debouncedSave(next);
+      return next;
+    });
     await fakeNetwork(200);
-    return next.theme;
+    return updatedTheme;
   };
 
   return {
