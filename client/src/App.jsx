@@ -4,6 +4,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import AddTransactionPage from "./routes/AddTransactionsPage";
+import Dashboard from "./routes/Dashboard";
 import HelpPage from "./routes/HelpPage";
 import Home from "./routes/Home";
 import LandingPage from "./routes/LandingPage";
@@ -32,6 +33,7 @@ function App() {
             />
             <Route path="/Transactions" element={<Transactions />} />
             <Route path="/TransferMoney" element={<TransferMoney />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
           </Routes>
         </main>
         <Footer />
