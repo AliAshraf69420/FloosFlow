@@ -49,17 +49,17 @@ export default function AddTransactionCard() {
                 Category
               </label>
 
-              <div className="flex flex-col text-black sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                 <select
                   id="category"
                   name="category"
                   className="flex-grow ff-input text-white"
                 >
-                  <option>Groceries</option>
-                  <option>Transport</option>
-                  <option>Utilities</option>
-                  <option>Entertainment</option>
-                  <option>Health</option>
+                  <option className="text-blacl">Groceries</option>
+                  <option className="text-blacl">Transport</option>
+                  <option className="text-blacl">Utilities</option>
+                  <option className="text-blacl">Entertainment</option>
+                  <option className="text-blacl">Health</option>
                 </select>
 
                 <button
