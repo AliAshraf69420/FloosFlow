@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ["Inter", "sans-serif"],
       },
       colors: {
         "ff-bg-light": "#FFFFFF",
@@ -14,8 +14,7 @@ export default {
         "ff-accent": "#49EB8C",
       },
       backgroundImage: {
-        "ff-gradient":
-          "linear-gradient(to right, #62A6BF, #49EB8C, #65E67F)",
+        "ff-gradient": "linear-gradient(to right, #62A6BF, #49EB8C, #65E67F)",
       },
     },
   },
