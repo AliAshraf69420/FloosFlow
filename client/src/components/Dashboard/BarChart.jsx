@@ -61,16 +61,26 @@ export default function StaticBarChart() {
   };
 
   return (
-    <div className="flex justify-between items-center w-full space-x-6">
-      <div className="flex-[2] h-[300px] flex items-center justify-between bg-[#1f1f1f]/80 hover:bg-[#1e1e1e]/50 border border-white/40 rounded-xl italic transition shadow-md px-6">
-        {/* Bar Chart (now slightly narrower) */}
-        <div className="w-full h-full">
+    <div className="w-full flex justify-center">
+      <div
+        className="
+          flex flex-col md:flex-row 
+          w-full md:space-x-6 space-y-6 md:space-y-0 
+          max-w-screen
+          bg-[#1f1f1f]/80 hover:bg-[#1e1e1e]/50 
+          border border-white/40 
+          rounded-xl italic transition shadow-md 
+          p-6
+        "
+      >
+        {/* Chart */}
+        <div className="flex-1 h-[260px] sm:h-[300px] w-full">
           <Bar data={data} options={options} />
         </div>
 
         {/* Legend */}
-        <div className="text-white/80 space-y-2 ml-6">
-          <ul className="list-disc">
+        <div className="text-white/80 space-y-2 md:ml-6 w-full md:w-auto">
+          <ul className="list-disc pl-5">
             {labels.map((label, i) => (
               <li
                 key={i}

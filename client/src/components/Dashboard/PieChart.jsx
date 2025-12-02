@@ -40,23 +40,26 @@ export default function PieChart() {
   };
 
   return (
-    <div className="flex justify-between items-center w-full space-x-6">
-      {/* Card */}
+    <div className="w-full flex justify-center">
       <div
-        className="flex-1 h-[350px] flex items-center justify-between 
-                      bg-[#1f1f1f]/80 hover:bg-[#1e1e1e]/50 
-                      border border-white/40 rounded-xl shadow-md px-6 transition"
+        className="
+          flex flex-col md:flex-row
+          w-full md:space-x-6 space-y-6 md:space-y-0
+          bg-[#1f1f1f]/80 hover:bg-[#1e1e1e]/50
+          border border-white/40 rounded-xl shadow-md
+          p-6 transition max-w-screen
+        "
       >
         {/* Pie Chart */}
-        <div className="flex-1 h-full flex items-center justify-center">
-          <div className="w-64 h-64">
+        <div className="flex-1 h-[260px] sm:h-[320px] flex items-center justify-center">
+          <div className="w-52 h-52 sm:w-64 sm:h-64">
             <Pie data={data} options={options} />
           </div>
         </div>
 
         {/* Legend */}
-        <div className="w-48 text-white/80 space-y-2 text-left flex-shrink-0">
-          <ul className="list-disc">
+        <div className="text-white/80 space-y-2 w-full md:w-48 md:ml-6">
+          <ul className="list-disc pl-5">
             {labels.map((label, i) => (
               <li
                 key={i}
