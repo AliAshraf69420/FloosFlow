@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import AddTransactionPage from "./routes/AddTransactionsPage";
 import HelpPage from "./routes/HelpPage";
+import Home from "./routes/Home";
 import LandingPage from "./routes/LandingPage";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/AddTransaction" element={<AddTransactionPage />} />
             <Route path="/Help" element={<HelpPage />} />
+            <Route path="/Home" element={<Home />} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
             <Route
@@ -29,7 +31,7 @@ function App() {
               element={<TransactionDetails />}
             />
             <Route path="/Transactions" element={<Transactions />} />
-            <Route path="/Transfer" element={<TransferMoney />} />
+            <Route path="/TransferMoney" element={<TransferMoney />} />
           </Routes>
         </main>
         <Footer />

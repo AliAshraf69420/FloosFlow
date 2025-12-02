@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
-  // Used to check if you are in the landing page , then we will hide the search bar and the pfp
-
+  const navigate = useNavigate();
   const location = useLocation();
-  const isNotLandingPage = location.pathname !== "/";
 
+  const isLandingPage = location.pathname === "/";
+  const isNotLandingPage = !isLandingPage;
+
+  // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  // Helper: return /login instead of actual path when on landing page
+  const route = (path) => (isLandingPage ? "/login" : path);
 
   return (
     <nav
@@ -19,8 +24,8 @@ const NavBar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex items-center justify-between h-20 gap-4">
         {/* LOGO */}
-        <a
-          href="/"
+        <Link
+          to={route("/Home")}
           aria-label="FloosFlow Home"
           className="inline-flex items-center flex-shrink-0"
         >
@@ -33,9 +38,9 @@ const NavBar = () => {
               height: "auto",
             }}
           />
-        </a>
+        </Link>
 
-        {/* CENTER MENU (fluid shrinking) */}
+        {/* CENTER MENU */}
         <div className="hidden md:flex flex-1 min-w-0 overflow-hidden justify-center">
           <ul
             className="flex items-center gap-4 flex-shrink overflow-hidden"
@@ -43,62 +48,35 @@ const NavBar = () => {
             aria-label="Main menu"
           >
             {[
-              ["/", "Home"],
+              ["/Home", "Home"],
               ["/Transactions", "Services"],
               ["/Dashboard", "Dashboard"],
               ["/Help", "Help"],
-            ].map(([href, label]) => (
+            ].map(([path, label]) => (
               <li key={label} role="none" className="flex-shrink min-w-[60px]">
-                <a
+                <Link
                   role="menuitem"
-                  href={isNotLandingPage ? href : "Login"}
+                  to={route(path)}
                   className="px-2 py-1 rounded-md font-semibold transition-all duration-200 hover:bg-ff-gradient hover:text-white block text-center"
                   style={{
                     fontSize: "clamp(0.75rem, 1.4vw, 1.1rem)",
                   }}
                 >
                   {label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* RIGHT: Search + Profile */}
+        {/* RIGHT SIDE */}
         {isNotLandingPage ? (
           <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-            <div
-              className="relative"
-              style={{
-                width: "clamp(120px, 20vw, 260px)", // smoothly shrinks
-              }}
-            >
-              <label htmlFor="searchInput" className="sr-only">
-                Search the account dashboard
-              </label>
+            <SearchBar />
 
-              <img
-                src="/search-outline-svgrepo-com.svg"
-                alt="Search icon"
-                className="absolute left-3 top-2.5 w-5 h-5 opacity-70 pointer-events-none"
-              />
-
-              <input
-                id="searchInput"
-                type="text"
-                placeholder="Search"
-                aria-label="Search account dashboard"
-                className="pl-10 pr-4 py-2 rounded-lg bg-ff-input/80 text-gray-100 placeholder-gray-400 
-                         focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 w-full"
-                style={{
-                  fontSize: "clamp(0.75rem, 1.2vw, 1rem)",
-                }}
-              />
-            </div>
-
-            {/* Profile Image */}
-            <a
-              href="/Settings"
+            {/* Profile */}
+            <Link
+              to="/Settings"
               aria-label="Open profile menu"
               className="inline-flex flex-shrink-0 w-12 h-12"
             >
@@ -107,16 +85,17 @@ const NavBar = () => {
                 alt="User profile picture"
                 className="rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
               />
-            </a>
+            </Link>
           </div>
         ) : (
           <Link
             to="/Login"
-            className="ff-btn hidden md:flex w-[200px]  bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+            className="ff-btn hidden md:flex w-[200px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
           >
             Log in
           </Link>
         )}
+
         {/* MOBILE HAMBURGER */}
         <div className="md:hidden relative">
           <button
@@ -132,7 +111,7 @@ const NavBar = () => {
               }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-black transition-opacity   duration-200 ${
+              className={`block h-0.5 w-full bg-black transition-opacity duration-200 ${
                 isMenuOpen ? "opacity-0" : ""
               }`}
             ></span>
@@ -148,67 +127,66 @@ const NavBar = () => {
             id="mobile-menu"
             className={`${
               isMenuOpen ? "flex" : "hidden"
-            } flex-col absolute top-16 right-0 w-56 
-                    bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
+            } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
             role="menu"
             aria-label="Mobile Main Menu"
           >
             <li>
-              <a
-                href={isNotLandingPage ? "/" : "/Login"}
+              <Link
+                to={route("/Home")}
                 className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
               >
                 Home
-              </a>
+              </Link>
             </li>
+
             <li>
-              <a
-                href={isNotLandingPage ? "/Transactions" : "/Login"}
+              <Link
+                to={route("/Transactions")}
                 className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
               >
                 Services
-              </a>
+              </Link>
             </li>
+
             <li>
-              <a
-                href={isNotLandingPage ? "/Dashboard" : "/Login"}
+              <Link
+                to={route("/Dashboard")}
                 className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
               >
                 Dashboard
-              </a>
+              </Link>
             </li>
+
             <li>
-              <a
-                href={isNotLandingPage ? "/Help" : "/Login"}
+              <Link
+                to={route("/Help")}
                 className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
               >
                 Help
-              </a>
+              </Link>
             </li>
+
             {isNotLandingPage ? (
-              <div>
+              <>
                 <li className="pt-2 border-t border-zinc-800">
-                  <input
-                    type="search"
-                    placeholder="Search"
-                    className="w-full px-3 py-2 rounded-md bg-zinc-800 text-gray-200"
-                  />
+                  <SearchBar />
                 </li>
 
                 <li>
-                  <a
-                    href="/Settings"
+                  <Link
+                    to="/Settings"
                     className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800"
                   >
                     Profile
-                  </a>
+                  </Link>
                 </li>
-              </div>
+              </>
             ) : (
               <Link
-                onClick={toggleMenu}
                 to="/Login"
-                className="ff-btn w-[200px]  bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+                className="ff-btn w-[200px] bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+                onClick={toggleMenu}
               >
                 Log in
               </Link>
