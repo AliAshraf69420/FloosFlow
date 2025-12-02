@@ -2,7 +2,7 @@
 import React from "react";
 import TransactionInput from "./TransactionInput";
 import AddTransactionButton from "./AddTransactionButton";
-
+import StyledDropdown from "./SelectComponent";
 export default function AddTransactionCard() {
   return (
     <div className="flex-grow pt-24 px-4 sm:px-6 md:px-8 text-center">
@@ -50,22 +50,12 @@ export default function AddTransactionCard() {
               </label>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
-                <select
-                  id="category"
-                  name="category"
-                  className="flex-grow ff-input text-white"
-                >
-                  <option className="text-blacl">Groceries</option>
-                  <option className="text-blacl">Transport</option>
-                  <option className="text-blacl">Utilities</option>
-                  <option className="text-blacl">Entertainment</option>
-                  <option className="text-blacl">Health</option>
-                </select>
+                <StyledDropdown />
 
                 <button
                   type="button"
                   className="px-4 py-2 rounded-xl bg-[#49EB8C]/80 text-black font-semibold 
-                    hover:bg-[#49EB8C] transition-all duration-300 hover:shadow-md"
+      hover:bg-[#49EB8C] transition-all duration-300 hover:shadow-md"
                 >
                   +
                 </button>
