@@ -1,23 +1,27 @@
-import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import reactLogo from './assets/react.svg';
-// import viteLogo from '/vite.svg';
 import './App.css';
-import Footer from './components/Footer';
+
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
+
 import Home from './routes/Home';
+import SettingsPage from './routes/Settings';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
+      {/* Global Nav + Footer only for MOST pages */}
       <NavBar />
+
       <main className="flex-grow">
         <Routes>
           <Route path="/home" element={<Home />} />
+
+          {/* SETTINGS PAGE */}
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
+
       <Footer />
     </div>
   );
