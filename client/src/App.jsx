@@ -13,7 +13,7 @@ import Register from "./routes/Register";
 import TransactionDetails from "./routes/TransactionDetails";
 import Transactions from "./routes/Transactions";
 import TransferMoney from "./routes/TransferMoney";
-
+import SettingsPage from "./routes/Settings";
 function App() {
   return (
     <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
@@ -34,6 +34,7 @@ function App() {
             <Route path="/Transactions" element={<Transactions />} />
             <Route path="/TransferMoney" element={<TransferMoney />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
         <Footer />
