@@ -27,7 +27,15 @@ export default function StyledDropdown() {
                    bg-[#1f1f1f]/80 border border-white/30 hover:bg-[#1f1f1f]/60 transition"
       >
         {value}
-        <span className="ml-2">▼</span>
+
+        {/* SVG image */}
+        <img
+          src="/dropdown-arrow-svgrepo-com.svg"
+          alt="dropdown arrow"
+          className={`ml-2 w-4 h-4 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
       </button>
 
       {/* Dropdown List */}
