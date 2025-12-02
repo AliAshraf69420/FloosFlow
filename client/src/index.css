@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 @tailwind base;
 
@@ -7,7 +6,6 @@
 @tailwind utilities;
 @layer base {
   body {
-    font-family: "Inter", sans-serif;
     font-family: "Inter", sans-serif;
   }
 }
@@ -19,6 +17,10 @@
 
   .ff-card {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-ff-gradient hover:text-white;
+  }
+
+  .ff-card-transaction {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-white hover:text-white;
   }
 
   .ff-card-AddTransaction {
@@ -52,6 +54,18 @@
   }
 
   .ff-search-icon-Transfer {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-70 pointer-events-none;
+  }
+
+  .ff-search-transaction {
+    @apply relative w-full;
+  }
+
+  .ff-search-input-transaction {
+    @apply pl-10 pr-4 py-2 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 hover:bg-ff-input-hover w-full;
+  }
+
+  .ff-search-icon-transaction {
     @apply absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-70 pointer-events-none;
   }
 }
