@@ -11,14 +11,16 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
-      <NavBar />
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/AddTransaction" element={<AddTransactionPage />} />
-          <Route path="Help" element={HelpPage} />
-        </Routes>
-      </main>
-      <Footer />
+      <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
+        <NavBar />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/AddTransaction" element={<AddTransactionPage />} />
+            <Route path="Help" element={HelpPage} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
