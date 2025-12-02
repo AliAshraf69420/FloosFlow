@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +8,7 @@
 @layer base {
   body {
     font-family: "Inter", sans-serif;
+    font-family: "Inter", sans-serif;
   }
 }
 
@@ -14,6 +16,9 @@
   /* Base button: gradient on hover, works with/without SVG */
   .ff-btn {
     @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-ff-gradient hover:text-white;
+  }
+  .ff-dashboard-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-[#1f1f1f]/30 bg-[#1f1f1f]/50 hover:text-white;
   }
 
   .ff-card {
@@ -29,6 +34,10 @@
   }
   .ff-card-Transfer {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:text-white;
+  }
+
+  .ff-dashboard-card {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition ease-in-out duration-300 hover:bg-ff-gradient hover:text-black;
   }
 
   .ff-search {
