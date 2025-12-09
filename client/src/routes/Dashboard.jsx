@@ -13,24 +13,26 @@ export default function Dashboard() {
     setIndex((prev) => (prev - 1 + charts.length) % charts.length);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#121212]">
-      <DashboardCard
-        title="Analytics"
-        actions={
-          <>
-            <DashboardButton
-              onClick={prevChart}
-              imgSrc="/left-arrow-backup-2-svgrepo-com.svg"
-            />
-            <DashboardButton
-              onClick={nextChart}
-              imgSrc="/right-arrow-svgrepo-com.svg"
-            />
-          </>
-        }
-      >
-        {charts[index]}
-      </DashboardCard>
-    </div>
+    <main className="min-h-screen bg-[#121212] px-4 sm:px-6 lg:px-10 py-20 overflow-y-auto scroll-smooth">
+      <div className="flex justify-center items-start">
+        <DashboardCard
+          title="Analytics"
+          actions={
+            <>
+              <DashboardButton
+                onClick={prevChart}
+                imgSrc="/left-arrow-backup-2-svgrepo-com.svg"
+              />
+              <DashboardButton
+                onClick={nextChart}
+                imgSrc="/right-arrow-svgrepo-com.svg"
+              />
+            </>
+          }
+        >
+          {charts[index]}
+        </DashboardCard>
+      </div>
+    </main>
   );
 }

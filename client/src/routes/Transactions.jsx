@@ -13,7 +13,7 @@ const transactions = [
 
 export default function TransactionsPage() {
   return (
-    <main className="flex-grow pt-24 px-8 text-center">
+    <main className="flex-grow pt-24 px-4 sm:px-8 text-center min-h-screen overflow-y-auto pb-12 scroll-smooth">
       <TransactionParentCard>
         {/* Search */}
         <TransactionSearch placeholder="Search transactions..." />
@@ -30,7 +30,7 @@ export default function TransactionsPage() {
         </div>
 
         {/* Transaction Cards */}
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 max-h-[60vh] overflow-y-auto pr-1">
           {transactions.map((tx, idx) => (
             <TransactionCard key={idx} {...tx} />
           ))}
