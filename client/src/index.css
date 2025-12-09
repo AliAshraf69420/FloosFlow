@@ -25,6 +25,20 @@
     @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-ff-gradient hover:text-white;
   }
 
+  /* Settings cards reuse the base card styling but keep hover to 10% opacity of the gradient */
+  .ff-settings-card {
+    @apply max-w-4xl mx-auto p-6 sm:p-8 md:p-10;
+  }
+
+  .ff-card.ff-settings-card:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(98, 166, 191, 0.1) 0%,
+      rgba(73, 235, 140, 0.1) 50%,
+      rgba(101, 230, 127, 0.1) 100%
+    );
+  }
+
   .ff-card-transaction {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-white hover:text-white;
   }
