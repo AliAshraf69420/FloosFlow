@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  username     String?   @unique
+  email        String     @unique
+  phoneNumber  String?
+  password     String?
+  profileImage String?
+
+  googleId     String?   @unique   // <-- ADD THIS
+
+  cards        Card[]
+  transactions Transaction[]
+  sentTransfers     Transfer[] @relation("SentTransfers")
+  receivedTransfers Transfer[] @relation("ReceivedTransfers")
+  createdAt    DateTime  @default(now())
+}
+
+
+model Card {
+  id         Int    @id @default(autoincrement())
+  cardNumber String @unique
+  balance    Float  @default(0)
+  bankName   String
+  user       User   @relation(fields: [userId], references: [id])
+  userId     Int
+
+  // Back-relations
+  transactions     Transaction[]
+  sentTransfers     Transfer[] @relation("SenderCard")
+  receivedTransfers Transfer[] @relation("RecipientCard")
+}
+
+model Transaction {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       Int
+  card         Card      @relation(fields: [cardId], references: [id])
+  cardId       Int
+  message      String?
+  date         DateTime  @default(now())
+  category     Category
+  money        Float
+  merchantName String
+}
+
+model Transfer {
+  id             Int       @id @default(autoincrement())
+
+  sender         User      @relation("SentTransfers", fields: [senderId], references: [id])
+  senderId       Int
+  senderCard     Card      @relation("SenderCard", fields: [senderCardId], references: [id])
+  senderCardId   Int
+
+  recipient      User      @relation("ReceivedTransfers", fields: [recipientId], references: [id])
+  recipientId    Int
+  recipientCard  Card?     @relation("RecipientCard", fields: [recipientCardId], references: [id])
+  recipientCardId Int?
+
+  amount      Float
+  reason      String?
+  message     String?
+  date        DateTime  @default(now())
+}
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  type      String   // "sent", "received", "transaction"
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum Category {
+  Groceries
+  Transport
+  Utilities
+  Entertainment
+  Health
+  Other
+}
