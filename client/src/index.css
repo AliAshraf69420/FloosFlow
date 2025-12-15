@@ -125,4 +125,71 @@
   .ff-search-icon-transaction {
     @apply absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-70 pointer-events-none;
   }
+
+  /* Primary button with gradient */
+  .ff-btn-primary {
+    @apply w-full py-2 sm:py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg text-white;
+    background: linear-gradient(90deg, rgba(98, 166, 191, 0.8) 0%, rgba(73, 235, 140, 0.8) 50%, rgba(101, 230, 127, 0.8) 100%);
+  }
+  .ff-btn-primary:hover {
+    background: linear-gradient(90deg, #62a6bf 0%, #49eb8c 50%, #65e67f 100%);
+  }
+  .ff-btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Secondary button */
+  .ff-btn-secondary {
+    @apply w-full py-2 sm:py-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-semibold hover:bg-white/20 transition-all duration-300;
+  }
+
+  /* Danger button */
+  .ff-btn-danger {
+    @apply w-full py-2 sm:py-3 rounded-xl bg-red-500/80 text-white font-semibold hover:bg-red-500 transition-all duration-300;
+  }
+
+  /* Navigation button (arrows) */
+  .ff-nav-btn {
+    @apply p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200;
+  }
+
+  /* Form label */
+  .ff-label {
+    @apply block text-xs font-medium mb-1 text-white/90;
+  }
+
+  /* Gradient text */
+  .ff-text-gradient {
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(90deg, #62a6bf 0%, #49eb8c 50%, #65e67f 100%);
+  }
+
+  /* Popup backdrop */
+  .ff-popup-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center;
+  }
+
+  /* Popup overlay */
+  .ff-popup-overlay {
+    @apply absolute inset-0 bg-black/60 backdrop-blur-sm;
+  }
+
+  /* Popup content */
+  .ff-popup-content {
+    @apply relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-4 text-white;
+  }
+
+  /* Card info box */
+  .ff-info-box {
+    @apply bg-white/5 rounded-xl p-4;
+  }
+
+  /* Dot indicator */
+  .ff-dot {
+    @apply w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-200;
+  }
+  .ff-dot-active {
+    @apply w-5 rounded-full;
+    background: linear-gradient(90deg, #62a6bf 0%, #49eb8c 100%);
+  }
 }

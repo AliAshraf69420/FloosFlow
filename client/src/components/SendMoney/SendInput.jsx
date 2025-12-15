@@ -11,13 +11,9 @@ export default function SendInput({
 }) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="block text-sm sm:text-base font-medium mb-2 text-white/90"
-      >
+      <label htmlFor={id} className="ff-label text-sm">
         {label}
       </label>
-
       <input
         type={type}
         id={id}
