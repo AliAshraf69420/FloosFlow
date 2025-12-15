@@ -16,7 +16,6 @@ import TransferMoney from "./routes/TransferMoney";
 import SettingsPage from "./routes/Settings";
 import ErrorPage from "./routes/ErrorPage";
 import LoadingPage from "./routes/LoadingPage";
-import SendMoneyPage from "./routes/SendMoney";
 import ManageCardsPage from "./routes/ManageCards";
 function App() {
   return (
@@ -37,7 +36,6 @@ function App() {
             />
             <Route path="/Transactions" element={<Transactions />} />
             <Route path="/TransferMoney" element={<TransferMoney />} />
-            <Route path="/SendMoney" element={<SendMoneyPage />} />
             <Route path="/ManageCards" element={<ManageCardsPage />} />
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/settings" element={<SettingsPage />} />
