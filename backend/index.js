@@ -24,6 +24,11 @@ app.use("/api/transactions", transactionsRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the backend server!");
+});
+
+
 const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: "*" } });
 
