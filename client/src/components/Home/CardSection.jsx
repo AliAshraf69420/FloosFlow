@@ -159,11 +159,11 @@ export default function CardSection() {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/SendMoney")}
+            onClick={() => navigate("/TransferMoney")}
             className="py-2.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold
               hover:bg-white/20 transition-all duration-300 text-sm"
           >
-            Send Money
+            Transfer Money
           </button>
         </div>
       </div>
