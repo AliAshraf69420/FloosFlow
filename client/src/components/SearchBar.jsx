@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
+import useSearch from './useSearch';
 
 const SearchBar = ({ className = "", inputId = "searchInput" }) => {
+  const { query, setQuery, results, loading } = useSearch();
+
   return (
-    <div
-      className={`relative ${className}`}
-      style={{ width: "clamp(120px, 20vw, 260px)" }}
-    >
+    <div className={`relative ${className}`} style={{ width: "clamp(120px, 20vw, 260px)" }}>
       <label htmlFor={inputId} className="sr-only">
         Search the account dashboard
       </label>
@@ -21,8 +21,24 @@ const SearchBar = ({ className = "", inputId = "searchInput" }) => {
         type="text"
         placeholder="Search"
         aria-label="Search account dashboard"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         className="ff-search-input"
       />
+
+      {/* Display loading state */}
+      {loading && <div className="loading">Loading...</div>}
+
+      {/* Display search results */}
+      {results.length > 0 && (
+        <ul className="search-results">
+          {results.map((result) => (
+            <li key={result.id} className="search-result-item">
+              {result.name} {/* Adjust based on db schema (postgresql is still getting downloaded) */}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
