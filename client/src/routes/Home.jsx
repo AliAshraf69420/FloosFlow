@@ -1,6 +1,7 @@
 import WelcomeCard from '../components/Home/WelcomeCard';
 import CardSection from '../components/Home/CardSection';
 import Service from '../components/Home/services';
+import { useUser } from '../context/UserContext';
 
 const services = [
     'Service 1',
@@ -14,10 +15,15 @@ const services = [
 ];
 
 const Home = () => {
+    const { user, loading, error } = useUser();
+
+    if (loading) return <p>Loading user data...</p>;
+    if (error) return <p>Error loading user: {error}</p>; d
     return (
         <div className="pt-24 px-4 sm:px-8 flex flex-col items-center space-y-10 bg-ff-bg-dark pb-32">
-            <WelcomeCard />
-            <CardSection />
+            {/* Pass user to child components if needed */}
+            <WelcomeCard user={user} />
+            <CardSection user={user} />
             <section
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4
                    gap-6 sm:gap-10 justify-items-center

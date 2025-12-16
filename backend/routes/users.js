@@ -62,7 +62,7 @@ router.patch("/me", authenticate, async (req, res) => {
         }
 
         const updatedUser = await prisma.user.update({
-            where: { id: req.userId },
+            where: { id: req.userId, },
             data: dataToUpdate,
             select: {
                 id: true,
@@ -74,7 +74,10 @@ router.patch("/me", authenticate, async (req, res) => {
                 profileImage: true,
                 createdAt: true,
                 cards: {
-                    select: { id: true, cardNumber: true, balance: true, bankName: true }
+                    select: { id: true, cardNumber: true, balance: true, bankName: true },
+                    where: {
+                        isActive: true
+                    }
                 },
                 transactions: true,
                 sentTransfers: true,

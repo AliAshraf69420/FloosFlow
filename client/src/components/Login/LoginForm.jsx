@@ -9,13 +9,13 @@ const LoginForm = () => {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevent page refresh
-    setError(""); // reset error
+    e.preventDefault();
+    setError("");
 
     try {
       const data = await authService.login({ email, password });
       console.log("Logged in user:", data.user);
-      navigate("/Home"); // redirect to Home after login
+      navigate("/Home");
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Login failed");

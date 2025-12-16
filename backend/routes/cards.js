@@ -59,4 +59,24 @@ router.post("/add-card", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+router.delete("/:cardId", authenticate, async (req, res) => {
+    const { cardId } = req.params;
+
+    try {
+        const card = await prisma.card.findUnique({ where: { id: parseInt(cardId) } });
+        if (!card) return res.status(404).json({ error: "Card not found" });
+        if (card.userId !== req.userId) return res.status(403).json({ error: "You do not own this card" });
+
+        // Soft delete by setting isActive = false
+        const deletedCard = await prisma.card.update({
+            where: { id: parseInt(cardId) },
+            data: { isActive: false }
+        });
+
+        res.json({ message: "Card deleted successfully (soft delete)", card: deletedCard });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

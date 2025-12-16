@@ -17,9 +17,9 @@ function generateToken(userId) {
    REGISTER (email/password)
 ================================ */
 router.post("/register", async (req, res) => {
-    const { firstName, lastName, username, email, phoneNumber, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
-    if (!firstName || !lastName || !username || !email || !phoneNumber || !password) {
+    if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({
             message: "Missing required fields"
         });
@@ -32,9 +32,7 @@ router.post("/register", async (req, res) => {
             data: {
                 firstName,
                 lastName,
-                username,
                 email,
-                phoneNumber,
                 password: hashed,
             },
         });

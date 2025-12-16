@@ -52,7 +52,7 @@ router.get("/transfers", authenticate, async (req, res) => {
 });
 
 router.post("/add-transaction", authenticate, async (req, res) => {
-    const { money, category, merchantName, message, cardId } = req.body;
+    const { transactionName, money, category, merchantName, message, cardId } = req.body;
 
     if (!money || !category || !merchantName || !cardId) {
         return res.status(400).json({ error: "money, category, merchantName, and cardId are required" });
@@ -81,7 +81,8 @@ router.post("/add-transaction", authenticate, async (req, res) => {
                 money,
                 category,
                 merchantName,
-                message
+                message,
+                transactionName
             }
         });
         await notificationService.sendNotification(

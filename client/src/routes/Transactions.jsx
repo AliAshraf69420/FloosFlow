@@ -3,15 +3,27 @@ import TransactionParentCard from "../components/Transactions/TransactionParentC
 import TransactionSearch from "../components/Transactions/TransactionSearch";
 import TransactionCard from "../components/Transactions/TransactionsCard";
 import TransactionButton from "../components/Transactions/TransactionButton";
-
-const transactions = [
-  { name: "Grocery Shopping", amount: "$150.00", to: "/TransactionDetails" },
-  { name: "Netflix Subscription", amount: "$15.99", to: null },
-  { name: "Gas Station", amount: "$45.60", to: null },
-  { name: "Transfer to John", amount: "$200.00", to: null },
-];
+import { useUser } from "../context/UserContext";
 
 export default function TransactionsPage() {
+  const { user, loading, error } = useUser();
+
+  if (loading) return <p>Loading transactions...</p>;
+  if (error) return <p>Error loading transactions: {error}</p>;
+
+  // Map the user transactions into the format expected by TransactionCard
+  const transactions = user?.transactions?.map((tx) => ({
+    name: tx.transactionName ?? "Unnamed Transaction",
+    amount: `$${tx.money.toFixed(2)}`,
+    to: `/TransactionDetails/${tx.id}`,
+    date: tx.date,
+    category: tx.category,
+    message: tx.message,
+    merchantName: tx.merchantName,
+    transactionName: tx.transactionName,
+    cardNumber: tx.card?.cardNumber,
+  })) || [];
+
   return (
     <main className="flex-grow pt-24 px-4 sm:px-8 text-center min-h-screen overflow-y-auto pb-12 scroll-smooth">
       <TransactionParentCard>
