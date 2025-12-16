@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
@@ -20,38 +19,40 @@ import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
 import RequestMoneyPage from "./routes/RequestMoney";
 import BillsPage from "./routes/BillsPage";
+
+
+
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
+    <NotificationsProvider>
       <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
-        <NavBar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/AddTransaction" element={<AddTransactionPage />} />
-            <Route path="/Help" element={<HelpPage />} />
-            <Route path="/Home" element={<Home />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Register" element={<Register />} />
-            <Route
-              path="/TransactionDetails"
-              element={<TransactionDetails />}
-            />
-            <Route path="/Transactions" element={<Transactions />} />
-            <Route path="/TransferMoney" element={<TransferMoney />} />
-            <Route path="/ManageCards" element={<ManageCardsPage />} />
-            <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path="/Notifications" element={<NotificationsPage />} />
-            <Route path="/RequestMoney" element={<RequestMoneyPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/loading" element={<LoadingPage />} />
-            <Route path="Bills" element={<BillsPage />} />
-          </Routes>
-        </main>
-        <Footer />
+        <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
+          <NavBar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/AddTransaction" element={<AddTransactionPage />} />
+              <Route path="/Help" element={<HelpPage />} />
+              <Route path="/Home" element={<Home />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Register" element={<Register />} />
+              <Route path="/TransactionDetails" element={<TransactionDetails />} />
+              <Route path="/Transactions" element={<Transactions />} />
+              <Route path="/TransferMoney" element={<TransferMoney />} />
+              <Route path="/ManageCards" element={<ManageCardsPage />} />
+              <Route path="/Dashboard" element={<Dashboard />} />
+              <Route path="/Notifications" element={<NotificationsPage />} />
+              <Route path="/RequestMoney" element={<RequestMoneyPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="*" element={<ErrorPage />} />
+              <Route path="/loading" element={<LoadingPage />} />
+              <Route path="Bills" element={<BillsPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </div>
-    </div>
+    </NotificationsProvider>
   );
 }
 
