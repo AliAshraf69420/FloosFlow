@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
+import { NotificationsProvider } from "./context/NotificationsContext";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import AddTransactionPage from "./routes/AddTransactionsPage";
@@ -17,10 +18,6 @@ import ErrorPage from "./routes/ErrorPage";
 import LoadingPage from "./routes/LoadingPage";
 import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
-import RequestMoneyPage from "./routes/RequestMoney";
-import BillsPage from "./routes/BillsPage";
-
-
 
 function App() {
   return (
@@ -42,11 +39,9 @@ function App() {
               <Route path="/ManageCards" element={<ManageCardsPage />} />
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/Notifications" element={<NotificationsPage />} />
-              <Route path="/RequestMoney" element={<RequestMoneyPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<ErrorPage />} />
               <Route path="/loading" element={<LoadingPage />} />
-              <Route path="Bills" element={<BillsPage />} />
             </Routes>
           </main>
           <Footer />

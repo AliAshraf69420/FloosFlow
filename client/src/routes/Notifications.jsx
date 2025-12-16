@@ -1,73 +1,31 @@
-import React, { useState } from "react";
+import { useNotifications } from "../context/NotificationsContext";
 import NotificationHeader from "../components/Notifications/NotificationHeader";
 import NotificationItem from "../components/Notifications/NotificationItem";
 import EmptyNotifications from "../components/Notifications/EmptyNotifications";
 
-const initialNotifications = [
-  {
-    id: 1,
-    title: "Payment Received",
-    message: "You received $250.00 from John Doe",
-    time: "2 minutes ago",
-    read: false,
-    type: "payment",
-  },
-  {
-    id: 2,
-    title: "Transfer Successful",
-    message: "Your transfer of $100.00 to Jane Smith was completed",
-    time: "1 hour ago",
-    read: false,
-    type: "transfer",
-  },
-  {
-    id: 3,
-    title: "Card Added",
-    message: "Your new card ending in 4532 has been added successfully",
-    time: "3 hours ago",
-    read: true,
-    type: "card",
-  },
-  {
-    id: 4,
-    title: "Security Alert",
-    message: "New login detected from a new device",
-    time: "Yesterday",
-    read: true,
-    type: "security",
-  },
-  {
-    id: 5,
-    title: "Monthly Statement",
-    message: "Your November statement is now available",
-    time: "2 days ago",
-    read: true,
-    type: "statement",
-  },
-];
-
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const { notifications, unreadCount, loading, error, markAsRead, markAllAsRead } = useNotifications();
 
-  const markAsRead = (id) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
-      )
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-ff-bg-dark px-4 sm:px-6 lg:px-10 py-24 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-white/20 border-t-ff-accent rounded-full animate-spin" />
+          <p className="text-white/60 text-sm">Loading notifications...</p>
+        </div>
+      </main>
     );
-  };
-
-  const markAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((notification) => ({ ...notification, read: true }))
-    );
-  };
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  }
 
   return (
-    <main className="min-h-screen bg-[#121212] px-4 sm:px-6 lg:px-10 py-24 overflow-y-auto scroll-smooth">
+    <main className="min-h-screen bg-ff-bg-dark px-4 sm:px-6 lg:px-10 py-24 overflow-y-auto scroll-smooth">
       <div className="max-w-3xl mx-auto">
+        {error && (
+          <div className="mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 text-sm">
+            {error}
+          </div>
+        )}
+
         <NotificationHeader
           unreadCount={unreadCount}
           onMarkAllAsRead={markAllAsRead}
