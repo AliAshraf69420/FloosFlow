@@ -18,7 +18,7 @@ import ErrorPage from "./routes/ErrorPage";
 import LoadingPage from "./routes/LoadingPage";
 import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <NotificationsProvider>
@@ -27,22 +27,98 @@ function App() {
           <NavBar />
           <main className="flex-grow">
             <Routes>
+              {/* Public routes */}
               <Route path="/" element={<LandingPage />} />
-              <Route path="/AddTransaction" element={<AddTransactionPage />} />
-              <Route path="/Help" element={<HelpPage />} />
-              <Route path="/Home" element={<Home />} />
               <Route path="/Login" element={<Login />} />
               <Route path="/Register" element={<Register />} />
-              <Route path="/TransactionDetails" element={<TransactionDetails />} />
-              <Route path="/Transactions" element={<Transactions />} />
-              <Route path="/TransferMoney" element={<TransferMoney />} />
-              <Route path="/ManageCards" element={<ManageCardsPage />} />
-              <Route path="/Dashboard" element={<Dashboard />} />
-              <Route path="/Notifications" element={<NotificationsPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="*" element={<ErrorPage />} />
               <Route path="/loading" element={<LoadingPage />} />
+
+              {/* Protected routes individually wrapped */}
+              <Route
+                path="/AddTransaction"
+                element={
+                  <ProtectedRoute>
+                    <AddTransactionPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/Help"
+                element={
+                  <ProtectedRoute>
+                    <HelpPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/Home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/TransactionDetails"
+                element={
+                  <ProtectedRoute>
+                    <TransactionDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/Transactions"
+                element={
+                  <ProtectedRoute>
+                    <Transactions />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/TransferMoney"
+                element={
+                  <ProtectedRoute>
+                    <TransferMoney />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/ManageCards"
+                element={
+                  <ProtectedRoute>
+                    <ManageCardsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/Dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/Notifications"
+                element={
+                  <ProtectedRoute>
+                    <NotificationsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <SettingsPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Catch-all route */}
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
+
           </main>
           <Footer />
         </div>

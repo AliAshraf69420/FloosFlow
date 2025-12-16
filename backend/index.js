@@ -10,10 +10,17 @@ const path = require("path");
 const http = require("http");
 const socketIo = require("socket.io");
 const NotificationService = require("./services/notificationService.js");
-
+const cors = require('cors')
 dotenv.config();
 
+
 const app = express();
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true // if you need cookies/auth
+}));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
@@ -25,7 +32,7 @@ app.use("/api/notifications", notificationRoutes);
 
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the backend server!");
+    res.send("Welcome to the backend server!");
 });
 
 

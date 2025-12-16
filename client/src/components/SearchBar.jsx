@@ -1,5 +1,5 @@
 import React from 'react';
-import useSearch from './useSearch';
+import useSearch from '../hooks/useSearch';
 
 const SearchBar = ({ className = "", inputId = "searchInput" }) => {
   const { query, setQuery, results, loading } = useSearch();
