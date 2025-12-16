@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { NotificationsProvider } from "./context/NotificationsContext";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import AddTransactionPage from "./routes/AddTransactionsPage";

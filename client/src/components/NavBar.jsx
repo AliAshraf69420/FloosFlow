@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
 
 const NavBar = () => {
