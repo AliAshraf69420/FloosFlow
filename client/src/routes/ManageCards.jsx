@@ -1,59 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AddCardForm from "../components/ManageCards/AddCardForm";
 import CardListItem from "../components/ManageCards/CardListItem";
 import RemoveConfirmPopup from "../components/ManageCards/RemoveConfirmPopup";
-
-const initialCards = [
-  {
-    id: 1,
-    cardNumber: "**** **** **** 4532",
-    cardHolder: "WAEL AL ABYD",
-    expiryDate: "12/27",
-    balance: "25,430.00",
-    currency: "EGP",
-    cardType: "Visa",
-  },
-  {
-    id: 2,
-    cardNumber: "**** **** **** 8891",
-    cardHolder: "WAEL AL ABYD",
-    expiryDate: "08/26",
-    balance: "12,850.00",
-    currency: "EGP",
-    cardType: "Mastercard",
-  },
-];
+import cardService from "../services/cardService";
 
 export default function ManageCardsPage() {
   const navigate = useNavigate();
-  const [cards, setCards] = useState(initialCards);
+  const [cards, setCards] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [cardToRemove, setCardToRemove] = useState(null);
 
-  const handleAddCard = (newCard) => {
-    const card = {
-      ...newCard,
-      id: Date.now(),
-      cardNumber: "**** **** **** " + newCard.cardNumber.slice(-4),
-      balance: "0.00",
-      currency: "EGP",
+  // Fetch user cards on mount
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const cards = await cardService.getAllCards(); // already returns cards
+        setCards(cards || []);
+      } catch (error) {
+        console.error(error.response?.data?.error || error.message);
+      }
     };
-    setCards((prev) => [...prev, card]);
-    setShowAddForm(false);
+    fetchCards();
+  }, []);
+
+
+  const handleAddCard = async (newCard) => {
+    try {
+      const payload = {
+        cardNumber: newCard.cardNumber.replace(/\s+/g, ""),
+        cardHolder: newCard.cardHolder,
+        balance: parseFloat(newCard.balance) || 0,
+        expiryDate: newCard.expiryDate,
+        cvv: newCard.cvv,
+      };
+
+      const response = await cardService.addCard(payload);
+      const savedCard = response.data.card;
+
+      // Format for frontend display
+      const card = {
+        ...savedCard,
+        cardNumber: "**** **** **** " + savedCard.cardNumber.slice(-4),
+        currency: "EGP",
+      };
+
+      setCards((prev) => [...prev, card]);
+      setShowAddForm(false);
+    } catch (error) {
+      console.error(error.response?.data?.error || error.message);
+      alert(error.response?.data?.error || "Failed to add card");
+    }
   };
+
 
   const handleRemoveCard = (cardId) => {
     const card = cards.find((c) => c.id === cardId);
     setCardToRemove(card);
   };
 
-  const confirmRemove = () => {
-    if (cardToRemove) {
+  const confirmRemove = async () => {
+    if (!cardToRemove) return;
+
+    try {
+      // Call backend to delete card
+      await cardService.deleteCard(cardToRemove.id);
+
+      // Remove from UI after successful delete
       setCards((prev) => prev.filter((c) => c.id !== cardToRemove.id));
+
       setCardToRemove(null);
+    } catch (error) {
+      console.error(error.response?.data?.error || error.message);
     }
   };
+
 
   return (
     <main

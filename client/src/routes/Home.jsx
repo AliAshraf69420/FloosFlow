@@ -2,6 +2,7 @@ import WelcomeCard from '../components/Home/WelcomeCard';
 import CardSection from '../components/Home/CardSection';
 import Service from '../components/Home/services';
 import { useUser } from '../context/UserContext';
+import SocketTest from '../utils/test';
 
 const services = [
     'Service 1',
@@ -33,6 +34,8 @@ const Home = () => {
                     <Service key={label} label={label} />
                 ))}
             </section>
+            <SocketTest></SocketTest>
+
         </div>
     );
 };

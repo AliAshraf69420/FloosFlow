@@ -17,15 +17,16 @@ export function NotificationsProvider({ children }) {
 
   // Check if user is authenticated
   const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     return !!token;
   };
 
-  // Initialize WebSocket connection
+  // Initialize WebSocket connection// Initialize WebSocket connection
   const initializeSocket = useCallback(() => {
     if (!isAuthenticated() || socketRef.current) return;
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
+    console.log("🔑 Initializing socket with token:", token ? "✅ exists" : "❌ missing");
 
     // Create socket connection with auth
     socketRef.current = io(SOCKET_URL, {
@@ -37,20 +38,21 @@ export function NotificationsProvider({ children }) {
 
     // Listen for new notifications
     socketRef.current.on("notification", (notification) => {
+      console.log("🔔 Notification received:", notification);
       setNotifications((prev) => [notification, ...prev]);
     });
 
     // Handle connection events
     socketRef.current.on("connect", () => {
-      console.log("WebSocket connected");
+      console.log("✅ WebSocket connected! Socket ID:", socketRef.current.id);
     });
 
     socketRef.current.on("disconnect", () => {
-      console.log("WebSocket disconnected");
+      console.log("❌ WebSocket disconnected");
     });
 
     socketRef.current.on("connect_error", (error) => {
-      console.error("WebSocket connection error:", error);
+      console.error("❌ WebSocket connection error:", error.message);
     });
 
     return () => {
@@ -60,7 +62,6 @@ export function NotificationsProvider({ children }) {
       }
     };
   }, []);
-
   // Fetch notifications from API
   const fetchNotifications = useCallback(async () => {
     // Only fetch if user is authenticated
@@ -73,7 +74,7 @@ export function NotificationsProvider({ children }) {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const res = await fetch(`${API_URL}/notifications`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -101,7 +102,7 @@ export function NotificationsProvider({ children }) {
   // Mark single notification as read
   const markAsRead = useCallback(async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const res = await fetch(`${API_URL}/notifications/${id}/read`, {
         method: "POST",
         headers: {
@@ -121,7 +122,7 @@ export function NotificationsProvider({ children }) {
   // Mark all notifications as read
   const markAllAsRead = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const res = await fetch(`${API_URL}/notifications/read-all`, {
         method: "POST",
         headers: {
@@ -171,7 +172,7 @@ export function NotificationsProvider({ children }) {
   // Listen for storage changes (logout in another tab)
   useEffect(() => {
     const handleStorageChange = (e) => {
-      if (e.key === "token") {
+      if (e.key === "authToken") {
         if (!e.newValue) {
           // Token was removed (logout)
           clearNotifications();

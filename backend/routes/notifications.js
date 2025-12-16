@@ -8,6 +8,24 @@ const NotificationService = require('../services/notificationService')
 const notificationService = new NotificationService(); // or import your singleton instance
 
 // Mark all unseen notifications as read
+router.get("/", authenticate, async (req, res) => {
+    try {
+        console.log("Fetching all notifications for user:", req.userId);
+
+        const notifications = await prisma.notification.findMany({
+            where: { userId: req.userId, read: false },
+
+            orderBy: { createdAt: "desc" }
+        });
+
+        console.log(`Found ${notifications.length} notifications`);
+
+        res.json(notifications);
+    } catch (error) {
+        console.error("Error fetching notifications:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 router.post("/read-all", authenticate, async (req, res) => {
     try {
         const notifications = await prisma.notification.findMany({

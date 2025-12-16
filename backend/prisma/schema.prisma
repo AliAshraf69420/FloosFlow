@@ -33,7 +33,7 @@ model Card {
   balance    Float  @default(0)
   expiryDate String?
   cvv String?
-  bankName   String
+  cardHolder   String?
   user       User   @relation(fields: [userId], references: [id])
   userId     Int
  isActive   Boolean @default(true) // soft delete flag

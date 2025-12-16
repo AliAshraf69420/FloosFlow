@@ -5,6 +5,8 @@ const analyticsService = {
     // Get analytics data
     getAnalytics: async (params = {}) => {
         const response = await apiClient.get('/analytics/analytics', { params });
+        console.log(response.data);
+        console.log(response.status)
         return response.data;
     },
 

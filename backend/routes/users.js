@@ -24,8 +24,12 @@ router.get("/me", authenticate, async (req, res) => {
                         id: true,
                         cardNumber: true,
                         balance: true,
-                        bankName: true
-                        // userId excluded
+                        cardHolder: true,
+                        expiryDate: true
+
+                    },
+                    where: {
+                        isActive: true
                     }
                 },
                 transactions: true,       // or select specific fields if needed
@@ -74,7 +78,7 @@ router.patch("/me", authenticate, async (req, res) => {
                 profileImage: true,
                 createdAt: true,
                 cards: {
-                    select: { id: true, cardNumber: true, balance: true, bankName: true },
+                    select: { id: true, cardNumber: true, balance: true, cardHolder: true, expiryDate: true },
                     where: {
                         isActive: true
                     }
@@ -163,6 +167,38 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
         res.json({ message: "Profile image deleted successfully", user: updatedUser });
 
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post("/me/update-password", authenticate, async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ error: "Both current and new passwords are required" });
+        }
+
+        // Get the user
+        const user = await prisma.user.findUnique({ where: { id: req.userId } });
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ error: "Current password is incorrect" });
+        }
+
+        // Hash new password and update
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await prisma.user.update({
+            where: { id: req.userId },
+            data: { password: hashedPassword },
+        });
+
+        res.json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: error.message });
     }
 });

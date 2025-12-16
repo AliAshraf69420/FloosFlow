@@ -131,28 +131,24 @@ const NavBar = () => {
             className="cursor-pointer flex flex-col space-y-1 w-10 h-10 justify-center z-50 relative rounded-md px-4 py-2 font-semibold transition-all duration-200 bg-ff-gradient hover:text-white"
           >
             <span
-              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${
-                isMenuOpen ? "rotate-45 translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-black transition-opacity duration-200 ${
-                isMenuOpen ? "opacity-0" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-opacity duration-200 ${isMenuOpen ? "opacity-0" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${
-                isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
             ></span>
           </button>
 
           {/* MOBILE MENU */}
           <ul
             id="mobile-menu"
-            className={`${
-              isMenuOpen ? "flex" : "hidden"
-            } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
+            className={`${isMenuOpen ? "flex" : "hidden"
+              } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
             role="menu"
             aria-label="Mobile Main Menu"
           >
@@ -201,11 +197,14 @@ const NavBar = () => {
                 <li>
                   <Link
                     to="/Notifications"
-                    className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800 flex items-center gap-2"
+                    className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800 flex items-center justify-between"
+                    onClick={toggleMenu}
                   >
-                    Notifications
+                    <span>Notifications</span>
                     {unreadCount > 0 && (
-                      <span className="w-2 h-2 bg-ff-accent rounded-full" />
+                      <span className="min-w-[20px] h-5 px-1.5 bg-ff-accent text-white text-xs font-bold rounded-full flex items-center justify-center">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
                     )}
                   </Link>
                 </li>

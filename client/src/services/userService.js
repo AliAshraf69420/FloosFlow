@@ -13,18 +13,41 @@ const userService = {
         const response = await apiClient.patch('/users/me', userData);
         return response.data;
     },
+    updatePassword: async ({ currentPassword, newPassword }) => {
+        try {
+            const response = await apiClient.post("/users/me/update-password", {
+                currentPassword,
+                newPassword,
+            });
+            return response.data;
+
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    },
 
     // Upload profile image
     uploadProfileImage: async (imageFile) => {
-        const formData = new FormData();
-        formData.append('profileImage', imageFile);
+        try {
+            const formData = new FormData();
+            formData.append("image", imageFile);
 
-        const response = await apiClient.post('/users/me/upload-image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        return response.data;
+            const response = await apiClient.post('/users/me/upload-image', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log("Upload response:", response.data);
+            console.log("Uploaded image URL:", response.status);
+            return response.data;
+        }
+        catch (error) {
+            console.error("Error uploading image:", error);
+            throw error;
+        }
+
     },
 
     // Delete profile image

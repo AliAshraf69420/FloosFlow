@@ -30,10 +30,10 @@ router.patch("/:cardId/balance", authenticate, async (req, res) => {
     }
 });
 router.post("/add-card", authenticate, async (req, res) => {
-    const { cardNumber, bankName, balance } = req.body;
+    const { cardNumber, cardHolder, balance, expiryDate, cvv } = req.body;
 
-    if (!cardNumber || !bankName) {
-        return res.status(400).json({ error: "cardNumber and bankName are required" });
+    if (!cardNumber || !cardHolder || !expiryDate || !cvv) {
+        return res.status(400).json({ error: "cardNumber, cardHolder, expiryDate, and cvv are required" });
     }
 
 
@@ -48,8 +48,10 @@ router.post("/add-card", authenticate, async (req, res) => {
         const card = await prisma.card.create({
             data: {
                 cardNumber,
-                bankName,
+                cardHolder,
                 balance: balance || 0,
+                expiryDate: expiryDate,
+                cvv: cvv,
                 userId: req.userId // link card to logged-in user
             }
         });

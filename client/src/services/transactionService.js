@@ -27,16 +27,7 @@ const transactionService = {
     },
 
     // Add card
-    addCard: async (cardData) => {
-        const response = await apiClient.post('/cards/add-card', cardData);
-        return response.data;
-    },
 
-    // Get all cards
-    getAllCards: async () => {
-        const response = await apiClient.get('/cards');
-        return response.data;
-    }
 };
 
 export default transactionService;
