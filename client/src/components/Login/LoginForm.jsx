@@ -63,14 +63,28 @@ const LoginForm = () => {
 
       {/* Other service buttons (Google/Apple) */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
-        <button type="button" className="ff-btn w-full sm:flex-1 ...">
+        <button
+          type="button"
+          className="ff-btn w-full sm:flex-1 ..."
+          onClick={() => {
+            window.location.href = "http://localhost:5000/api/auth/google";
+          }}
+        >
           <span>Login with Google</span>
-          <img src="/google-icon-logo-svgrepo-com.svg" alt="Google Icon" className="w-6 h-6 ml-4" />
+          <img
+            src="/google-icon-logo-svgrepo-com.svg"
+            alt="Google Icon"
+            className="w-6 h-6 ml-4"
+          />
         </button>
 
         <button type="button" className="ff-btn w-full sm:flex-1 ...">
           <span>Login with Apple</span>
-          <img src="/apple-logo-svgrepo-com.svg" alt="Apple Icon" className="w-6 h-6 ml-4" />
+          <img
+            src="/apple-logo-svgrepo-com.svg"
+            alt="Apple Icon"
+            className="w-6 h-6 ml-4"
+          />
         </button>
       </div>
 
