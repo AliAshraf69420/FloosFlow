@@ -19,7 +19,7 @@ import LoadingPage from "./routes/LoadingPage";
 import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
 import RequestMoneyPage from "./routes/RequestMoney";
-
+import BillsPage from "./routes/BillsPage";
 function App() {
   return (
     <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
@@ -45,7 +45,8 @@ function App() {
             <Route path="/RequestMoney" element={<RequestMoneyPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<ErrorPage />} />
-            <Route path="/loading" element={<LoadingPage />} /> 
+            <Route path="/loading" element={<LoadingPage />} />
+            <Route path="Bills" element={<BillsPage />} />
           </Routes>
         </main>
         <Footer />
