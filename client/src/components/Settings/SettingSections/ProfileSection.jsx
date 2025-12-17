@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-// import Card from "../../components/Card";
 import ConnectedProviderList from "../OAuth/ConnectedProviderList";
 import FileUpload from "../FormControls/FileUpload";
+import { useUser } from "../../../context/UserContext";
 
-export default function ProfileSection({ data, onSave, onDisconnect }) {
+export default function ProfileSection({ onSave, onDisconnect }) {
+  const { user } = useUser(); // get user
   const [prefs, setPrefs] = useState({
-    email: data?.preferences?.email ?? false,
-    sms: data?.preferences?.sms ?? false,
-    marketing: data?.preferences?.marketing ?? false,
+    email: user?.preferences?.email ?? false,
+    sms: user?.preferences?.sms ?? false,
+    marketing: user?.preferences?.marketing ?? false,
   });
 
   const handlePrefChange = (key) => {
@@ -19,20 +20,15 @@ export default function ProfileSection({ data, onSave, onDisconnect }) {
   };
 
   return (
-    <section
-      id="profile"
-      className="ff-card hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 rounded-2xl bg-gradient-to-r from-gray-800/50 via-gray-900/50 to-gray-800/50 shadow-lg"
-    >
+    <section id="profile" className="ff-card ff-settings-card">
       <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-white text-center sm:text-left">
         Profile
       </h2>
 
       <div className="space-y-10">
-
-        {/* COMMUNICATION PREFERENCES */}
+        {/* Communication Preferences */}
         <div>
           <p className="text-white mb-4 text-lg font-semibold">Communication Preferences</p>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label className="flex items-center gap-3 cursor-pointer text-gray-200">
               <input
@@ -43,7 +39,6 @@ export default function ProfileSection({ data, onSave, onDisconnect }) {
               />
               Email Notifications
             </label>
-
             <label className="flex items-center gap-3 cursor-pointer text-gray-200">
               <input
                 type="checkbox"
@@ -53,7 +48,6 @@ export default function ProfileSection({ data, onSave, onDisconnect }) {
               />
               SMS Notifications
             </label>
-
             <label className="flex items-center gap-3 cursor-pointer text-gray-200">
               <input
                 type="checkbox"
@@ -64,7 +58,6 @@ export default function ProfileSection({ data, onSave, onDisconnect }) {
               Marketing & Updates
             </label>
           </div>
-
           <button
             onClick={handleSavePreferences}
             className="ff-btn mt-4 px-5 py-2 sm:px-6 sm:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
@@ -73,31 +66,26 @@ export default function ProfileSection({ data, onSave, onDisconnect }) {
           </button>
         </div>
 
-        {/* PROFILE IMAGE */}
+        {/* Profile Image */}
         <div className="flex flex-col flex-wrap">
           <p className="text-white mb-3 text-lg font-semibold">Change Profile Image</p>
-
-
           <FileUpload />
-
-          {data?.avatarUrl && (
+          {user?.profileImage && (
             <img
-              src={data.avatarUrl ?? "../../../assets/mefr.webp"}
+              src={user.profileImage ?? "../../../../assets/defaultimage.png"}
               alt="Profile"
               className="mt-4 w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-gray-600 shadow-md"
             />
           )}
         </div>
 
-        {/* CONNECTED PROVIDERS */}
+        {/* Connected Providers */}
         <ConnectedProviderList
-          providers={data?.providers}
+          providers={user?.providers}
           onDisconnect={onDisconnect}
           className="mt-6"
         />
-
       </div>
     </section>
-
   );
 }

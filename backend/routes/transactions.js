@@ -2,7 +2,7 @@ const express = require("express");
 const prisma = require("../prisma/prisma-client");
 const { authenticate } = require("../middleware/auth");
 const NotificationService = require("../services/notificationService");
-const notificationService = new NotificationService(); // singleton
+
 
 
 const router = express.Router();
@@ -52,7 +52,7 @@ router.get("/transfers", authenticate, async (req, res) => {
 });
 
 router.post("/add-transaction", authenticate, async (req, res) => {
-    const { money, category, merchantName, message, cardId } = req.body;
+    const { transactionName, money, category, merchantName, message, cardId } = req.body;
 
     if (!money || !category || !merchantName || !cardId) {
         return res.status(400).json({ error: "money, category, merchantName, and cardId are required" });
@@ -81,9 +81,12 @@ router.post("/add-transaction", authenticate, async (req, res) => {
                 money,
                 category,
                 merchantName,
-                message
+                message,
+                transactionName
             }
         });
+        const notificationService = req.app.get("notificationService");
+
         await notificationService.sendNotification(
             req.userId,
             `You spent $${money} on ${merchantName}`,
@@ -95,69 +98,154 @@ router.post("/add-transaction", authenticate, async (req, res) => {
     }
 });
 
-
-// Transfer Money
 router.post("/transfer-money", authenticate, async (req, res) => {
-    const { recipientId, amount, reason, message, senderCardId, recipientCardId } = req.body;
+    const { recipientEmail, amount, senderCardId, reason, message } = req.body;
 
-    if (!recipientId || !amount || !senderCardId) {
-        return res.status(400).json({ error: "recipientId, amount, and senderCardId are required" });
-    }
-    if (req.userId == recipientId) {
-        return res.status(400).json({ error: "User can't send to himself" })
+    // Validate required fields
+    if (!recipientEmail || !amount || !senderCardId) {
+        return res.status(400).json({
+            error: "recipientEmail, amount, and senderCardId are required"
+        });
     }
 
     try {
-        const sender = await prisma.user.findUnique({ where: { id: req.userId } });
-        const recipient = await prisma.user.findUnique({ where: { id: recipientId } });
+        // Find sender card
         const senderCard = await prisma.card.findUnique({ where: { id: senderCardId } });
-
-        if (!recipient) return res.status(404).json({ error: "Recipient not found" });
         if (!senderCard) return res.status(404).json({ error: "Sender card not found" });
-        if (senderCard.userId !== req.userId) return res.status(403).json({ error: "Card does not belong to sender" });
-        if (senderCard.balance < amount) return res.status(400).json({ error: "Insufficient balance" });
+        if (senderCard.userId !== req.userId)
+            return res.status(403).json({ error: "Card does not belong to sender" });
+        if (senderCard.balance < amount)
+            return res.status(400).json({ error: "Insufficient balance" });
 
-        // Deduct from sender card
-        await prisma.card.update({
-            where: { id: senderCardId },
-            data: { balance: senderCard.balance - amount }
-        });
+        // Find recipient user by email
+        const recipient = await prisma.user.findUnique({ where: { email: recipientEmail } });
+        if (!recipient) return res.status(404).json({ error: "Recipient not found" });
+        if (recipient.id === req.userId) return res.status(400).json({ error: "Cannot send to yourself" });
 
-        // Add to recipient card if provided
-        if (recipientCardId) {
-            const recipientCard = await prisma.card.findUnique({ where: { id: recipientCardId } });
-            if (!recipientCard) return res.status(404).json({ error: "Recipient card not found" });
-            await prisma.card.update({
-                where: { id: recipientCardId },
-                data: { balance: recipientCard.balance + amount }
-            });
-        }
-
-        // Create transfer record
-        const transfer = await prisma.transfer.create({
-            data: {
-                senderId: req.userId,
-                recipientId,
-                senderCardId,
-                recipientCardId,
-                amount,
-                reason,
-                message
+        // Find recipient selected card
+        const recipientCard = await prisma.card.findFirst({
+            where: {
+                userId: recipient.id,
+                isSelectedForReceiving: true,
+                isActive: true
             }
         });
-        await notificationService.sendNotification(
-            req.userId,
-            `You sent $${amount} to ${recipient.firstName} ${recipient.lastName}`,
-            "sent"
-        );
+        if (!recipientCard)
+            return res.status(400).json({ error: "Recipient has no selected receiving card" });
+
+        // Execute transfer atomically
+        await prisma.$transaction([
+            // Deduct from sender
+            prisma.card.update({
+                where: { id: senderCard.id },
+                data: { balance: senderCard.balance - amount }
+            }),
+            // Add to recipient
+            prisma.card.update({
+                where: { id: recipientCard.id },
+                data: { balance: recipientCard.balance + amount }
+            }),
+            // Create transfer record
+            prisma.transfer.create({
+                data: {
+                    senderId: req.userId,
+                    senderCardId: senderCard.id,
+                    recipientId: recipient.id,
+                    recipientCardId: recipientCard.id,
+                    amount,
+                    reason,
+                    message
+                }
+            })
+        ]);
+        const notificationService = req.app.get("notificationService");
 
         await notificationService.sendNotification(
-            recipientId,
-            `You received $${amount} from ${req.userId}`,
-            "received"
+            req.userId,
+            `You transfered $${amount} to ${recipientEmail}`,
+            "transfer"
         );
-        res.status(201).json({ message: "Transfer successful", transfer });
+
+
+        await notificationService.sendNotification(
+            recipient.id,
+            `You recieved $${amount} from ${recipientEmail}`,
+            "transfer"
+        );
+
+        res.status(201).json({ message: "Transfer successful" });
+
     } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Request money - NO DATABASE RECORD, JUST NOTIFICATIONS
+router.post("/request-money", authenticate, async (req, res) => {
+    const { recipientEmail, amount, reason, message } = req.body;
+
+    // Validate required fields
+    if (!recipientEmail || !amount) {
+        return res.status(400).json({
+            error: "recipientEmail and amount are required"
+        });
+    }
+
+    try {
+        // Find recipient user by email
+        const recipient = await prisma.user.findUnique({
+            where: { email: recipientEmail },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true
+            }
+        });
+
+        if (!recipient) {
+            return res.status(404).json({ error: "Recipient not found" });
+        }
+
+        if (recipient.id === req.userId) {
+            return res.status(400).json({ error: "Cannot request money from yourself" });
+        }
+
+        // Get requester info
+        const requester = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true
+            }
+        });
+
+        // Get notification service
+        const notificationService = req.app.get("notificationService");
+
+        // Send notification to recipient (person who will send money)
+        await notificationService.sendNotification(
+            recipient.id,
+            `${requester.firstName} ${requester.lastName} is requesting $${amount}${reason ? ` for ${reason}` : ''}${message ? ` - "${message}"` : ''}`,
+            "request"
+        );
+
+        // Send confirmation to requester
+        await notificationService.sendNotification(
+            req.userId,
+            `Money request sent to ${recipient.firstName} ${recipient.lastName} for $${amount}`,
+            "info"
+        );
+
+        res.status(201).json({
+            message: "Money request sent successfully"
+        });
+
+    } catch (error) {
+        console.error("Request money error:", error);
         res.status(500).json({ error: error.message });
     }
 });

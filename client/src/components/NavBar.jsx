@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
+import { useUser } from "../context/UserContext";
 
 const NavBar = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const { unreadCount } = useNotifications();
 
   const isLandingPage = location.pathname === "/";
   const isNotLandingPage = !isLandingPage;
+  const { user, loading, error } = useUser();
 
+  if (loading) return <p>Loading user data...</p>;
+  if (error) return <p>Error loading user: {error}</p>;
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -74,6 +79,30 @@ const NavBar = () => {
           <div className="hidden md:flex items-center gap-4 flex-shrink-0">
             <SearchBar />
 
+            {/* Notifications */}
+            <Link
+              to="/Notifications"
+              aria-label="View notifications"
+              className="relative p-2 rounded-lg hover:bg-white/10 transition-all duration-200"
+            >
+              <svg
+                className="w-6 h-6 text-white/80 hover:text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              {unreadCount > 0 && (
+                <span className="absolute top-1 right-1 w-2 h-2 bg-ff-accent rounded-full" />
+              )}
+            </Link>
+
             {/* Profile */}
             <Link
               to="/Settings"
@@ -81,7 +110,7 @@ const NavBar = () => {
               className="inline-flex flex-shrink-0 w-12 h-12"
             >
               <img
-                src="/mefr.webp"
+                src={user?.profileImage ?? "../../assets/defaultimage.png"}
                 alt="User profile picture"
                 className="rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
               />
@@ -106,28 +135,24 @@ const NavBar = () => {
             className="cursor-pointer flex flex-col space-y-1 w-10 h-10 justify-center z-50 relative rounded-md px-4 py-2 font-semibold transition-all duration-200 bg-ff-gradient hover:text-white"
           >
             <span
-              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${
-                isMenuOpen ? "rotate-45 translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-black transition-opacity duration-200 ${
-                isMenuOpen ? "opacity-0" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-opacity duration-200 ${isMenuOpen ? "opacity-0" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${
-                isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-black transition-transform duration-200 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
             ></span>
           </button>
 
           {/* MOBILE MENU */}
           <ul
             id="mobile-menu"
-            className={`${
-              isMenuOpen ? "flex" : "hidden"
-            } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
+            className={`${isMenuOpen ? "flex" : "hidden"
+              } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
             role="menu"
             aria-label="Mobile Main Menu"
           >
@@ -171,6 +196,21 @@ const NavBar = () => {
               <>
                 <li className="pt-2 border-t border-zinc-800">
                   <SearchBar />
+                </li>
+
+                <li>
+                  <Link
+                    to="/Notifications"
+                    className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800 flex items-center justify-between"
+                    onClick={toggleMenu}
+                  >
+                    <span>Notifications</span>
+                    {unreadCount > 0 && (
+                      <span className="min-w-[20px] h-5 px-1.5 bg-ff-accent text-white text-xs font-bold rounded-full flex items-center justify-center">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
+                  </Link>
                 </li>
 
                 <li>

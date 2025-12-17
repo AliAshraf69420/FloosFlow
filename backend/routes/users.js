@@ -4,7 +4,8 @@ const { authenticate } = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
 const upload = require('../services/uploadService')
 const router = express.Router();
-
+const path = require("path");
+const fs = require("fs");
 // Get current user info
 router.get("/me", authenticate, async (req, res) => {
     try {
@@ -24,11 +25,32 @@ router.get("/me", authenticate, async (req, res) => {
                         id: true,
                         cardNumber: true,
                         balance: true,
-                        bankName: true
-                        // userId excluded
+                        cardType: true,
+                        cardHolder: true,
+                        expiryDate: true
+
+                    },
+                    where: {
+                        isActive: true
                     }
                 },
-                transactions: true,       // or select specific fields if needed
+                transactions: {
+                    select: {
+                        id: true,
+                        transactionName: true,
+                        money: true,
+                        date: true,
+                        category: true,
+                        message: true,
+                        merchantName: true,
+
+                        card: {
+                            select: {
+                                cardNumber: true
+                            }
+                        }
+                    }
+                },     // or select specific fields if needed
                 sentTransfers: true,
                 receivedTransfers: true
             }
@@ -62,7 +84,7 @@ router.patch("/me", authenticate, async (req, res) => {
         }
 
         const updatedUser = await prisma.user.update({
-            where: { id: req.userId },
+            where: { id: req.userId, },
             data: dataToUpdate,
             select: {
                 id: true,
@@ -74,7 +96,10 @@ router.patch("/me", authenticate, async (req, res) => {
                 profileImage: true,
                 createdAt: true,
                 cards: {
-                    select: { id: true, cardNumber: true, balance: true, bankName: true }
+                    select: { id: true, cardNumber: true, balance: true, cardHolder: true, expiryDate: true },
+                    where: {
+                        isActive: true
+                    }
                 },
                 transactions: true,
                 sentTransfers: true,
@@ -87,27 +112,29 @@ router.patch("/me", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 router.post("/me/upload-image", authenticate, upload.single("image"), async (req, res) => {
     try {
+        console.log("Starting")
         if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-        // Fetch the old image filename
         const user = await prisma.user.findUnique({
             where: { id: req.userId },
-            select: { profileImage: true }
+            select: { profileImage: true },
         });
 
-        // Delete old image if exists
-        if (user.profileImage) {
-            const oldPath = path.join(__dirname, "../uploads", user.profileImage);
+        // Delete old image safely
+        if (user?.profileImage) {
+            const oldFileName = user.profileImage.split("/").pop();
+            const oldPath = path.join(__dirname, "../uploads", oldFileName);
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
         }
+        console.log("Multer")
+        // Store full URL
+        const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
 
-        // Update the user with the new image
         const updatedUser = await prisma.user.update({
             where: { id: req.userId },
-            data: { profileImage: req.file.filename },
+            data: { profileImage: imageUrl },
             select: {
                 id: true,
                 firstName: true,
@@ -116,8 +143,8 @@ router.post("/me/upload-image", authenticate, upload.single("image"), async (req
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
-                createdAt: true
-            }
+                createdAt: true,
+            },
         });
 
         res.json({ message: "Profile image updated successfully", user: updatedUser });
@@ -126,22 +153,22 @@ router.post("/me/upload-image", authenticate, upload.single("image"), async (req
     }
 });
 
+// ---------------- Delete Profile Image ----------------
 router.delete("/me/delete-image", authenticate, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
             where: { id: req.userId },
-            select: { profileImage: true }
+            select: { profileImage: true },
         });
 
-        if (!user || !user.profileImage) {
+        if (!user?.profileImage) {
             return res.status(400).json({ error: "No profile image to delete" });
         }
 
-        // Delete the file from server
-        const imagePath = path.join(__dirname, "../uploads", user.profileImage);
+        const fileName = user.profileImage.split("/").pop();
+        const imagePath = path.join(__dirname, "../uploads", fileName);
         if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
 
-        // Remove reference in DB
         const updatedUser = await prisma.user.update({
             where: { id: req.userId },
             data: { profileImage: null },
@@ -153,15 +180,45 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
-                createdAt: true
-            }
+                createdAt: true,
+            },
         });
 
         res.json({ message: "Profile image deleted successfully", user: updatedUser });
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}); router.post("/me/update-password", authenticate, async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ error: "Both current and new passwords are required" });
+        }
+
+        // Get the user
+        const user = await prisma.user.findUnique({ where: { id: req.userId } });
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password); // <- await here
+        if (!isMatch) {
+            return res.status(401).json({ error: "Current password is incorrect" });
+        }
+
+        // Hash new password and update
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await prisma.user.update({
+            where: { id: req.userId },
+            data: { password: hashedPassword },
+        });
+
+        res.json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
 });
+
 
 module.exports = router;

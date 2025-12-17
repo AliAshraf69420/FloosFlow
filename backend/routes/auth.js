@@ -17,9 +17,9 @@ function generateToken(userId) {
    REGISTER (email/password)
 ================================ */
 router.post("/register", async (req, res) => {
-    const { firstName, lastName, username, email, phoneNumber, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
-    if (!firstName || !lastName || !username || !email || !phoneNumber || !password) {
+    if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({
             message: "Missing required fields"
         });
@@ -32,9 +32,7 @@ router.post("/register", async (req, res) => {
             data: {
                 firstName,
                 lastName,
-                username,
                 email,
-                phoneNumber,
                 password: hashed,
             },
         });
@@ -90,18 +88,19 @@ router.get(
     passport.authenticate("google", { session: false, failureRedirect: "/login" }),
     (req, res) => {
         const user = req.user;
-
-        // Issue JWT for frontend
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-        // Send token and user info
-        res.json({
-            message: "Google login successful",
-            token,
-            user,
-        });
+        // Redirect to frontend with token & user
+        const frontendUrl = "http://localhost:5173";
+        const userData = encodeURIComponent(JSON.stringify({
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImage: user.profileImage,
+        }));
+        res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${userData}`);
     }
 );
-
 
 module.exports = router;

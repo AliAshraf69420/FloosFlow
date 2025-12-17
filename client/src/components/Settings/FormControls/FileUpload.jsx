@@ -1,60 +1,174 @@
+import React, { useState, useRef } from "react";
+import userService from "../../../services/userService";
+import { useUser } from "../../../context/UserContext";
 
 export default function FileUpload() {
-  const previewUrl =
-    "https://via.placeholder.com/150"; // static preview image
+  const { user } = useUser();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(user?.profileImage || "https://via.placeholder.com/150");
+  const [uploading, setUploading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const fileInputRef = useRef();
+
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setErrorMessage("Please select an image file");
+      setStatusMessage("");
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorMessage("File too large — max 5MB");
+      setStatusMessage("");
+      return;
+    }
+
+    // Update the state with selected file and preview URL
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file)); // Create preview URL for the selected image
+    setErrorMessage(""); // Clear any previous error messages
+    setStatusMessage(""); // Clear status message
+  };
+
+  // Upload file
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      setErrorMessage("No file selected");
+      return;
+    }
+
+    setUploading(true);
+    setStatusMessage("");
+    setErrorMessage(""); // Clear any previous errors
+
+    try {
+      // Upload file using userService
+      const response = await userService.uploadProfileImage(selectedFile);
+
+      // Set success status message and update preview image
+      setStatusMessage("Uploaded successfully!");
+      setErrorMessage(""); // Clear any error messages
+
+      // Update user profile image in context if available
+      if (response?.user) {
+        setPreviewUrl(response.user.profileImage || "../../../../assets/defaultimage.png");
+      } else if (response?.profileImage) {
+        setPreviewUrl(response.profileImage);
+      }
+
+      // Clear selected file after successful upload
+      setSelectedFile(null);
+    } catch (err) {
+      console.error("Upload error:", err);
+      setErrorMessage(err.response?.data?.error || "Upload failed");
+      setStatusMessage("");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Remove file
+  const handleRemove = async () => {
+    if (!user?.profileImage) {
+      setErrorMessage("No profile image to remove");
+      return;
+    }
+
+    setUploading(true);
+    setStatusMessage("");
+    setErrorMessage(""); // Clear any previous errors
+
+    try {
+      // Call the service to delete the profile image
+      await userService.deleteProfileImage();
+
+      setSelectedFile(null);
+      setStatusMessage("Removed successfully!");
+      setErrorMessage(""); // Clear any error messages
+
+      // Update user context to show the default image
+      setPreviewUrl("../../../../assets/defaultimage.png");
+
+      // Reset the file input field
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
+    } catch (err) {
+      console.error("Remove error:", err);
+      setErrorMessage(err.response?.data?.error || "Remove failed");
+      setStatusMessage("");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
-    <div className="flex flex-col  gap-3 ">
+    <div className="flex flex-col gap-3">
       <input
+        ref={fileInputRef}
         type="file"
+        accept="image/*"
         className="sr-only"
         aria-hidden="true"
+        onChange={handleFileChange}
       />
 
-      <div className="flex items-center flex-wrap sm:flex-row gap-3">
+      <div className="flex items-center flex-wrap gap-3">
         <button
           type="button"
           className="ff-btn px-4 py-2"
-          aria-label="Choose file"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
         >
           Choose File
         </button>
 
         <button
-          type="file"
-          className="ff-btn px-4 py-2"
-          aria-label="Upload file"
+          type="button"
+          className="ff-btn px-4 py-2 bg-gradient-to-r from-[#62A6BF] to-[#49EB8C]"
+          onClick={handleUpload}
+          disabled={!selectedFile || uploading}
         >
-          Upload
+          {uploading ? "Uploading..." : "Upload"}
         </button>
 
         <button
           type="button"
-          className="ff-btn px-3 py-2 bg-white/10"
-          aria-label="Remove selected file"
+          className="ff-btn px-3 py-2 bg-red-500/20 hover:bg-red-500/30"
+          onClick={handleRemove}
+          disabled={!user?.profileImage || uploading}
         >
           Remove
         </button>
       </div>
 
-      {/* Static preview */}
-      {/* The backend should insert the img here */}
       <div className="mt-2">
         <img
-          src={"../../../../assets/mefr.webp"}
-          alt="Selected preview"
-          className="w-28 h-28 rounded-full object-cover border border-white/10"
+          src={previewUrl}
+          alt="Profile preview"
+          className="w-28 h-28 rounded-full object-cover border-2 border-white/20"
+          onError={() => setPreviewUrl("../../../../assets/defaultimage.png")} // Fallback on error
         />
+        {selectedFile && (
+          <p className="text-xs text-white/60 mt-2">
+            Selected: {selectedFile.name}
+          </p>
+        )}
       </div>
 
-      {/* Static status messages */}
-      <p className="text-sm text-green-300" role="status" aria-live="polite">
-        Uploaded successfully
-      </p>
-
-      {/* <p className="text-sm text-red-400" role="alert">
-        File too large — max 5MB
-      </p> */}
+      {statusMessage && (
+        <p className="text-sm text-green-400 font-medium">{statusMessage}</p>
+      )}
+      {errorMessage && (
+        <p className="text-sm text-red-400 font-medium">{errorMessage}</p>
+      )}
     </div>
   );
 }

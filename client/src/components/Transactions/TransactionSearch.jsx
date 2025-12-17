@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TransactionSearch({ placeholder }) {
+export default function TransactionSearch({ placeholder, value, onChange }) {
   return (
     <div className="ff-search-transaction mb-6 w-full">
       <img
@@ -11,7 +11,9 @@ export default function TransactionSearch({ placeholder }) {
       <input
         type="text"
         placeholder={placeholder}
-        className="ff-search-input-transaction w-full" // make input full width
+        className="ff-search-input-transaction w-full"
+        value={value}            // controlled input
+        onChange={onChange}      // notify parent when user types
       />
     </div>
   );
