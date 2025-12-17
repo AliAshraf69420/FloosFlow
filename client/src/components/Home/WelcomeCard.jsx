@@ -1,8 +1,8 @@
 import { useUser } from '../../context/UserContext';
-
+import defaultImage from '../../../assets/defaultimage.png';
 const WelcomeCard = () => {
   const { user, loading, error } = useUser();
-
+  console.log(user?.profileImage)
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading user info</p>;
 
@@ -12,7 +12,7 @@ const WelcomeCard = () => {
                  space-y-4 sm:space-y-0 sm:space-x-6 w-full max-w-5xl text-left"
     >
       <img
-        src={user?.profileImage || '/mefr.webp'}
+        src={user?.profileImage || defaultImage}
         alt="Profile Picture"
         className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-green-400 hover:scale-110 transition-transform duration-300"
       />

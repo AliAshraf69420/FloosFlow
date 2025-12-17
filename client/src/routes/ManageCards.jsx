@@ -31,19 +31,22 @@ export default function ManageCardsPage() {
 
   // Add new card
   const handleAddCard = async (newCard) => {
-    try {
-      const payload = {
-        cardNumber: newCard.cardNumber, // full number
-        cardHolder: newCard.cardHolder,
-        balance: parseFloat(newCard.balance) || 0,
-        expiryDate: newCard.expiryDate,
-        cvv: newCard.cvv,
-        cardType: newCard.cardType,
-      };
+    const payload = {
+      cardNumber: newCard.cardNumber,
+      cardHolder: newCard.cardHolder,
+      balance: parseFloat(newCard.balance) || 0,
+      expiryDate: newCard.expiryDate,
+      cvv: newCard.cvv,
+      cardType: newCard.cardType,
+    };
 
+    try {
       const response = await cardService.addCard(payload);
       const savedCard = response?.data?.card;
-      if (!savedCard) throw new Error("Failed to save card");
+
+      if (!savedCard) {
+        throw new Error(response?.data?.error || "Failed to save card");
+      }
 
       setCards((prev) => [
         ...prev,
@@ -55,11 +58,14 @@ export default function ManageCardsPage() {
       ]);
 
       setShowAddForm(false);
+
+      return savedCard; // return so child can show success
     } catch (error) {
       console.error(error.response?.data?.error || error.message);
-      alert(error.response?.data?.error || "Failed to add card");
+      throw error; // let AddCardForm catch it
     }
   };
+
 
   const handleRemoveCard = (cardId) => {
     const card = cards.find((c) => c.id === cardId);

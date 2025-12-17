@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import userService from "../../../services/userService";
+import { useUser } from "../../../context/UserContext";
 
 export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) {
   const [email, setEmail] = useState(data?.email || "");
@@ -8,6 +9,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success"); // "success" or "error"
+  const { fetchUser } = useUser();
 
   const updatePassField = (key, value) => {
     setPasswords((prev) => ({ ...prev, [key]: value }));
@@ -28,6 +30,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
       const updatedUser = await userService.updateInfo({ email });
       setMessageType("success");
       setMessage("Email updated successfully");
+      await fetchUser();
       onUpdateUser?.(updatedUser);
     } catch (error) {
       setMessageType("error");
@@ -55,6 +58,8 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
       });
       setMessageType("success");
       setMessage("Password updated successfully");
+      await fetchUser();
+
       setPasswords({ current: "", new: "", confirm: "" });
     } catch (error) {
       setMessageType("error");

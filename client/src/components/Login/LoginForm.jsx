@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 import { UserProvider, useUser } from "../../context/UserContext";
+import { useNotifications } from "../../context/NotificationsContext";
 
 const LoginForm = () => {
   const navigate = useNavigate(); // to redirect after login
@@ -9,7 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { fetchUser } = useUser();
-
+  const { fetchNotifications } = useNotifications();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -19,6 +20,7 @@ const LoginForm = () => {
       console.log("Logged in user:", data.user);
       localStorage.setItem("authToken", data.token);
       await fetchUser()
+      await fetchNotifications()
       navigate("/Home");
 
     } catch (err) {
@@ -70,21 +72,25 @@ const LoginForm = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
         <button
           type="button"
-          className="ff-btn w-full sm:flex-1 ..."
+          className="ff-btn w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6"
           onClick={() => {
             window.location.href = "http://localhost:5000/api/auth/google";
           }}
         >
-          <span>Login with Google</span>
+          <span>Sign up with Google</span>
           <img
             src="/google-icon-logo-svgrepo-com.svg"
             alt="Google Icon"
             className="w-6 h-6 ml-4"
+
           />
         </button>
 
-        <button type="button" className="ff-btn w-full sm:flex-1 ...">
-          <span>Login with Apple</span>
+        <button
+          type="button"
+          className="ff-btn w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6"
+        >
+          <span>Sign up with Apple</span>
           <img
             src="/apple-logo-svgrepo-com.svg"
             alt="Apple Icon"

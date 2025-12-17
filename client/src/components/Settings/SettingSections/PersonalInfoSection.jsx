@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import userService from "../../../services/userService"; // your API service
+import { useUser } from "../../../context/UserContext";
 
 export default function PersonalInfoSection({ data, onUpdate }) {
   const [form, setForm] = useState({
@@ -8,7 +9,7 @@ export default function PersonalInfoSection({ data, onUpdate }) {
     username: "",
     phone: "",
   });
-
+  const { fetchUser } = useUser();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -45,6 +46,7 @@ export default function PersonalInfoSection({ data, onUpdate }) {
 
       setMessage("Profile updated successfully");
       onUpdate?.(updatedUser); // update parent state
+      await fetchUser()
     } catch (error) {
       setMessage(error.response?.data?.error || error.message || "Error updating profile");
     } finally {

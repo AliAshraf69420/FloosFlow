@@ -56,7 +56,7 @@ export default function FileUpload() {
 
       // Update user in context
       if (response?.user) {
-        setPreviewUrl(response.user.profileImage || "https://via.placeholder.com/150");
+        setPreviewUrl(response.user.profileImage || "../../../../assets/defaultimage.png");
       } else if (response?.profileImage) {
         setPreviewUrl(response.profileImage);
       }
@@ -91,7 +91,7 @@ export default function FileUpload() {
       setErrorMessage("");
 
       // Update user in context
-      setPreviewUrl("https://via.placeholder.com/150");
+      setPreviewUrl("../../../../assets/defaultimage.png");
 
       // Reset file input
       if (fileInputRef.current) {
@@ -151,7 +151,7 @@ export default function FileUpload() {
           src={previewUrl}
           alt="Profile preview"
           className="w-28 h-28 rounded-full object-cover border-2 border-white/20"
-          onError={() => setPreviewUrl("https://via.placeholder.com/150")}
+          onError={() => setPreviewUrl("../../../../assets/defaultimage.png")}
         />
         {selectedFile && (
           <p className="text-xs text-white/60 mt-2">

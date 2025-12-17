@@ -28,20 +28,46 @@ router.patch("/:cardId/balance", authenticate, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
-router.post("/add-card", authenticate, async (req, res) => {
+}); router.post("/add-card", authenticate, async (req, res) => {
     const { cardNumber, cardHolder, balance, expiryDate, cvv, cardType } = req.body;
 
+    // Basic required fields check
     if (!cardNumber || !cardHolder || !expiryDate || !cvv || !cardType) {
-        return res.status(400).json({ error: "cardNumber, cardHolder, expiryDate, and cvv are required" });
+        return res.status(400).json({ error: "cardNumber, cardHolder, expiryDate, cvv, and cardType are required" });
     }
 
-
     try {
-        // Optional: check if the cardNumber already 
-        if (cardNumber.length != 16) {
-            return res.status(400).json({ error: "Any Card needs to be 16 digits" })
+        // Check card number length
+        if (cardNumber.length !== 16) {
+            return res.status(400).json({ error: "Card number must be 16 digits" });
         }
+
+        // Check CVV length (3 or 4 digits depending on card type)
+        const cvvLength = cvv.length;
+        if (detectedCardCVVLength(cardType) !== cvvLength) {
+            return res.status(400).json({ error: `${cardType} CVV must be ${detectedCardCVVLength(cardType)} digits` });
+        }
+
+        // Check expiry date format MM/YY
+        if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+            return res.status(400).json({ error: "Expiry date must be in MM/YY format" });
+        }
+
+        const [month, year] = expiryDate.split("/").map(Number);
+        if (month < 1 || month > 12) {
+            return res.status(400).json({ error: "Expiry month must be between 01 and 12" });
+        }
+
+        // Check if card is expired
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear() % 100; // get last two digits
+        const currentMonth = currentDate.getMonth() + 1;
+
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            return res.status(400).json({ error: "Card has already expired" });
+        }
+
+        // Optional: check if card number already exists
         const existingCard = await prisma.card.findUnique({ where: { cardNumber } });
         if (existingCard) return res.status(400).json({ error: "Card number already exists" });
 
@@ -50,9 +76,9 @@ router.post("/add-card", authenticate, async (req, res) => {
                 cardNumber,
                 cardHolder,
                 balance: balance || 0,
-                expiryDate: expiryDate,
-                cardType: cardType,
-                cvv: cvv,
+                expiryDate,
+                cardType,
+                cvv,
                 userId: req.userId // link card to logged-in user
             }
         });
@@ -62,6 +88,20 @@ router.post("/add-card", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Helper function to detect expected CVV length based on card type
+function detectedCardCVVLength(cardType) {
+    switch (cardType.toUpperCase()) {
+        case "AMEX":
+            return 4;
+        case "VISA":
+        case "MASTERCARD":
+        case "MEEZA":
+        default:
+            return 3;
+    }
+}
+
 router.delete("/:cardId", authenticate, async (req, res) => {
     const { cardId } = req.params;
 

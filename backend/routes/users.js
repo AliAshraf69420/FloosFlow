@@ -34,7 +34,23 @@ router.get("/me", authenticate, async (req, res) => {
                         isActive: true
                     }
                 },
-                transactions: true,       // or select specific fields if needed
+                transactions: {
+                    select: {
+                        id: true,
+                        transactionName: true,
+                        money: true,
+                        date: true,
+                        category: true,
+                        message: true,
+                        merchantName: true,
+
+                        card: {
+                            select: {
+                                cardNumber: true
+                            }
+                        }
+                    }
+                },     // or select specific fields if needed
                 sentTransfers: true,
                 receivedTransfers: true
             }

@@ -72,7 +72,7 @@ export default function ProfileSection({ onSave, onDisconnect }) {
           <FileUpload />
           {user?.profileImage && (
             <img
-              src={user.profileImage ?? "https://via.placeholder.com/150"}
+              src={user.profileImage ?? "../../../../assets/defaultimage.png"}
               alt="Profile"
               className="mt-4 w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-gray-600 shadow-md"
             />

@@ -30,6 +30,8 @@ const RegisterForm = () => {
       });
 
       console.log("Registered user:", data.user);
+      await fetchUser()
+
       navigate("/Home"); // redirect after successful registration
     } catch (err) {
       console.error(err);
@@ -43,30 +45,36 @@ const RegisterForm = () => {
       className="ff-card p-6 space-y-6 flex flex-col hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 w-full max-w-[1100px]"
     >
       {/* Full Name */}
-      <div className="flex flex-col md:flex-row sm:flex-row sm:items-center sm:space-x-4">
-        <label htmlFor="full-name" className="text-lg font-medium w-32 mb-2">
-          Full-Name
+      <div className="flex flex-col md:flex-row sm:items-center sm:space-x-4">
+        <label htmlFor="first-name" className="text-lg font-medium w-32 mb-2 md:mb-0">
+          First Name
         </label>
         <input
           required
           type="text"
-          id="full-name"
-          className="ff-input"
-          placeholder="Enter your full name"
+          id="first-name"
+          className="ff-input flex-1"
+          placeholder="Enter your first name"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
+      </div>
+
+      {/* Last Name */}
+      <div className="flex flex-col md:flex-row sm:items-center sm:space-x-4">
+        <label htmlFor="last-name" className="text-lg font-medium w-32 mb-2 md:mb-0">
+          Last Name
+        </label>
         <input
           required
           type="text"
           id="last-name"
-          className="ff-input mt-2 md:mt-0"
+          className="ff-input flex-1"
           placeholder="Enter your last name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
       </div>
-
       {/* Email */}
       <div className="flex flex-col md:flex-row sm:flex-row sm:items-center sm:space-x-4">
         <label htmlFor="email" className="text-lg font-medium w-32 mb-2">

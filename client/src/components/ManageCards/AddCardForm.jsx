@@ -47,8 +47,7 @@ export default function AddCardForm({ onAdd, onCancel }) {
     if (v.length >= 2) return v.slice(0, 2) + "/" + v.slice(2, 4);
     return v;
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formattedNumber = form.cardNumber.replace(/\s+/g, "");
@@ -57,12 +56,19 @@ export default function AddCardForm({ onAdd, onCancel }) {
       return;
     }
 
-    onAdd({
-      ...form,
-      cardNumber: formattedNumber,
-      cardType: detectedType,
-    });
+    try {
+
+      await onAdd({
+        ...form,
+        cardNumber: formattedNumber,
+        cardType: detectedType,
+      });
+      alert("Card added successfully!");
+    } catch (err) {
+      alert(err.message || "Failed to create the card");
+    }
   };
+
 
   const renderCardLogo = () => {
     if (!detectedType) return <span className="text-white/50 text-xs">Enter card</span>;

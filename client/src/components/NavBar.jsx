@@ -110,7 +110,7 @@ const NavBar = () => {
               className="inline-flex flex-shrink-0 w-12 h-12"
             >
               <img
-                src={user?.profileImage}
+                src={user?.profileImage ?? "../../assets/defaultimage.png"}
                 alt="User profile picture"
                 className="rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
               />
