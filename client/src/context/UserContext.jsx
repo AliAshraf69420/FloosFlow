@@ -6,6 +6,9 @@ import {
   useCallback,
 } from "react";
 
+import userService from "../services/userService"; // your service to fetch user info
+import authService from "../services/authService";
+
 const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
@@ -14,44 +17,20 @@ export function UserProvider({ children }) {
   const [error, setError] = useState(null);
 
   const fetchUser = useCallback(async () => {
-    let cancelled = false;
-
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch("http://localhost:5000/auth/me", {
-        credentials: "include",
-      });
-
-      if (cancelled) return;
-
-      if (res.status === 401) {
+      if (!authService.isAuthenticated()) {
         setUser(null);
         return;
       }
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch user");
-      }
-
-      const data = await res.json();
-      if (!cancelled) {
-        setUser(data.user);
-      }
+      const data = await userService.getPersonalInfo(); // fetch from backend
+      setUser(data);
     } catch (err) {
-      if (!cancelled) {
-        setError(err.message || "Failed to fetch user");
-        setUser(null);
-      }
+      setError(err.message || "Failed to fetch user");
     } finally {
-      if (!cancelled) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
-
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   const updateUser = useCallback((newData) => {
@@ -62,24 +41,36 @@ export function UserProvider({ children }) {
     setUser(null);
   }, []);
 
+  // Auto-fetch on mount
   useEffect(() => {
     fetchUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchUser]);
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        loading,
-        error,
-        fetchUser,
-        updateUser,
-        clearUser,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
+  // Listen to auth token changes (login/logout in other tabs)
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "authToken") {
+        if (!e.newValue) {
+          clearUser();
+        } else {
+          fetchUser();
+        }
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [fetchUser, clearUser]);
+
+  const value = {
+    user,
+    loading,
+    error,
+    fetchUser,
+    updateUser,
+    clearUser,
+  };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
 export function useUser() {

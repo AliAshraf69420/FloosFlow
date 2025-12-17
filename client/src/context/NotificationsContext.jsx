@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
+import notificationService from "../services/notificationService";
 
 const NotificationsContext = createContext(null);
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5000/api";
+const SOCKET_URL = "http://localhost:5000";
 
 export function NotificationsProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
@@ -15,20 +15,15 @@ export function NotificationsProvider({ children }) {
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Check if user is authenticated
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("authToken");
-    return !!token;
-  };
+  const isAuthenticated = () => !!localStorage.getItem("authToken");
 
-  // Initialize WebSocket connection// Initialize WebSocket connection
+  // Initialize WebSocket
   const initializeSocket = useCallback(() => {
     if (!isAuthenticated() || socketRef.current) return;
 
     const token = localStorage.getItem("authToken");
     console.log("🔑 Initializing socket with token:", token ? "✅ exists" : "❌ missing");
 
-    // Create socket connection with auth
     socketRef.current = io(SOCKET_URL, {
       auth: { token },
       reconnection: true,
@@ -36,13 +31,11 @@ export function NotificationsProvider({ children }) {
       reconnectionAttempts: 5,
     });
 
-    // Listen for new notifications
     socketRef.current.on("notification", (notification) => {
       console.log("🔔 Notification received:", notification);
       setNotifications((prev) => [notification, ...prev]);
     });
 
-    // Handle connection events
     socketRef.current.on("connect", () => {
       console.log("✅ WebSocket connected! Socket ID:", socketRef.current.id);
     });
@@ -62,38 +55,21 @@ export function NotificationsProvider({ children }) {
       }
     };
   }, []);
-  // Fetch notifications from API
+
+  // Fetch all notifications
   const fetchNotifications = useCallback(async () => {
-    // Only fetch if user is authenticated
     if (!isAuthenticated()) {
       setNotifications([]);
       setLoading(false);
       return;
     }
-
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem("authToken");
-      const res = await fetch(`${API_URL}/notifications`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          // User is unauthorized, clear notifications
-          setNotifications([]);
-          return;
-        }
-        throw new Error("Failed to fetch notifications");
-      }
-
-      const data = await res.json();
+      const data = await notificationService.getAllNotifications();
       setNotifications(data);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to fetch notifications");
     } finally {
       setLoading(false);
     }
@@ -102,15 +78,7 @@ export function NotificationsProvider({ children }) {
   // Mark single notification as read
   const markAsRead = useCallback(async (id) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const res = await fetch(`${API_URL}/notifications/${id}/read`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) throw new Error("Failed to mark as read");
-
+      await notificationService.markAsRead(id);
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, read: true } : n))
       );
@@ -122,22 +90,14 @@ export function NotificationsProvider({ children }) {
   // Mark all notifications as read
   const markAllAsRead = useCallback(async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const res = await fetch(`${API_URL}/notifications/read-all`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) throw new Error("Failed to mark all as read");
-
+      await notificationService.markAllAsRead();
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     } catch (err) {
       setError(err.message);
     }
   }, []);
 
-  // Clear notifications (useful on logout)
+  // Clear notifications
   const clearNotifications = useCallback(() => {
     setNotifications([]);
     if (socketRef.current) {
@@ -146,17 +106,15 @@ export function NotificationsProvider({ children }) {
     }
   }, []);
 
-  // Initialize on mount and when auth changes
+  // Initialize on mount or auth changes
   useEffect(() => {
     const authenticated = isAuthenticated();
 
     if (authenticated && !isAuthenticatedRef.current) {
-      // User just logged in
       isAuthenticatedRef.current = true;
       fetchNotifications();
       initializeSocket();
     } else if (!authenticated && isAuthenticatedRef.current) {
-      // User just logged out
       isAuthenticatedRef.current = false;
       clearNotifications();
     }
@@ -169,23 +127,20 @@ export function NotificationsProvider({ children }) {
     };
   }, [fetchNotifications, initializeSocket, clearNotifications]);
 
-  // Listen for storage changes (logout in another tab)
+  // Listen for token changes (logout/login in other tabs)
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === "authToken") {
         if (!e.newValue) {
-          // Token was removed (logout)
           clearNotifications();
           isAuthenticatedRef.current = false;
         } else if (!isAuthenticatedRef.current) {
-          // Token was added (login)
           isAuthenticatedRef.current = true;
           fetchNotifications();
           initializeSocket();
         }
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, [clearNotifications, fetchNotifications, initializeSocket]);

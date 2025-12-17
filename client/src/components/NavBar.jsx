@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
+import { useUser } from "../context/UserContext";
 
 const NavBar = () => {
   const location = useLocation();
@@ -9,7 +10,10 @@ const NavBar = () => {
 
   const isLandingPage = location.pathname === "/";
   const isNotLandingPage = !isLandingPage;
+  const { user, loading, error } = useUser();
 
+  if (loading) return <p>Loading user data...</p>;
+  if (error) return <p>Error loading user: {error}</p>;
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -106,7 +110,7 @@ const NavBar = () => {
               className="inline-flex flex-shrink-0 w-12 h-12"
             >
               <img
-                src="/mefr.webp"
+                src={user?.profileImage}
                 alt="User profile picture"
                 className="rounded-full border-2 border-green-400 hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
               />

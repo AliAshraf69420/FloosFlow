@@ -20,6 +20,7 @@ import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProvider } from "./context/UserContext";
+import AuthCallback from "./routes/AuthCallback";
 function App() {
   return (
     <UserProvider>
@@ -60,6 +61,12 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+
+                <Route path="/auth/callback" element={
+                  <ProtectedRoute>
+                    <AuthCallback />
+                  </ProtectedRoute>
+                } />
                 <Route
                   path="/TransactionDetails/:id"
                   element={

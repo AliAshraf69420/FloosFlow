@@ -67,7 +67,6 @@ io.on("connection", async (socket) => {
     notificationService.registerUser(socket.userId, socket.id);
 
     // Send unseen notifications
-    await notificationService.sendUnseen(socket.userId);
 
     socket.on("disconnect", () => {
         console.log(`User ${socket.userId} disconnected`);

@@ -88,18 +88,20 @@ router.get(
     passport.authenticate("google", { session: false, failureRedirect: "/login" }),
     (req, res) => {
         const user = req.user;
-
-        // Issue JWT for frontend
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-        // Send token and user info
-        res.json({
-            message: "Google login successful",
-            token,
-            user,
-        });
+        // Redirect to frontend with token & user
+        const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+        const userData = encodeURIComponent(JSON.stringify({
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImage: user.profileImage,
+        }));
+
+        res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${userData}`);
     }
 );
-
 
 module.exports = router;

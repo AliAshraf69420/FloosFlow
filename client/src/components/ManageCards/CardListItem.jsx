@@ -33,7 +33,7 @@ export default function CardListItem({ card, onRemove }) {
         <div className="text-right hidden sm:block">
           <p className="text-white/60 text-xs">Balance</p>
           <p className="text-white font-semibold">
-            {card.currency} {card.balance}
+            {card.currency ?? "EGP"} {new Intl.NumberFormat().format(card.balance)}
           </p>
         </div>
 

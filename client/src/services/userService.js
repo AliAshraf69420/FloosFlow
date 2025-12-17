@@ -33,11 +33,11 @@ const userService = {
         try {
             const formData = new FormData();
             formData.append("image", imageFile);
-
+            console.log("Uploading image:", imageFile);
             const response = await apiClient.post('/users/me/upload-image', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },
+                }
             });
             console.log("Upload response:", response.data);
             console.log("Uploaded image URL:", response.status);
@@ -52,8 +52,17 @@ const userService = {
 
     // Delete profile image
     deleteProfileImage: async () => {
-        const response = await apiClient.delete('/users/me/upload-image');
-        return response.data;
+        try {
+            const response = await apiClient.delete('/users/me/delete-image');
+            console.log(response.data)
+            console.log(response.status)
+
+            return response.data;
+        }
+        catch (err) {
+            console.log(err)
+        }
+
     },
 
     // Change balance (admin or specific operation)

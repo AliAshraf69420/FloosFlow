@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import userService from "../../../services/userService";
+import { useUser } from "../../../context/UserContext";
 
 export default function FileUpload() {
+  const { user } = useUser();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("https://via.placeholder.com/150");
+  const [previewUrl, setPreviewUrl] = useState(user?.profileImage || "https://via.placeholder.com/150");
+  const [uploading, setUploading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const fileInputRef = useRef();
@@ -13,7 +16,14 @@ export default function FileUpload() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Optional: check file size (5MB max)
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setErrorMessage("Please select an image file");
+      setStatusMessage("");
+      return;
+    }
+
+    // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
       setErrorMessage("File too large — max 5MB");
       setStatusMessage("");
@@ -28,92 +38,133 @@ export default function FileUpload() {
 
   // Upload file
   const handleUpload = async () => {
-    if (!selectedFile) return setErrorMessage("No file selected");
+    if (!selectedFile) {
+      setErrorMessage("No file selected");
+      return;
+    }
+
+    setUploading(true);
+    setStatusMessage("");
+    setErrorMessage("");
+
     try {
-      await userService.uploadProfileImage(selectedFile);
-      setStatusMessage("Uploaded successfully");
+      // Pass the file directly, not FormData
+      const response = await userService.uploadProfileImage(selectedFile);
+
+      setStatusMessage("Uploaded successfully!");
       setErrorMessage("");
+
+      // Update user in context
+      if (response?.user) {
+        setPreviewUrl(response.user.profileImage || "https://via.placeholder.com/150");
+      } else if (response?.profileImage) {
+        setPreviewUrl(response.profileImage);
+      }
+
+      // Clear selected file after successful upload
+      setSelectedFile(null);
     } catch (err) {
+      console.error("Upload error:", err);
       setErrorMessage(err.response?.data?.error || "Upload failed");
       setStatusMessage("");
+    } finally {
+      setUploading(false);
     }
   };
 
   // Remove file
   const handleRemove = async () => {
+    if (!user?.profileImage) {
+      setErrorMessage("No profile image to remove");
+      return;
+    }
+
+    setUploading(true);
+    setStatusMessage("");
+    setErrorMessage("");
+
     try {
       await userService.deleteProfileImage();
+
       setSelectedFile(null);
-      setPreviewUrl("https://via.placeholder.com/150"); // Reset to placeholder
-      setStatusMessage("Removed successfully");
+      setStatusMessage("Removed successfully!");
       setErrorMessage("");
-      fileInputRef.current.value = null; // reset input
+
+      // Update user in context
+      setPreviewUrl("https://via.placeholder.com/150");
+
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
     } catch (err) {
+      console.error("Remove error:", err);
       setErrorMessage(err.response?.data?.error || "Remove failed");
       setStatusMessage("");
+    } finally {
+      setUploading(false);
     }
   };
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
+        accept="image/*"
         className="sr-only"
         aria-hidden="true"
         onChange={handleFileChange}
       />
 
-      {/* Buttons */}
-      <div className="flex items-center flex-wrap sm:flex-row gap-3">
+      <div className="flex items-center flex-wrap gap-3">
         <button
           type="button"
           className="ff-btn px-4 py-2"
-          onClick={() => fileInputRef.current.click()}
-          aria-label="Choose file"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
         >
           Choose File
         </button>
 
         <button
           type="button"
-          className="ff-btn px-4 py-2"
+          className="ff-btn px-4 py-2 bg-gradient-to-r from-[#62A6BF] to-[#49EB8C]"
           onClick={handleUpload}
-          aria-label="Upload file"
+          disabled={!selectedFile || uploading}
         >
-          Upload
+          {uploading ? "Uploading..." : "Upload"}
         </button>
 
         <button
           type="button"
-          className="ff-btn px-3 py-2 bg-white/10"
+          className="ff-btn px-3 py-2 bg-red-500/20 hover:bg-red-500/30"
           onClick={handleRemove}
-          aria-label="Remove selected file"
+          disabled={!user?.profileImage || uploading}
         >
           Remove
         </button>
       </div>
 
-      {/* Preview */}
       <div className="mt-2">
         <img
           src={previewUrl}
-          alt="Selected preview"
-          className="w-28 h-28 rounded-full object-cover border border-white/10"
+          alt="Profile preview"
+          className="w-28 h-28 rounded-full object-cover border-2 border-white/20"
+          onError={() => setPreviewUrl("https://via.placeholder.com/150")}
         />
+        {selectedFile && (
+          <p className="text-xs text-white/60 mt-2">
+            Selected: {selectedFile.name}
+          </p>
+        )}
       </div>
 
-      {/* Status / error messages */}
       {statusMessage && (
-        <p className="text-sm text-green-300" role="status" aria-live="polite">
-          {statusMessage}
-        </p>
+        <p className="text-sm text-green-400 font-medium">{statusMessage}</p>
       )}
       {errorMessage && (
-        <p className="text-sm text-red-400" role="alert">
-          {errorMessage}
-        </p>
+        <p className="text-sm text-red-400 font-medium">{errorMessage}</p>
       )}
     </div>
   );

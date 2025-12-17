@@ -6,17 +6,19 @@ import AmexLogo from "../../assets/American_Express_logo_(2018).svg";
 const detectCardType = (cardNumber) => {
   const number = cardNumber.replace(/\s+/g, "");
   if (!number) return "";
-  if (/^4/.test(number)) return "Visa";
-  if (/^5[1-5]/.test(number) || /^2[2-7]/.test(number)) return "Mastercard";
-  if (/^3[47]/.test(number)) return "American Express";
-  if (/^507803/.test(number)) return "Meeza";
-  return "";
+  if (/^4/.test(number)) return "VISA";
+  if (/^5[1-5]/.test(number) || /^2[2-7]/.test(number)) return "MASTERCARD";
+  if (/^3[47]/.test(number)) return "AMEX";
+  if (/^507803/.test(number)) return "MEEZA";
+  return "OTHER"; // fallback
 };
+
 
 const cardLogos = {
   Visa: VisaLogo,
   Mastercard: MastercardLogo,
   "American Express": AmexLogo,
+  Meeza: null,
 };
 
 export default function AddCardForm({ onAdd, onCancel }) {
@@ -29,37 +31,37 @@ export default function AddCardForm({ onAdd, onCancel }) {
   });
   const [detectedType, setDetectedType] = useState("");
 
-  const update = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-  };
+  const update = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
   useEffect(() => {
-    const type = detectCardType(form.cardNumber);
-    setDetectedType(type);
+    setDetectedType(detectCardType(form.cardNumber));
   }, [form.cardNumber]);
 
   const formatCardNumber = (value) => {
-    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || "";
-    const parts = [];
-    for (let i = 0; i < match.length; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
-    return parts.length ? parts.join(" ") : value;
+    const v = value.replace(/\D/g, "");
+    return v.match(/.{1,4}/g)?.join(" ") || "";
   };
 
   const formatExpiry = (value) => {
-    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-    if (v.length >= 2) return v.substring(0, 2) + "/" + v.substring(2, 4);
+    const v = value.replace(/\D/g, "");
+    if (v.length >= 2) return v.slice(0, 2) + "/" + v.slice(2, 4);
     return v;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (form.cardNumber && form.cardHolder && form.expiryDate && form.cvv && detectedType) {
-      onAdd({ ...form, cardType: detectedType });
+
+    const formattedNumber = form.cardNumber.replace(/\s+/g, "");
+    if (!formattedNumber || !form.cardHolder || !form.expiryDate || !form.cvv || !detectedType) {
+      alert("Please fill all required fields and enter a valid card number");
+      return;
     }
+
+    onAdd({
+      ...form,
+      cardNumber: formattedNumber,
+      cardType: detectedType,
+    });
   };
 
   const renderCardLogo = () => {
@@ -72,17 +74,13 @@ export default function AddCardForm({ onAdd, onCancel }) {
   return (
     <div className="ff-card-Transfer p-5 w-full max-w-[700px]">
       <h3 className="text-lg font-semibold mb-4 text-center text-white">Add New Card</h3>
-
       <form onSubmit={handleSubmit} className="space-y-3">
-        {/* Row 1: Card Number & Detected Type */}
+        {/* Card Number & Type */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="md:col-span-2">
-            <label htmlFor="cardNumber" className="block text-xs font-medium mb-1 text-white/90">
-              Card Number
-            </label>
+            <label className="block text-xs font-medium mb-1 text-white/90">Card Number</label>
             <div className="relative">
               <input
-                id="cardNumber"
                 type="text"
                 placeholder="1234 5678 9012 3456"
                 value={form.cardNumber}
@@ -100,11 +98,8 @@ export default function AddCardForm({ onAdd, onCancel }) {
           </div>
 
           <div>
-            <label htmlFor="cardHolder" className="block text-xs font-medium mb-1 text-white/90">
-              Card Holder
-            </label>
+            <label className="block text-xs font-medium mb-1 text-white/90">Card Holder</label>
             <input
-              id="cardHolder"
               type="text"
               placeholder="AHMED"
               value={form.cardHolder}
@@ -114,14 +109,11 @@ export default function AddCardForm({ onAdd, onCancel }) {
           </div>
         </div>
 
-        {/* Row 2: Expiry, CVV, Balance, Buttons */}
+        {/* Expiry, CVV, Balance, Buttons */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
           <div>
-            <label htmlFor="expiryDate" className="block text-xs font-medium mb-1 text-white/90">
-              Expiry Date
-            </label>
+            <label className="block text-xs font-medium mb-1 text-white/90">Expiry Date</label>
             <input
-              id="expiryDate"
               type="text"
               placeholder="MM/YY"
               value={form.expiryDate}
@@ -132,26 +124,20 @@ export default function AddCardForm({ onAdd, onCancel }) {
           </div>
 
           <div>
-            <label htmlFor="cvv" className="block text-xs font-medium mb-1 text-white/90">
-              CVV
-            </label>
+            <label className="block text-xs font-medium mb-1 text-white/90">CVV</label>
             <input
-              id="cvv"
               type="password"
               placeholder="***"
               value={form.cvv}
-              onChange={(e) => update("cvv", e.target.value.replace(/[^0-9]/g, ""))}
+              onChange={(e) => update("cvv", e.target.value.replace(/\D/g, ""))}
               maxLength={4}
               className="ff-input py-2 text-sm"
             />
           </div>
 
           <div>
-            <label htmlFor="balance" className="block text-xs font-medium mb-1 text-white/90">
-              Balance
-            </label>
+            <label className="block text-xs font-medium mb-1 text-white/90">Balance</label>
             <input
-              id="balance"
               type="text"
               placeholder="0.00"
               value={form.balance}
@@ -163,7 +149,7 @@ export default function AddCardForm({ onAdd, onCancel }) {
           <button
             type="submit"
             disabled={!detectedType}
-            className="py-2 rounded-xl bg-gradient-to-r from-[#62A6BF]/80 via-[#49EB8C]/80 to-[#65E67F]/80 text-white font-semibold hover:from-[#62A6BF] hover:via-[#49EB8C] hover:to-[#65E67F] transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            className="py-2 rounded-xl bg-gradient-to-r from-[#62A6BF]/80 via-[#49EB8C]/80 to-[#65E67F]/80 text-white font-semibold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
             Add Card
           </button>
@@ -171,7 +157,7 @@ export default function AddCardForm({ onAdd, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="py-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-semibold hover:bg-white/20 transition-all duration-300 text-sm"
+            className="py-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-semibold hover:bg-white/20 text-sm"
           >
             Cancel
           </button>

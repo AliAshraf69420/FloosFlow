@@ -33,10 +33,12 @@ model Card {
   balance    Float  @default(0)
   expiryDate String?
   cvv String?
+    cardType  CardType @default(VISA)
   cardHolder   String?
   user       User   @relation(fields: [userId], references: [id])
   userId     Int
  isActive   Boolean @default(true) // soft delete flag
+  isSelectedForReceiving  Boolean  @default(false)  // <-- new field
   // Back-relations
   transactions     Transaction[]
   sentTransfers     Transfer[] @relation("SenderCard")
@@ -91,4 +93,12 @@ enum Category {
   Entertainment
   Health
   Other
+}
+
+enum CardType {
+  VISA
+  MASTERCARD
+  AMEX
+  MEEZA
+  OTHER
 }

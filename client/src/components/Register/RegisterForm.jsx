@@ -125,12 +125,16 @@ const RegisterForm = () => {
         <button
           type="button"
           className="ff-btn w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6"
+          onClick={() => {
+            window.location.href = "http://localhost:5000/api/auth/google";
+          }}
         >
           <span>Sign up with Google</span>
           <img
             src="/google-icon-logo-svgrepo-com.svg"
             alt="Google Icon"
             className="w-6 h-6 ml-4"
+
           />
         </button>
 

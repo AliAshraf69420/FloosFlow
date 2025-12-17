@@ -25,7 +25,17 @@ const transactionService = {
         const response = await apiClient.post('/transactions/transfer-money', transferData);
         return response.data;
     },
+    requestMoney: async (requestData) => {
+        try {
+            const response = await apiClient.post('/transactions/request-money', requestData);
+            return response.data;
+        }
+        catch (error) {
+            console.error("Request Money Error:", error);
+            throw error;
+        }
 
+    },
     // Add card
 
 };

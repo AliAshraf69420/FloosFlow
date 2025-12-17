@@ -1,55 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import VisaLogo from "../../assets/Visa_Inc._logo.svg";
 import MastercardLogo from "../../assets/Mastercard_2019_logo.svg";
 import AmexLogo from "../../assets/American_Express_logo_(2018).svg";
+import cardService from "../../services/cardService";
 
 const cardLogos = {
-  Visa: VisaLogo,
-  Mastercard: MastercardLogo,
-  "American Express": AmexLogo,
+  VISA: VisaLogo,
+  MASTERCARD: MastercardLogo,
+  AMEX: AmexLogo,
+  MEEZA: null, // add logo if available
+  OTHER: null,
 };
-
-const mockCards = [
-  {
-    id: 1,
-    cardNumber: "**** **** **** 4532",
-    cardHolder: "WAEL AL ABYD",
-    expiryDate: "12/27",
-    balance: "25,430.00",
-    currency: "EGP",
-    cardType: "Visa",
-  },
-  {
-    id: 2,
-    cardNumber: "**** **** **** 8891",
-    cardHolder: "WAEL AL ABYD",
-    expiryDate: "08/26",
-    balance: "12,850.00",
-    currency: "EGP",
-    cardType: "Mastercard",
-  },
-];
 
 export default function CardSection() {
   const navigate = useNavigate();
+  const [cards, setCards] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const selectedCard = mockCards[selectedIndex];
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const cardsData = await cardService.getAllCards(); // fetch from backend
+        setCards(
+          cardsData.map((c) => ({
+            ...c,
+            maskedNumber: "**** **** **** " + c.cardNumber.slice(-4),
+            currency: c.currency || "EGP",
+          }))
+        );
+      } catch (error) {
+        console.error(error.response?.data?.error || error.message);
+      }
+    };
+    fetchCards();
+  }, []);
 
-  const handlePrev = () => {
-    setSelectedIndex((prev) => (prev === 0 ? mockCards.length - 1 : prev - 1));
-  };
+  if (cards.length === 0) return null; // placeholder if no cards
 
-  const handleNext = () => {
-    setSelectedIndex((prev) => (prev === mockCards.length - 1 ? 0 : prev + 1));
+  const selectedCard = cards[selectedIndex];
+
+  const handlePrev = () => setSelectedIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
+  const handleNext = () => setSelectedIndex((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
+  // Add this function inside CardSection
+  const handleSelectReceiving = async () => {
+    try {
+      const cardId = selectedCard.id;
+      const response = await cardService.selectReceivingCard(cardId); // we'll create this in service
+      alert(response.data.message || "Card selected for receiving successfully!");
+    } catch (error) {
+      console.error(error.response?.data?.error || error.message);
+      alert(error.response?.data?.error || "Failed to select receiving card");
+    }
   };
 
   const renderCardLogo = (cardType) => {
-    const logo = cardLogos[cardType];
-    if (logo) {
-      return <img src={logo} alt={cardType} className="h-8 w-auto object-contain" />;
-    }
+    const logo = cardLogos[cardType.toUpperCase()] || null;
+    if (logo) return <img src={logo} alt={cardType} className="h-8 w-auto object-contain" />;
     return <span className="text-green-400 font-semibold">{cardType}</span>;
   };
 
@@ -68,9 +75,7 @@ export default function CardSection() {
 
       <div className="ff-card-Transfer p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row items-center gap-6">
-          {/* Navigation & Card Info */}
           <div className="flex items-center gap-4 w-full">
-            {/* Previous Button */}
             <button
               type="button"
               onClick={handlePrev}
@@ -82,9 +87,7 @@ export default function CardSection() {
               </svg>
             </button>
 
-            {/* Card Info */}
             <div className="flex-1 bg-white/5 rounded-xl p-4 sm:p-6">
-              {/* Top Row - Logo & Balance */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   {renderCardLogo(selectedCard.cardType)}
@@ -93,16 +96,15 @@ export default function CardSection() {
                 <div className="text-right">
                   <p className="text-white/60 text-xs">Balance</p>
                   <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] font-bold text-xl">
-                    {selectedCard.currency} {selectedCard.balance}
+                    {selectedCard.currency} {new Intl.NumberFormat().format(selectedCard.balance)}
                   </p>
                 </div>
               </div>
 
-              {/* Card Details */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
                 <div>
                   <p className="text-white/50 text-xs mb-1">Card Number</p>
-                  <p className="text-white font-mono">{selectedCard.cardNumber}</p>
+                  <p className="text-white font-mono">{selectedCard.maskedNumber}</p>
                 </div>
                 <div>
                   <p className="text-white/50 text-xs mb-1">Card Holder</p>
@@ -114,25 +116,22 @@ export default function CardSection() {
                 </div>
               </div>
 
-              {/* Card Indicator Dots */}
               <div className="flex justify-center gap-2 mt-4">
-                {mockCards.map((card, index) => (
+                {cards.map((_, index) => (
                   <button
-                    key={card.id}
+                    key={index}
                     type="button"
                     onClick={() => setSelectedIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                      index === selectedIndex
-                        ? "bg-gradient-to-r from-[#62A6BF] to-[#49EB8C] w-5"
-                        : "bg-white/30 hover:bg-white/50"
-                    }`}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${index === selectedIndex
+                      ? "bg-gradient-to-r from-[#62A6BF] to-[#49EB8C] w-5"
+                      : "bg-white/30 hover:bg-white/50"
+                      }`}
                     aria-label={`Select card ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Next Button */}
             <button
               type="button"
               onClick={handleNext}
@@ -146,17 +145,17 @@ export default function CardSection() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-3 mt-6">
           <button
             type="button"
-            onClick={() => navigate("/ManageCards")}
+            onClick={handleSelectReceiving} // call the function
             className="py-2.5 rounded-xl bg-gradient-to-r from-[#62A6BF]/80 via-[#49EB8C]/80 to-[#65E67F]/80
-              text-white font-semibold hover:from-[#62A6BF] hover:via-[#49EB8C] hover:to-[#65E67F]
-              transition-all duration-300 text-sm"
+    text-white font-semibold hover:from-[#62A6BF] hover:via-[#49EB8C] hover:to-[#65E67F]
+    transition-all duration-300 text-sm"
           >
-            Add Card
+            Choose as Receiving Card
           </button>
+
           <button
             type="button"
             onClick={() => navigate("/TransferMoney")}

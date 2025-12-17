@@ -27,6 +27,9 @@ const cardService = {
             console.log(err)
         }
     },
+    selectReceivingCard: async (cardId) => {
+        return await apiClient.patch(`/cards/${cardId}/select-receiving`);
+    },
 }
 
 export default cardService;

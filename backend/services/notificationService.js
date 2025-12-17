@@ -1,29 +1,22 @@
 // services/notificationService.js
 const prisma = require("../prisma/prisma-client");
 
-let instance = null;
-
 class NotificationService {
     constructor(io) {
-        if (instance) return instance; // Return existing instance
-
         this.io = io;
-        this.onlineUsers = {}; // userId -> socketId
-
-        instance = this;
-    }
-
-    setIo(io) {
-        this.io = io; // set io later if not passed in constructor
+        this.onlineUsers = new Map(); // safer than {}
     }
 
     registerUser(userId, socketId) {
-        this.onlineUsers[userId] = socketId;
+        this.onlineUsers.set(String(userId), socketId);
     }
 
     unregisterSocket(socketId) {
-        for (const userId in this.onlineUsers) {
-            if (this.onlineUsers[userId] === socketId) delete this.onlineUsers[userId];
+        for (const [userId, sId] of this.onlineUsers.entries()) {
+            if (sId === socketId) {
+                this.onlineUsers.delete(userId);
+                break;
+            }
         }
     }
 
@@ -32,20 +25,26 @@ class NotificationService {
             data: { userId, message, type },
         });
 
-        const socketId = this.onlineUsers[userId];
-        if (socketId && this.io) this.io.to(socketId).emit("notification", notification);
+        const socketId = this.onlineUsers.get(String(userId));
+
+        if (!this.io) {
+            console.error("IO IS UNDEFINED");
+            return notification;
+        }
+
+        if (!socketId) {
+            console.warn("User offline:", userId);
+            return notification;
+        }
+
+        this.io.to(socketId).emit("notification", notification);
+        console.log("Notification emitted to", userId);
 
         return notification;
     }
 
-    async getNotifications(userId) {
-        return prisma.notification.findMany({
-            where: { userId },
-            orderBy: { createdAt: "desc" },
-        });
-    }
     async sendUnseen(userId) {
-        const socketId = this.onlineUsers[userId];
+        const socketId = this.onlineUsers.get(String(userId));
         if (!socketId || !this.io) return;
 
         const unseen = await prisma.notification.findMany({
@@ -53,14 +52,23 @@ class NotificationService {
             orderBy: { createdAt: "asc" },
         });
 
-        unseen.forEach((n) => this.io.to(socketId).emit("notification", n));
+        unseen.forEach(n =>
+            this.io.to(socketId).emit("notification", n)
+        );
     }
+    async markAsSeen(notificationId, userId) {
+        const notification = await prisma.notification.findFirst({
+            where: {
+                id: notificationId,
+                userId: userId
+            }
+        });
 
-    // Mark notification as seen
-    async markAsSeen(notificationId) {
+        if (!notification) return null;
+
         return prisma.notification.update({
             where: { id: notificationId },
-            data: { read: true },
+            data: { read: true }
         });
     }
 }

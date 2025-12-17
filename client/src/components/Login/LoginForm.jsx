@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
+import { UserProvider, useUser } from "../../context/UserContext";
 
 const LoginForm = () => {
   const navigate = useNavigate(); // to redirect after login
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { fetchUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +17,10 @@ const LoginForm = () => {
     try {
       const data = await authService.login({ email, password });
       console.log("Logged in user:", data.user);
+      localStorage.setItem("authToken", data.token);
+      await fetchUser()
       navigate("/Home");
+
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Login failed");

@@ -4,7 +4,8 @@ const { authenticate } = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
 const upload = require('../services/uploadService')
 const router = express.Router();
-
+const path = require("path");
+const fs = require("fs");
 // Get current user info
 router.get("/me", authenticate, async (req, res) => {
     try {
@@ -24,6 +25,7 @@ router.get("/me", authenticate, async (req, res) => {
                         id: true,
                         cardNumber: true,
                         balance: true,
+                        cardType: true,
                         cardHolder: true,
                         expiryDate: true
 
@@ -94,27 +96,29 @@ router.patch("/me", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 router.post("/me/upload-image", authenticate, upload.single("image"), async (req, res) => {
     try {
+        console.log("Starting")
         if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-        // Fetch the old image filename
         const user = await prisma.user.findUnique({
             where: { id: req.userId },
-            select: { profileImage: true }
+            select: { profileImage: true },
         });
 
-        // Delete old image if exists
-        if (user.profileImage) {
-            const oldPath = path.join(__dirname, "../uploads", user.profileImage);
+        // Delete old image safely
+        if (user?.profileImage) {
+            const oldFileName = user.profileImage.split("/").pop();
+            const oldPath = path.join(__dirname, "../uploads", oldFileName);
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
         }
+        console.log("Multer")
+        // Store full URL
+        const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
 
-        // Update the user with the new image
         const updatedUser = await prisma.user.update({
             where: { id: req.userId },
-            data: { profileImage: req.file.filename },
+            data: { profileImage: imageUrl },
             select: {
                 id: true,
                 firstName: true,
@@ -123,8 +127,8 @@ router.post("/me/upload-image", authenticate, upload.single("image"), async (req
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
-                createdAt: true
-            }
+                createdAt: true,
+            },
         });
 
         res.json({ message: "Profile image updated successfully", user: updatedUser });
@@ -133,22 +137,22 @@ router.post("/me/upload-image", authenticate, upload.single("image"), async (req
     }
 });
 
+// ---------------- Delete Profile Image ----------------
 router.delete("/me/delete-image", authenticate, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
             where: { id: req.userId },
-            select: { profileImage: true }
+            select: { profileImage: true },
         });
 
-        if (!user || !user.profileImage) {
+        if (!user?.profileImage) {
             return res.status(400).json({ error: "No profile image to delete" });
         }
 
-        // Delete the file from server
-        const imagePath = path.join(__dirname, "../uploads", user.profileImage);
+        const fileName = user.profileImage.split("/").pop();
+        const imagePath = path.join(__dirname, "../uploads", fileName);
         if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
 
-        // Remove reference in DB
         const updatedUser = await prisma.user.update({
             where: { id: req.userId },
             data: { profileImage: null },
@@ -160,17 +164,15 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
-                createdAt: true
-            }
+                createdAt: true,
+            },
         });
 
         res.json({ message: "Profile image deleted successfully", user: updatedUser });
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
 router.post("/me/update-password", authenticate, async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;

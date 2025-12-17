@@ -30,9 +30,9 @@ router.patch("/:cardId/balance", authenticate, async (req, res) => {
     }
 });
 router.post("/add-card", authenticate, async (req, res) => {
-    const { cardNumber, cardHolder, balance, expiryDate, cvv } = req.body;
+    const { cardNumber, cardHolder, balance, expiryDate, cvv, cardType } = req.body;
 
-    if (!cardNumber || !cardHolder || !expiryDate || !cvv) {
+    if (!cardNumber || !cardHolder || !expiryDate || !cvv || !cardType) {
         return res.status(400).json({ error: "cardNumber, cardHolder, expiryDate, and cvv are required" });
     }
 
@@ -51,6 +51,7 @@ router.post("/add-card", authenticate, async (req, res) => {
                 cardHolder,
                 balance: balance || 0,
                 expiryDate: expiryDate,
+                cardType: cardType,
                 cvv: cvv,
                 userId: req.userId // link card to logged-in user
             }
@@ -76,6 +77,30 @@ router.delete("/:cardId", authenticate, async (req, res) => {
         });
 
         res.json({ message: "Card deleted successfully (soft delete)", card: deletedCard });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.patch("/:cardId/select-receiving", authenticate, async (req, res) => {
+    const { cardId } = req.params;
+
+    try {
+        const card = await prisma.card.findUnique({ where: { id: parseInt(cardId) } });
+        if (!card) return res.status(404).json({ error: "Card not found" });
+        if (card.userId !== req.userId) return res.status(403).json({ error: "You do not own this card" });
+
+        await prisma.card.updateMany({
+            where: { userId: req.userId },
+            data: { isSelectedForReceiving: false }
+        });
+
+        const updatedCard = await prisma.card.update({
+            where: { id: parseInt(cardId) },
+            data: { isSelectedForReceiving: true }
+        });
+
+        res.json({ message: "Receiving card updated successfully", card: updatedCard });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
