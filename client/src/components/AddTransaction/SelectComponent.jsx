@@ -40,7 +40,7 @@ export default function StyledDropdown({ value, onChange }) {
       {open && (
         <ul
           className="absolute z-50 mt-2 w-full bg-[#1f1f1f] border border-white/20 rounded-xl shadow-lg 
-                     max-h-60 overflow-y-auto"
+                     max-h-100 overflow-y-hidden"
         >
           {categories.map((item) => (
             <li

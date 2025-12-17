@@ -162,14 +162,14 @@ router.post("/transfer-money", authenticate, async (req, res) => {
 
         await notificationService.sendNotification(
             req.userId,
-            `You spent $${amount} on ${recipientEmail}`,
+            `You transfered $${amount} to ${recipientEmail}`,
             "transfer"
         );
 
 
         await notificationService.sendNotification(
             recipient.id,
-            `You recieved $${amount} on ${recipientEmail}`,
+            `You recieved $${amount} from ${recipientEmail}`,
             "transfer"
         );
 

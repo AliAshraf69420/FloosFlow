@@ -188,8 +188,7 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
-router.post("/me/update-password", authenticate, async (req, res) => {
+}); router.post("/me/update-password", authenticate, async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
 
@@ -202,7 +201,7 @@ router.post("/me/update-password", authenticate, async (req, res) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Verify current password
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        const isMatch = await bcrypt.compare(currentPassword, user.password); // <- await here
         if (!isMatch) {
             return res.status(401).json({ error: "Current password is incorrect" });
         }
@@ -220,5 +219,6 @@ router.post("/me/update-password", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 module.exports = router;

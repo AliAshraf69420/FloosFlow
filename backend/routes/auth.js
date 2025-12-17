@@ -91,7 +91,7 @@ router.get(
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
         // Redirect to frontend with token & user
-        const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+        const frontendUrl = "http://localhost:5173";
         const userData = encodeURIComponent(JSON.stringify({
             id: user.id,
             email: user.email,
@@ -99,7 +99,6 @@ router.get(
             lastName: user.lastName,
             profileImage: user.profileImage,
         }));
-
         res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${userData}`);
     }
 );

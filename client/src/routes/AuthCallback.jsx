@@ -15,7 +15,7 @@ export default function AuthCallback() {
 
         if (!token || !userStr) {
             alert("Authentication failed");
-            navigate("/login");
+            navigate("/Login");
             return;
         }
 
@@ -28,10 +28,10 @@ export default function AuthCallback() {
             updateUser(user);
 
             // Redirect to home or dashboard
-            navigate("/home");
+            navigate("/Home");
         } catch (err) {
             console.error("Failed to parse auth callback", err);
-            navigate("/login");
+            navigate("/Login");
         }
     }, [navigate, updateUser]);
 

@@ -52,7 +52,7 @@ export default function TransactionsPage() {
         </div>
 
         {/* Transaction List */}
-        <div className="flex flex-col space-y-4 max-h-[65vh] overflow-y-hidden overflow-x-hidden pr-2">
+        <div className="flex flex-col space-y-4 max-h-[65vh]  overflow-x-hidden pr-2">
           {filteredTransactions.length === 0 ? (
             <div className="ff-card-Transfer p-6 text-center">
               <p className="text-white/60">No transactions found.</p>

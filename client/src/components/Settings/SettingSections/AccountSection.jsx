@@ -48,7 +48,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
       setMessageType("error");
       setMessage("New password and confirmation do not match");
       setLoadingPassword(false);
-      return;
+      return false; // indicate failure
     }
 
     try {
@@ -56,18 +56,22 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
         currentPassword: passwords.current,
         newPassword: passwords.new,
       });
+
       setMessageType("success");
       setMessage("Password updated successfully");
       await fetchUser();
-
       setPasswords({ current: "", new: "", confirm: "" });
+
+      return true; // indicate success
     } catch (error) {
       setMessageType("error");
       setMessage(error.response?.data?.error || error.message || "Failed to update password");
+      return false; // indicate failure
     } finally {
       setLoadingPassword(false);
     }
   };
+
 
   return (
     <section id="account" className="ff-card ff-settings-card">
