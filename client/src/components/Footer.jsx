@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => {
   return (
-    <footer
-      className="bg-ff-bg-dark text-white backdrop-blur-md border-t border-gray-700 py-6 text-center fixed bottom-0 left-0 w-full"
-    >
+    <footer className="bg-ff-bg-dark text-white backdrop-blur-md border-t border-gray-700 py-6 text-center  bottom-0 left-0 w-full">
       <div className="max-w-7xl mx-auto px-4">
-        <p className="text-sm">&copy; 2025 FloosFlow Inc. All rights reserved.</p>
+        <p className="text-sm">
+          &copy; 2025 FloosFlow Inc. All rights reserved.
+        </p>
         <div className="flex justify-center space-x-6 mt-3">
           <a
             href="#"
