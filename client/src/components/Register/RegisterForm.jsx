@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService"; // make sure the path is correct
+import { useUser } from "../../context/UserContext";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const { fetchUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ const RegisterForm = () => {
       });
 
       console.log("Registered user:", data.user);
-      await fetchUser()
+      await fetchUser();
 
       navigate("/Home"); // redirect after successful registration
     } catch (err) {

@@ -30,10 +30,11 @@ export default function FileUpload() {
       return;
     }
 
+    // Update the state with selected file and preview URL
     setSelectedFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
-    setErrorMessage("");
-    setStatusMessage("");
+    setPreviewUrl(URL.createObjectURL(file)); // Create preview URL for the selected image
+    setErrorMessage(""); // Clear any previous error messages
+    setStatusMessage(""); // Clear status message
   };
 
   // Upload file
@@ -45,16 +46,17 @@ export default function FileUpload() {
 
     setUploading(true);
     setStatusMessage("");
-    setErrorMessage("");
+    setErrorMessage(""); // Clear any previous errors
 
     try {
-      // Pass the file directly, not FormData
+      // Upload file using userService
       const response = await userService.uploadProfileImage(selectedFile);
 
+      // Set success status message and update preview image
       setStatusMessage("Uploaded successfully!");
-      setErrorMessage("");
+      setErrorMessage(""); // Clear any error messages
 
-      // Update user in context
+      // Update user profile image in context if available
       if (response?.user) {
         setPreviewUrl(response.user.profileImage || "../../../../assets/defaultimage.png");
       } else if (response?.profileImage) {
@@ -81,19 +83,20 @@ export default function FileUpload() {
 
     setUploading(true);
     setStatusMessage("");
-    setErrorMessage("");
+    setErrorMessage(""); // Clear any previous errors
 
     try {
+      // Call the service to delete the profile image
       await userService.deleteProfileImage();
 
       setSelectedFile(null);
       setStatusMessage("Removed successfully!");
-      setErrorMessage("");
+      setErrorMessage(""); // Clear any error messages
 
-      // Update user in context
+      // Update user context to show the default image
       setPreviewUrl("../../../../assets/defaultimage.png");
 
-      // Reset file input
+      // Reset the file input field
       if (fileInputRef.current) {
         fileInputRef.current.value = null;
       }
@@ -151,7 +154,7 @@ export default function FileUpload() {
           src={previewUrl}
           alt="Profile preview"
           className="w-28 h-28 rounded-full object-cover border-2 border-white/20"
-          onError={() => setPreviewUrl("../../../../assets/defaultimage.png")}
+          onError={() => setPreviewUrl("../../../../assets/defaultimage.png")} // Fallback on error
         />
         {selectedFile && (
           <p className="text-xs text-white/60 mt-2">
