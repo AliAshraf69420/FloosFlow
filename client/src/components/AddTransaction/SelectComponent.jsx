@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-export default function StyledDropdown() {
+export default function StyledDropdown({ value, onChange }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("Groceries");
 
   const categories = [
     "Groceries",
@@ -10,10 +9,11 @@ export default function StyledDropdown() {
     "Utilities",
     "Entertainment",
     "Health",
+    "Other"
   ];
 
   const handleSelect = (item) => {
-    setValue(item);
+    onChange(item);
     setOpen(false);
   };
 
@@ -32,9 +32,7 @@ export default function StyledDropdown() {
         <img
           src="/dropdown-arrow-svgrepo-com.svg"
           alt="dropdown arrow"
-          className={`ml-2 w-4 h-4 transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`ml-2 w-4 h-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -42,7 +40,7 @@ export default function StyledDropdown() {
       {open && (
         <ul
           className="absolute z-50 mt-2 w-full bg-[#1f1f1f] border border-white/20 rounded-xl shadow-lg 
-                     max-h-60 overflow-y-auto"
+                     max-h-100 overflow-y-hidden"
         >
           {categories.map((item) => (
             <li
