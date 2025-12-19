@@ -46,13 +46,26 @@
 ---
 # Phase 3: Core React Components:
 - ## Objective: 
-	- Develop the functional frontend with React.
+	- [x] Develop the functional frontend with React.
 - ## Tasks:
-	- Implement reusable React components (buttons, forms, layouts, navigation).
-	- Set up React Router for page navigation.
-	- Apply state management for basic UI interactions.
-	- Ensure responsive design with Tailwind.
+	- [x] Implement reusable React components (buttons, forms, layouts, navigation).
+	- [x] Set up React Router for page navigation.
+	- [x] Apply state management for basic UI interactions.
+	- [x] Ensure responsive design with Tailwind.
 - ## Deliverables:
-	- Functional React frontend with working navigation.
-
+	- [x] Functional React frontend with working navigation.
+---
+# Phase 4: Advanced Frontend Features & Data Integration:
+- ## Objective: 
+	- [ ] Add dynamic behaviors and work with real or simulated data.
+- ## Tasks:
+	- [ ] Integrate with a public API (if relevant to the project idea) OR set up a mock API (JSONServer, MirageJS, or static JSON).
+	- [ ] Implement CRUD operations (create, read, update, delete) in the frontend using mock or API data.
+	- [ ] Manage global state (using React Context, Redux Toolkit).
+	- [ ] Add form validation and error handling.
+	- [ ] Enhance UI polish (animations, loading states, accessibility improvements).
+- ## Deliverables:
+	- [ ] React app with dynamic pages using mock API or public API data.
+	- [ ] Working CRUD functionality (based on chosen data source).
+	- [ ] Fully responsive and accessible frontend.
 [[Project]]

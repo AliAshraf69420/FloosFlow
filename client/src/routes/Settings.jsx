@@ -60,15 +60,15 @@ export default function SettingsPage() {
 
       <main id="main-content" className="flex-grow pt-24 px-4 lg:px-8">
 
-        <div className="lg:flex lg:items-start relative">
+        <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-10 relative">
 
           {/* DESKTOP SIDEBAR */}
-          <aside className="hidden lg:block lg:mr-10 lg:sticky lg:top-28 h-fit">
+          <aside className="hidden lg:block lg:sticky lg:top-28 h-fit">
             <Sidebar />
           </aside>
 
           {/* MAIN SETTINGS CONTENT */}
-          <div className="flex-1 p-4 sm:p-6 lg:p-10 space-y-12 max-w-[1100px] mx-auto">
+          <div className="flex-1 p-4 sm:p-6 lg:p-10 space-y-12 max-w-[1100px] mx-auto lg:max-w-none lg:w-full lg:justify-self-end">
 
             {/* LOADING STATE */}
             {loading && (

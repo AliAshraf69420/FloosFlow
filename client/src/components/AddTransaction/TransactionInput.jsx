@@ -1,4 +1,3 @@
-// components/AddTransaction/TransactionInput.jsx
 import React from "react";
 
 export default function TransactionInput({
@@ -7,6 +6,8 @@ export default function TransactionInput({
   type = "text",
   placeholder,
   required = false,
+  value,
+  onChange,
 }) {
   return (
     <div>
@@ -23,6 +24,8 @@ export default function TransactionInput({
         name={id}
         placeholder={placeholder}
         required={required}
+        value={value}
+        onChange={onChange}
         className="ff-input"
       />
     </div>
