@@ -1,5 +1,6 @@
 import { useUser } from "../context/UserContext";
 import userService from "../services/userService";
+import authService from "../services/authService";
 
 /**
  * useSettings - Lightweight hook that surfaces UserContext state and helpers.
@@ -44,8 +45,15 @@ export default function useSettings() {
   };
 
   const deleteAccount = async () => {
-    console.warn("Delete account not implemented in backend");
-    return { success: false };
+    const res = await userService.deleteAccount();
+    authService.logout();
+    return res;
+  };
+
+  const disconnectProvider = async (providerId) => {
+    const res = await userService.disconnectProvider(providerId);
+    if (res?.user) updateUser(res.user);
+    return res;
   };
 
   return {
@@ -60,5 +68,6 @@ export default function useSettings() {
     updateEmail,
     updatePassword,
     deleteAccount,
+    disconnectProvider,
   };
 }

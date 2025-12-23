@@ -61,7 +61,9 @@ const NavBar = () => {
               ["/Transactions", "Services"],
               ["/Dashboard", "Dashboard"],
               ["/Help", "Help"],
-            ].map(([path, label]) => (
+            ].concat(
+              user?.role === 'ADMIN' ? [['/Admin', 'Admin Panel']] : []
+            ).map(([path, label]) => (
               <li key={label} role="none" className="flex-shrink min-w-[60px]">
                 <Link
                   role="menuitem"
@@ -195,6 +197,18 @@ const NavBar = () => {
                 Help
               </Link>
             </li>
+
+            {user?.role === 'ADMIN' && (
+              <li>
+                <Link
+                  to="/Admin"
+                  className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Admin Panel
+                </Link>
+              </li>
+            )}
 
             {isNotLandingPage ? (
               <>

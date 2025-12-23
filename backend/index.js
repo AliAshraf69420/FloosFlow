@@ -12,6 +12,7 @@ const { Server } = require("socket.io");
 const NotificationService = require("./services/notificationService.js");
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const adminRoutes = require("./routes/admin.js");
 const passport = require('./utils/oauth'); // Import passport configuration
 
 dotenv.config();
@@ -86,6 +87,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/cards", cardsRoutes);
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
     res.send("Welcome to the backend server!");

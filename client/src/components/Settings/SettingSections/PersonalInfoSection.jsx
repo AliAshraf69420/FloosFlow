@@ -38,15 +38,11 @@ export default function PersonalInfoSection({ data, onUpdate }) {
         firstName: form.firstName,
         lastName: form.lastName,
         username: form.username,
-        email: form.email,
         phoneNumber: form.phone,
       };
 
-      const updatedUser = await userService.updateInfo(payload);
-
-      setMessage("Profile updated successfully");
-      onUpdate?.(updatedUser); // update parent state
-      await fetchUser()
+      const res = await onUpdate?.(payload);
+      setMessage(res?.message || "Profile updated successfully");
     } catch (error) {
       setMessage(error.response?.data?.error || error.message || "Error updating profile");
     } finally {

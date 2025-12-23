@@ -19,6 +19,8 @@ router.get("/me", authenticate, async (req, res) => {
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
+                googleId: true,
+                role: true,
                 createdAt: true,
                 cards: {
                     select: {
@@ -88,14 +90,16 @@ router.get("/me", authenticate, async (req, res) => {
 
 router.patch("/me", authenticate, async (req, res) => {
     try {
-        const { firstName, lastName, username, email, password } = req.body;
+        const { firstName, lastName, username, email, phoneNumber, password } = req.body;
 
         const dataToUpdate = {};
 
-        if (firstName) dataToUpdate.firstName = firstName;
-        if (lastName) dataToUpdate.lastName = lastName;
-        if (username) dataToUpdate.username = username;
-        if (email) dataToUpdate.email = email;
+        if (firstName !== undefined) dataToUpdate.firstName = firstName;
+        if (lastName !== undefined) dataToUpdate.lastName = lastName;
+        if (username !== undefined) dataToUpdate.username = username;
+        if (email !== undefined) dataToUpdate.email = email;
+        if (phoneNumber !== undefined) dataToUpdate.phoneNumber = phoneNumber;
+        if (req.body.googleId !== undefined) dataToUpdate.googleId = req.body.googleId;
 
         if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -104,6 +108,27 @@ router.patch("/me", authenticate, async (req, res) => {
 
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ error: "No fields provided for update" });
+        }
+
+        // Check for duplicates
+        const checkFields = [];
+        if (email) checkFields.push({ email });
+        if (username) checkFields.push({ username });
+        if (phoneNumber) checkFields.push({ phoneNumber });
+
+        if (checkFields.length > 0) {
+            const conflicts = await prisma.user.findFirst({
+                where: {
+                    OR: checkFields,
+                    NOT: { id: req.userId }
+                }
+            });
+
+            if (conflicts) {
+                if (email && conflicts.email === email) return res.status(400).json({ error: "Email is already in use by another user" });
+                if (username && conflicts.username === username) return res.status(400).json({ error: "Username is already in use" });
+                if (phoneNumber && conflicts.phoneNumber === phoneNumber) return res.status(400).json({ error: "Phone number is already in use" });
+            }
         }
 
         const updatedUser = await prisma.user.update({
@@ -117,6 +142,8 @@ router.patch("/me", authenticate, async (req, res) => {
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
+                googleId: true,
+                role: true,
                 createdAt: true,
                 cards: {
                     select: {
@@ -175,6 +202,8 @@ router.post("/me/upload-image", authenticate, upload.single("image"), handleUplo
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
+                googleId: true,
+                role: true,
                 createdAt: true,
             },
         });
@@ -213,6 +242,8 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
                 email: true,
                 phoneNumber: true,
                 profileImage: true,
+                googleId: true,
+                role: true,
                 createdAt: true,
             },
         });
@@ -221,7 +252,34 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}); router.post("/me/update-password", authenticate, async (req, res) => {
+});
+
+// ---------------- Delete Account ----------------
+router.delete("/me", authenticate, async (req, res) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: { profileImage: true },
+        });
+
+        if (user?.profileImage) {
+            const fileName = user.profileImage.split("/").pop();
+            const imagePath = path.join(__dirname, "../uploads", fileName);
+            if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
+        }
+
+        await prisma.user.delete({
+            where: { id: req.userId },
+        });
+
+        res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting account:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post("/me/update-password", authenticate, async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
         console.log(currentPassword)

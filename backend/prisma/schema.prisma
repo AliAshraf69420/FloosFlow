@@ -18,11 +18,13 @@ model User {
   profileImage String?
 
   googleId     String?   @unique   // <-- ADD THIS
+  role         Role      @default(USER)
 
   cards        Card[]
   transactions Transaction[]
   sentTransfers     Transfer[] @relation("SentTransfers")
   receivedTransfers Transfer[] @relation("ReceivedTransfers")
+  notifications Notification[]
   createdAt    DateTime  @default(now())
 }
 
@@ -35,7 +37,7 @@ model Card {
   cvv String?
     cardType  CardType @default(VISA)
   cardHolder   String?
-  user       User   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
  isActive   Boolean @default(true) // soft delete flag
   isSelectedForReceiving  Boolean  @default(false)  // <-- new field
@@ -47,7 +49,7 @@ model Card {
 
 model Transaction {
   id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id])
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int
   card         Card      @relation(fields: [cardId], references: [id])
   cardId       Int
@@ -62,12 +64,12 @@ model Transaction {
 model Transfer {
   id             Int       @id @default(autoincrement())
 
-  sender         User      @relation("SentTransfers", fields: [senderId], references: [id])
+  sender         User      @relation("SentTransfers", fields: [senderId], references: [id], onDelete: Cascade)
   senderId       Int
   senderCard     Card      @relation("SenderCard", fields: [senderCardId], references: [id])
   senderCardId   Int
 
-  recipient      User      @relation("ReceivedTransfers", fields: [recipientId], references: [id])
+  recipient      User      @relation("ReceivedTransfers", fields: [recipientId], references: [id], onDelete: Cascade)
   recipientId    Int
   recipientCard  Card?     @relation("RecipientCard", fields: [recipientCardId], references: [id])
   recipientCardId Int?
@@ -79,6 +81,7 @@ model Transfer {
 }
 model Notification {
   id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   type      String   // "sent", "received", "transaction"
   message   String
@@ -87,6 +90,11 @@ model Notification {
   UserMessage String?
   requesterEmail String?  // Email of person requesting money (for Accept button)
   requestAmount  Decimal? // Amount being requested (for Accept button)
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 enum Category {

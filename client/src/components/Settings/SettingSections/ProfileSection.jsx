@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ConnectedProviderList from "../OAuth/ConnectedProviderList";
 import FileUpload from "../FormControls/FileUpload";
 import { useUser } from "../../../context/UserContext";
+import authService from "../../../services/authService";
 
 export default function ProfileSection({ onSave, onDisconnect }) {
   const { user, clearUser } = useUser(); // get user and clearUser function
@@ -24,13 +25,7 @@ export default function ProfileSection({ onSave, onDisconnect }) {
   const handleLogout = () => {
     const confirmed = window.confirm("Are you sure you want to logout?");
     if (confirmed) {
-      // Clear user data from context
-      clearUser();
-      // Clear localStorage
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("user");
-      // Navigate to login page
-      navigate("/Login");
+      authService.logout();
     }
   };
 
@@ -96,7 +91,9 @@ export default function ProfileSection({ onSave, onDisconnect }) {
 
         {/* Connected Providers */}
         <ConnectedProviderList
-          providers={user?.providers}
+          providers={[
+            ...(user?.googleId ? [{ id: "google", name: "Google" }] : []),
+          ]}
           onDisconnect={onDisconnect}
           className="mt-6"
         />
