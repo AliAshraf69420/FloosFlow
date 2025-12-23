@@ -8,9 +8,9 @@
 	- [?] Must include 2 Interactive charts (filters, drill-down, real-time updates using public API).
 - ## Authentication & Authorization (+1 out of 20 Grade):
 	- [?] Implement role-based UI (e.g., admin vs. normal user dashboards, hide/show pages).
-	- [ ] Connect forms to a public authentication mock API (e.g., ReqRes) OR simulate authentication using local storage (store token/session data) to test user roles.
+	- [x] Connect forms to a public authentication mock API (e.g., ReqRes) OR simulate authentication using local storage (store token/session data) to test user roles.
 - ## Testing Coverage (+1 out of 20 Grade):
-	- [ ] Automated unit testing for at least 3 React components (e.g., form validation, button clicks, API rendering).
+	- [x] Automated unit testing for at least 3 React components (e.g., form validation, button clicks, API rendering).
 	- [ ] Optional integration testing for routing and page rendering.
 	- [ ] Use tools like Jest + React Testing Library.
 - ## Deployment Excellence (+1 out of 20 Grade):
