@@ -88,24 +88,26 @@ export default function Dashboard() {
       animate="animate"
       exit="exit"
     >
-      <div className="flex flex-col items-center mb-6">
+      <div className="w-full mb-6">
         {/* Range Selector */}
-        <div className="mb-6 flex items-center gap-3">
-          <label htmlFor="range" className="text-gray-700 dark:text-gray-300 font-medium">
-            Filter by:
-          </label>
-          <select
-            id="range"
-            value={range}
-            onChange={(e) => setRange(e.target.value)}
-            className="bg-white/10 border border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-ff-accent transition-all duration-300"
-          >
-            <option value="24h" className="bg-[#121212]">Last 24 Hours</option>
-            <option value="week" className="bg-[#121212]">Last Week</option>
-            <option value="month" className="bg-[#121212]">Last Month</option>
-            <option value="year" className="bg-[#121212]">Last Year</option>
-            <option value="all" className="bg-[#121212]">All Time</option>
-          </select>
+        <div className="mb-6 flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <label htmlFor="range" className="text-gray-700 dark:text-gray-300 font-medium">
+              Filter by:
+            </label>
+            <select
+              id="range"
+              value={range}
+              onChange={(e) => setRange(e.target.value)}
+              className="bg-white/10 border border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-ff-accent transition-all duration-300"
+            >
+              <option value="24h" className="bg-[#121212]">Last 24 Hours</option>
+              <option value="week" className="bg-[#121212]">Last Week</option>
+              <option value="month" className="bg-[#121212]">Last Month</option>
+              <option value="year" className="bg-[#121212]">Last Year</option>
+              <option value="all" className="bg-[#121212]">All Time</option>
+            </select>
+          </div>
         </div>
 
         <DashboardCard
@@ -122,7 +124,14 @@ export default function Dashboard() {
           }
         >
           <AnimatePresence mode="wait">
-            <motion.div key={index} variants={chartVariants} initial="initial" animate="animate" exit="exit">
+            <motion.div
+              key={index}
+              variants={chartVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="w-full h-[500px]"
+            >
               {charts[index]}
             </motion.div>
           </AnimatePresence>

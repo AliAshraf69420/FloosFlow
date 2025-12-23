@@ -44,18 +44,18 @@ export default function UsersTable({ users, onUpdate, onDelete }) {
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg overflow-hidden">
+        <div className="ff-card overflow-hidden hover:bg-none hover:text-inherit cursor-default">
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
-                    <thead className="bg-white/5 border-b border-white/10">
+                    <thead className="bg-gray-200/50 dark:bg-white/5 border-b border-gray-300 dark:border-white/10">
                         <tr>
-                            <th className="px-6 py-4 text-sm font-semibold text-gray-300 uppercase tracking-wider">User</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-gray-300 uppercase tracking-wider">Contact</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-gray-300 uppercase tracking-wider">Role</th>
-                            <th className="px-6 py-4 text-sm font-semibold text-gray-300 uppercase tracking-wider text-right">Actions</th>
+                            <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">User</th>
+                            <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Contact</th>
+                            <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Role</th>
+                            <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/10">
+                    <tbody className="divide-y divide-gray-200 dark:divide-white/10">
                         {users.length === 0 ? (
                             <tr>
                                 <td colSpan="4" className="px-6 py-12 text-center text-gray-500">
@@ -67,7 +67,7 @@ export default function UsersTable({ users, onUpdate, onDelete }) {
                                 const isEditing = editingId === user.id;
 
                                 return (
-                                    <tr key={user.id} className="hover:bg-white/[0.04] transition-colors group">
+                                    <tr key={user.id} className="hover:bg-gray-500/5 dark:hover:bg-white/[0.04] transition-colors group">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {isEditing ? (
                                                 <div className="space-y-2">
@@ -108,8 +108,8 @@ export default function UsersTable({ users, onUpdate, onDelete }) {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <p className="text-white font-medium">{user.firstName} {user.lastName}</p>
-                                                        <p className="text-gray-500 text-sm">@{user.username || 'n/a'}</p>
+                                                        <p className="text-gray-900 dark:text-white font-medium">{user.firstName} {user.lastName}</p>
+                                                        <p className="text-gray-500 dark:text-gray-400 text-sm">@{user.username || 'n/a'}</p>
                                                     </div>
                                                 </div>
                                             )}
@@ -136,8 +136,8 @@ export default function UsersTable({ users, onUpdate, onDelete }) {
                                                 </div>
                                             ) : (
                                                 <div>
-                                                    <p className="text-gray-300 text-sm">{user.email}</p>
-                                                    <p className="text-gray-500 text-xs">{user.phoneNumber || 'no phone'}</p>
+                                                    <p className="text-gray-700 dark:text-gray-300 text-sm">{user.email}</p>
+                                                    <p className="text-gray-500 dark:text-gray-500 text-xs">{user.phoneNumber || 'no phone'}</p>
                                                 </div>
                                             )}
                                         </td>
