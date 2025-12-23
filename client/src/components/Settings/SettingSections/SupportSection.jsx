@@ -20,7 +20,7 @@ export default function SupportSection({ onSend }) {
       id="support"
       className="ff-card ff-settings-card"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-white text-center sm:text-left">
+      <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white text-center sm:text-left">
         Support
       </h2>
 
@@ -28,7 +28,7 @@ export default function SupportSection({ onSend }) {
 
         {/* Category */}
         <div>
-          <label className="block text-gray-200 mb-2 font-medium">Category</label>
+          <label className="block text-gray-700 dark:text-gray-200 mb-2 font-medium">Category</label>
           <select
             value={form.category}
             onChange={(e) => updateField("category", e.target.value)}
@@ -43,7 +43,7 @@ export default function SupportSection({ onSend }) {
 
         {/* Subject */}
         <div>
-          <label className="block text-gray-200 mb-2 font-medium">Subject</label>
+          <label className="block text-gray-700 dark:text-gray-200 mb-2 font-medium">Subject</label>
           <input
             type="text"
             value={form.subject}
@@ -55,7 +55,7 @@ export default function SupportSection({ onSend }) {
 
         {/* Message */}
         <div>
-          <label className="block text-gray-200 mb-2 font-medium">Message</label>
+          <label className="block text-gray-700 dark:text-gray-200 mb-2 font-medium">Message</label>
           <textarea
             value={form.message}
             onChange={(e) => updateField("message", e.target.value)}

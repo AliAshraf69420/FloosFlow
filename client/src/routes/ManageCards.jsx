@@ -89,12 +89,12 @@ export default function ManageCardsPage() {
     <main className="flex-grow pt-28 px-4 pb-10" role="main" aria-labelledby="manage-cards-heading">
       <div className="max-w-[800px] mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 id="manage-cards-heading" className="text-2xl font-semibold text-white">
+          <h1 id="manage-cards-heading" className="text-2xl font-semibold text-gray-900 dark:text-white">
             Manage Cards
           </h1>
           <button
             onClick={() => navigate("/Home")}
-            className="px-4 py-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium hover:bg-white/20 transition-all duration-300 text-sm"
+            className="px-4 py-2 rounded-xl bg-gray-200 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-medium hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-300 text-sm"
           >
             Back to Home
           </button>
@@ -103,7 +103,7 @@ export default function ManageCardsPage() {
         {!showAddForm ? (
           <button
             onClick={() => setShowAddForm(true)}
-            className="w-full mb-6 py-4 rounded-xl border-2 border-dashed border-white/30 text-white/70 font-medium hover:border-[#49EB8C]/50 hover:text-[#49EB8C] transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full mb-6 py-4 rounded-xl border-2 border-dashed border-gray-400 dark:border-white/30 text-gray-600 dark:text-white/70 font-medium hover:border-[#49EB8C]/50 hover:text-[#49EB8C] transition-all duration-300 flex items-center justify-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -117,10 +117,10 @@ export default function ManageCardsPage() {
         )}
 
         <div className="space-y-4">
-          <h2 className="text-lg font-medium text-white/80 mb-4">Your Cards</h2>
+          <h2 className="text-lg font-medium text-gray-700 dark:text-white/80 mb-4">Your Cards</h2>
           {cards.length === 0 ? (
             <div className="ff-card-Transfer p-8 text-center">
-              <p className="text-white/60">No cards added yet.</p>
+              <p className="text-gray-500 dark:text-white/60">No cards added yet.</p>
             </div>
           ) : (
             cards.map((card) => (

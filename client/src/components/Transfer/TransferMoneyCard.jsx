@@ -131,7 +131,7 @@ export default function TransferMoneyCard() {
 
   return (
     <div className="ff-card-Transfer p-6 lg:p-8 w-full max-w-[1100px] mx-auto mb-6">
-      <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-center text-white">
+      <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-center text-gray-900 dark:text-white">
         Transfer Money
       </h2>
 
@@ -175,7 +175,7 @@ export default function TransferMoneyCard() {
         <div>
           <label
             htmlFor="senderCard"
-            className="block text-sm sm:text-base font-medium mb-2 text-white/90"
+            className="block text-sm sm:text-base font-medium mb-2 text-gray-700 dark:text-white/90"
           >
             Select Card
           </label>
@@ -186,11 +186,11 @@ export default function TransferMoneyCard() {
                 id="senderCard"
                 value={senderCardId}
                 onChange={(e) => setSenderCardId(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white
+                className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white
                   appearance-none cursor-pointer
                   focus:outline-none focus:ring-2 focus:ring-[#49EB8C] focus:border-transparent
                   transition-all duration-200
-                  hover:bg-white/10"
+                  hover:bg-gray-200 dark:hover:bg-white/10"
                 required
               >
                 {cards.map((card) => (
@@ -208,14 +208,14 @@ export default function TransferMoneyCard() {
 
               {/* Selected card preview */}
               {selectedCard && (
-                <div className="mt-2 p-3 rounded-lg bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 border border-white/5">
+                <div className="mt-2 p-3 rounded-lg bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 border border-gray-200 dark:border-white/5">
                   <div className="flex items-center justify-between text-sm">
                     <div>
-                      <p className="text-white/60 text-xs mb-1">Selected Card</p>
-                      <p className="text-white font-semibold">{selectedCard.bankName}</p>
+                      <p className="text-gray-500 dark:text-white/60 text-xs mb-1">Selected Card</p>
+                      <p className="text-gray-900 dark:text-white font-semibold">{selectedCard.bankName}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-white/60 text-xs mb-1">Available Balance</p>
+                      <p className="text-gray-500 dark:text-white/60 text-xs mb-1">Available Balance</p>
                       <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] font-bold">
                         EGP{selectedCard.balance}
                       </p>
@@ -225,8 +225,8 @@ export default function TransferMoneyCard() {
               )}
             </div>
           ) : (
-            <div className="p-4 rounded-lg bg-white/5 border border-white/10 text-center">
-              <p className="text-white/60 text-sm mb-3">
+            <div className="p-4 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-center">
+              <p className="text-gray-500 dark:text-white/60 text-sm mb-3">
                 No cards available. Please add a card first.
               </p>
               <button
@@ -253,9 +253,9 @@ export default function TransferMoneyCard() {
             type="button"
             onClick={requestMoney}
             disabled={loading}
-            className="py-3 px-6 rounded-xl bg-white/10 border border-white/20 text-white font-semibold
-              hover:bg-white/20 hover:border-white/30 transition-all duration-300
-              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white/10
+            className="py-3 px-6 rounded-xl bg-gray-200 dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-semibold
+              hover:bg-gray-300 dark:hover:bg-white/20 hover:border-gray-400 dark:hover:border-white/30 transition-all duration-300
+              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-200 dark:disabled:hover:bg-white/10
               flex items-center justify-center gap-2"
           >
             {loading ? (

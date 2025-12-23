@@ -21,16 +21,16 @@ export default function ProfileSection({ onSave, onDisconnect }) {
 
   return (
     <section id="profile" className="ff-card ff-settings-card">
-      <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-white text-center sm:text-left">
+      <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 dark:text-white text-center sm:text-left">
         Profile
       </h2>
 
       <div className="space-y-10">
         {/* Communication Preferences */}
         <div>
-          <p className="text-white mb-4 text-lg font-semibold">Communication Preferences</p>
+          <p className="text-gray-900 dark:text-white mb-4 text-lg font-semibold">Communication Preferences</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label className="flex items-center gap-3 cursor-pointer text-gray-200">
+            <label className="flex items-center gap-3 cursor-pointer text-gray-700 dark:text-gray-200">
               <input
                 type="checkbox"
                 className="ff-checkbox h-5 w-5"
@@ -39,7 +39,7 @@ export default function ProfileSection({ onSave, onDisconnect }) {
               />
               Email Notifications
             </label>
-            <label className="flex items-center gap-3 cursor-pointer text-gray-200">
+            <label className="flex items-center gap-3 cursor-pointer text-gray-700 dark:text-gray-200">
               <input
                 type="checkbox"
                 className="ff-checkbox h-5 w-5"
@@ -48,7 +48,7 @@ export default function ProfileSection({ onSave, onDisconnect }) {
               />
               SMS Notifications
             </label>
-            <label className="flex items-center gap-3 cursor-pointer text-gray-200">
+            <label className="flex items-center gap-3 cursor-pointer text-gray-700 dark:text-gray-200">
               <input
                 type="checkbox"
                 className="ff-checkbox h-5 w-5"
@@ -68,7 +68,7 @@ export default function ProfileSection({ onSave, onDisconnect }) {
 
         {/* Profile Image */}
         <div className="flex flex-col flex-wrap">
-          <p className="text-white mb-3 text-lg font-semibold">Change Profile Image</p>
+          <p className="text-gray-900 dark:text-white mb-3 text-lg font-semibold">Change Profile Image</p>
           <FileUpload />
           {user?.profileImage && (
             <img

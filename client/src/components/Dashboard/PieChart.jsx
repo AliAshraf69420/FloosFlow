@@ -39,7 +39,7 @@ export default function PieChart({ chartData = { data: [] } }) {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="flex flex-col md:flex-row w-full md:space-x-6 space-y-6 md:space-y-0 bg-[#1f1f1f]/80 hover:bg-[#1e1e1e]/50 border border-white/40 rounded-xl shadow-md p-6 transition max-w-screen">
+      <div className="flex flex-col md:flex-row w-full md:space-x-6 space-y-6 md:space-y-0 bg-gray-100 dark:bg-[#1f1f1f]/80 hover:bg-gray-50 dark:hover:bg-[#1e1e1e]/50 border border-gray-200 dark:border-white/40 rounded-xl shadow-md p-6 transition max-w-screen">
         {/* Pie Chart */}
         <div className="flex-1 h-[260px] sm:h-[320px] flex items-center justify-center">
           <div className="w-52 h-52 sm:w-64 sm:h-64">
@@ -48,12 +48,12 @@ export default function PieChart({ chartData = { data: [] } }) {
         </div>
 
         {/* Legend */}
-        <div className="text-white/80 space-y-2 w-full md:w-48 md:ml-6">
+        <div className="text-gray-700 dark:text-white/80 space-y-2 w-full md:w-48 md:ml-6">
           <ul className="list-disc pl-5">
             {labels.map((label, i) => (
               <li
                 key={i}
-                className={`transition ${hoverIndex === i ? "text-white" : "text-white/70"}`}
+                className={`transition ${hoverIndex === i ? "text-gray-900 dark:text-white" : "text-gray-600 dark:text-white/70"}`}
                 style={{ fontWeight: hoverIndex === i ? "bold" : "normal" }}
               >
                 {label}: {dataValues[i]}%

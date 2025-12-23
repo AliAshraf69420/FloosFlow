@@ -1,6 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import "./App.css";
 import { NotificationsProvider } from "./context/NotificationsContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import AddTransactionPage from "./routes/AddTransactionsPage";
@@ -21,22 +23,24 @@ import NotificationsPage from "./routes/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProvider } from "./context/UserContext";
 import AuthCallback from "./routes/AuthCallback";
+
 function App() {
+  const location = useLocation();
+
   return (
-    <UserProvider>
-      <NotificationsProvider>
-        <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
-          <div className="flex flex-col min-h-screen bg-ff-bg-dark text-gray-100 font-sans">
+    <ThemeProvider>
+      <UserProvider>
+        <NotificationsProvider>
+          <div className="flex flex-col min-h-screen bg-ff-bg-light dark:bg-ff-bg-dark text-gray-900 dark:text-gray-100 font-sans">
             <NavBar />
             <main className="flex-grow">
-              <Routes>
-                {/* Public routes */}
+              <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/loading" element={<LoadingPage />} />
 
-                {/* Protected routes individually wrapped */}
                 <Route
                   path="/AddTransaction"
                   element={
@@ -127,13 +131,13 @@ function App() {
                 {/* Catch-all route */}
                 <Route path="*" element={<ErrorPage />} />
               </Routes>
-
+              </AnimatePresence>
             </main>
             <Footer />
           </div>
-        </div>
-      </NotificationsProvider>
-    </UserProvider>
+        </NotificationsProvider>
+      </UserProvider>
+    </ThemeProvider>
   );
 }
 

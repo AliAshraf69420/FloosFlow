@@ -20,7 +20,6 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
     return date.toLocaleDateString();
   };
 
-  // Extract title from message (first line or first 50 chars)
   const getTitle = (msg) => {
     const firstLine = msg.split('\n')[0];
     return firstLine.length > 50 ? firstLine.substring(0, 50) + '...' : firstLine;
@@ -47,7 +46,7 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
       <div
         className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${!read
             ? "bg-gradient-to-br from-[#62A6BF] to-[#49EB8C] text-white"
-            : "bg-white/10 text-white/60"
+            : "bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-white/60"
           }`}
       >
         <NotificationIcon type={type} />
@@ -56,15 +55,15 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <h3 className={`font-semibold ${!read ? "text-white" : "text-white/70"}`}>
+          <h3 className={`font-semibold ${!read ? "text-gray-900 dark:text-white" : "text-gray-600 dark:text-white/70"}`}>
             {title}
           </h3>
-          <span className="text-white/40 text-xs flex-shrink-0">
+          <span className="text-gray-400 dark:text-white/40 text-xs flex-shrink-0">
             {formatTime(createdAt)}
           </span>
         </div>
         {body && (
-          <p className={`text-sm mt-1 ${!read ? "text-white/80" : "text-white/50"}`}>
+          <p className={`text-sm mt-1 ${!read ? "text-gray-700 dark:text-white/80" : "text-gray-500 dark:text-white/50"}`}>
             {body}
           </p>
         )}
@@ -74,7 +73,7 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
       {!read && (
         <button
           onClick={() => onMarkAsRead(id)}
-          className="p-2 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:text-white transition-all duration-200 flex-shrink-0"
+          className="p-2 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-700 dark:hover:text-white transition-all duration-200 flex-shrink-0"
           title="Mark as read"
           aria-label="Mark notification as read"
         >

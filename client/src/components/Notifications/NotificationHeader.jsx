@@ -4,9 +4,9 @@ export default function NotificationHeader({ unreadCount, onMarkAllAsRead }) {
   return (
     <div className="flex items-center justify-between mb-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">Notifications</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Notifications</h1>
         {unreadCount > 0 && (
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-gray-500 dark:text-white/60 text-sm mt-1">
             You have {unreadCount} unread notification{unreadCount !== 1 ? "s" : ""}
           </p>
         )}
