@@ -38,6 +38,7 @@ import AccountSection from "../components/Settings/SettingSections/AccountSectio
 import SupportSection from "../components/Settings/SettingSections/SupportSection";
 
 import useSettings from "../hooks/useSettings";
+import LoadingSpinner from "../components/Notifications/LoadingSpinner";
 
 export default function SettingsPage() {
   const {
@@ -72,8 +73,8 @@ export default function SettingsPage() {
 
             {/* LOADING STATE */}
             {loading && (
-              <div className="text-gray-300 text-lg py-10 text-center">
-                Loading settings…
+              <div className="flex items-center justify-center h-screen">
+                <LoadingSpinner />
               </div>
             )}
 

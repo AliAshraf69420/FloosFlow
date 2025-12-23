@@ -39,7 +39,15 @@ export function UserProvider({ children }) {
 
   const clearUser = useCallback(() => {
     setUser(null);
+    localStorage.removeItem("user");
   }, []);
+
+  // Sync user state to localStorage
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
 
   // Auto-fetch on mount
   useEffect(() => {

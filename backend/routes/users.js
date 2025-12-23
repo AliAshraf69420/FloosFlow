@@ -224,7 +224,8 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
 }); router.post("/me/update-password", authenticate, async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
-
+        console.log(currentPassword)
+        console.log(newPassword)
         if (!currentPassword || !newPassword) {
             return res.status(400).json({ error: "Both current and new passwords are required" });
         }
@@ -234,10 +235,13 @@ router.delete("/me/delete-image", authenticate, async (req, res) => {
         if (!user) return res.status(404).json({ error: "User not found" });
 
         // Verify current password
-        const isMatch = await bcrypt.compare(currentPassword, user.password); // <- await here
-        if (!isMatch) {
-            return res.status(401).json({ error: "Current password is incorrect" });
+        if (user.password && !(user.googleId)) {
+            const isMatch = await bcrypt.compare(currentPassword, user.password); // <- await here
+            if (!isMatch) {
+                return res.status(400).json({ error: "Current password is incorrect" });
+            }
         }
+
 
         // Hash new password and update
         const hashedPassword = await bcrypt.hash(newPassword, 10);

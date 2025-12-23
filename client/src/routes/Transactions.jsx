@@ -4,16 +4,33 @@ import TransactionSearch from "../components/Transactions/TransactionSearch";
 import TransactionCard from "../components/Transactions/TransactionsCard";
 import TransactionButton from "../components/Transactions/TransactionButton";
 import { useUser } from "../context/UserContext";
+import LoadingSpinner from "../components/Notifications/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 export default function TransactionsPage() {
-  const { user, loading, error } = useUser();
+  const { user, loading, error, fetchUser } = useUser();
   const [searchText, setSearchText] = useState("");
-  // const { fetchUser } = useUser()
+  const navigate = useNavigate();
 
-  // useEffect(async () => {
-  //   await fetchUser()
-  //   return;
-  // }, [])
+  useEffect(() => {
+    if (error) {
+      console.error(error);
+      navigate("/Error", { state: { error } });
+    }
+  }, [error, navigate]);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        await fetchUser();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadUser();
+  }, [fetchUser]);
+
   function formatEGP(amount) {
     const value = Number(amount);
     console.log(value)
@@ -23,8 +40,9 @@ export default function TransactionsPage() {
     }).format(value);
   }
 
-  if (loading) return <p>Loading transactions...</p>;
-  if (error) return <p>Error loading transactions: {error}</p>;
+  if (loading) return <div className="flex items-center justify-center h-screen">
+    <LoadingSpinner />
+  </div>;
 
   // Map the user transactions
   const transactions = user?.transactions?.map((tx) => ({

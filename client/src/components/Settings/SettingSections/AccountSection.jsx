@@ -3,13 +3,20 @@ import userService from "../../../services/userService";
 import { useUser } from "../../../context/UserContext";
 
 export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) {
-  const [email, setEmail] = useState(data?.email || "");
+  const { user, fetchUser } = useUser();
+  const [email, setEmail] = useState(data?.email || user?.email || "");
   const [passwords, setPasswords] = useState({ current: "", new: "", confirm: "" });
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success"); // "success" or "error"
-  const { fetchUser } = useUser();
+
+  // Keep email in sync if user changes
+  useEffect(() => {
+    if (!data && user?.email) {
+      setEmail(user.email);
+    }
+  }, [data, user]);
 
   const updatePassField = (key, value) => {
     setPasswords((prev) => ({ ...prev, [key]: value }));
@@ -27,11 +34,11 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
     setMessage("");
 
     try {
-      const updatedUser = await userService.updateInfo({ email });
+      const response = await userService.updateInfo({ email });
       setMessageType("success");
       setMessage("Email updated successfully");
       await fetchUser();
-      onUpdateUser?.(updatedUser);
+      onUpdateUser?.(response.user || response);
     } catch (error) {
       setMessageType("error");
       setMessage(error.response?.data?.error || error.message || "Failed to update email");

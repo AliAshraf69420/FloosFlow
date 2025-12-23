@@ -53,24 +53,42 @@ router.post("/register", async (req, res) => {
 /* ================================
    LOGIN (email/password)
 ================================ */
+// routes/auth.js
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     try {
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user) return res.status(404).json({ error: "User not found" });
 
-        if (!user.password)
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        if (!user.password) {
             return res.status(400).json({ error: "This account only supports Google login" });
+        }
 
         const valid = await bcrypt.compare(password, user.password);
-        if (!valid) return res.status(401).json({ error: "Invalid password" });
+        if (!valid) {
+            return res.status(401).json({ error: "Invalid password" });
+        }
 
         const token = generateToken(user.id);
-        res.json({ message: "Login successful", token, user });
 
+        return res.json({
+            message: "Login successful",
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                profileImage: user.profileImage || null,
+            },
+        });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error("Login error:", err);
+        return res.status(500).json({ error: "Server error, please try again later" });
     }
 });
 

@@ -3,7 +3,12 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
 import { useUser } from "../context/UserContext";
-import LoadingSpinner from "./Notifications/LoadingSpinner";
+
+const NavSpinner = () => (
+  <div className="flex items-center justify-center p-7">
+    <div className="w-6 h-6 border-2 border-white/20 border-t-ff-accent rounded-full animate-spin" />
+  </div>
+);
 
 const NavBar = () => {
   const location = useLocation();
@@ -12,8 +17,7 @@ const NavBar = () => {
   const isNotLandingPage = !isLandingPage;
   const { user, loading, error } = useUser();
 
-  if (loading) return LoadingSpinner();
-
+  if (loading) return <NavSpinner />;
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

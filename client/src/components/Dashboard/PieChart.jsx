@@ -4,36 +4,40 @@ import { useState } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function PieChart({ chartData = { data: [] } }) {
+export default function PieChart({ chartData = [] }) {
   const [hoverIndex, setHoverIndex] = useState(null);
 
-  const labels = chartData.data.map((item) => item.label) || [];
-  const dataValues = chartData.data.map((item) => parseFloat(item.percentage)) || [];
+  // fallback to empty array if chartData is undefined
+  const labels = chartData.map((item) => item.label) || [];
+  const values = chartData.map((item) => item.value || 0);
   const colors = ["#49EB8C", "#62A6BF", "#65E67F", "#FFB547", "#FF4C4C", "#B562FF"];
 
   const data = {
     labels,
     datasets: [
       {
-        data: dataValues,
+        data: values,
         backgroundColor: colors.slice(0, labels.length),
-        hoverOffset: 10,
         borderColor: "rgba(255,255,255,0.6)",
+        hoverOffset: 10,
       },
     ],
   };
 
   const options = {
+    maintainAspectRatio: false,
+    responsive: true,
     plugins: {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (ctx) => `${ctx.label}: ${ctx.raw}%`,
+          label: (ctx) => {
+            const item = chartData[ctx.dataIndex];
+            return `${item.label}: ${item.value} (${item.percentage ?? 0}%)`;
+          },
         },
       },
     },
-    maintainAspectRatio: false,
-    responsive: true,
     onHover: (event, elements) => setHoverIndex(elements.length > 0 ? elements[0].index : null),
   };
 
@@ -56,7 +60,7 @@ export default function PieChart({ chartData = { data: [] } }) {
                 className={`transition ${hoverIndex === i ? "text-white" : "text-white/70"}`}
                 style={{ fontWeight: hoverIndex === i ? "bold" : "normal" }}
               >
-                {label}: {dataValues[i]}%
+                {label}: {values[i]} ({chartData[i]?.percentage ?? 0}%)
               </li>
             ))}
           </ul>

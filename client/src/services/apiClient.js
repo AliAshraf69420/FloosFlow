@@ -34,14 +34,15 @@ apiClient.interceptors.response.use(
     },
     (error) => {
         // Handle 401 Unauthorized - token expired or invalid
-        if (error.response?.status === 401) {
+        // But DON'T redirect if we're already on the login call
+        if (error.response?.status === 401 && !error.config.url.includes('/auth/login')) {
             localStorage.removeItem('authToken');
             localStorage.removeItem('user');
             window.location.href = '/Login';
         }
 
         // Handle other errors
-        const errorMessage = error.response?.data?.message || 'An error occurred';
+        const errorMessage = error.response?.data?.error || error.response?.data?.message || 'An error occurred';
         console.error('API Error:', errorMessage);
 
         return Promise.reject(error);

@@ -5,6 +5,7 @@ import MastercardLogo from "../../assets/Mastercard_2019_logo.svg";
 import AmexLogo from "../../assets/American_Express_logo_(2018).svg";
 import cardService from "../../services/cardService";
 import { useUser } from "../../context/UserContext";
+import LoadingSpinner from "../Notifications/LoadingSpinner";
 
 const cardLogos = {
   VISA: VisaLogo,
@@ -80,9 +81,13 @@ export default function CardSection() {
 
       <div className="ff-card-Transfer p-6 sm:p-8">
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="w-8 h-8 border-2 border-white/20 border-t-[#49EB8C] rounded-full animate-spin" />
+
+
+          <div className="flex items-center justify-center h-screen">
+            <LoadingSpinner />
           </div>
+
+
         ) : cards.length === 0 ? (
           /* NO CARDS STATE */
           <div className="text-center py-8">

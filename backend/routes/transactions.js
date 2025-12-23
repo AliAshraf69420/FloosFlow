@@ -152,6 +152,12 @@ router.post("/transfer-money", authenticate, async (req, res) => {
                 }
             })
         ]);
+        // Get sender info for the notification
+        const sender = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: { email: true }
+        });
+
         const notificationService = req.app.get("notificationService");
 
         await notificationService.sendNotification(
@@ -164,7 +170,7 @@ router.post("/transfer-money", authenticate, async (req, res) => {
 
         await notificationService.sendNotification(
             recipient.id,
-            `You recieved $${amount} from ${recipientEmail}`,
+            `You recieved $${amount} from ${sender.email}`,
             "transfer",
             message
         );
