@@ -1,6 +1,5 @@
 // where X the backend link
-const x = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
+const x = import.meta.env.VITE_API_URL || "http://localhost:5000";
 async function request(endpoint, options = {}) {
   const url = `${x}${endpoint}`;
 

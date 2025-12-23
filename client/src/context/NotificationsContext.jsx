@@ -5,7 +5,8 @@ import { useUser } from "./UserContext";
 
 const NotificationsContext = createContext(null);
 
-const SOCKET_URL = "http://localhost:5000";
+// Use environment variable for Socket URL
+const SOCKET_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export function NotificationsProvider({ children }) {
   const { user } = useUser();
@@ -24,12 +25,14 @@ export function NotificationsProvider({ children }) {
 
     const token = localStorage.getItem("authToken");
     console.log("Initializing socket with token:", token ? "exists" : "missing");
+    console.log("Connecting to:", SOCKET_URL); // Add this for debugging
 
     socketRef.current = io(SOCKET_URL, {
       auth: { token },
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionAttempts: 5,
+      withCredentials: true, // Add this for CORS
     });
 
     socketRef.current.on("notification", (notification) => {
