@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Service from "./Services";
+import Service from "./services";
 
 describe("Service component", () => {
   test("renders label prop", () => {
