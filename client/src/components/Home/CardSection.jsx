@@ -64,7 +64,7 @@ export default function CardSection() {
   return (
     <section className="w-full max-w-5xl">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg sm:text-xl font-semibold text-white">My Cards</h2>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">My Cards</h2>
         <button
           type="button"
           onClick={() => navigate("/ManageCards")}
@@ -84,7 +84,7 @@ export default function CardSection() {
           <div className="text-center py-8">
             <div className="mb-6">
               <svg
-                className="w-20 h-20 mx-auto text-white/20 mb-4"
+                className="w-20 h-20 mx-auto text-gray-300 dark:text-white/20 mb-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -96,8 +96,8 @@ export default function CardSection() {
                   d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                 />
               </svg>
-              <h3 className="text-xl font-semibold text-white mb-2">No Cards Added Yet</h3>
-              <p className="text-white/60 text-sm">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Cards Added Yet</h3>
+              <p className="text-gray-500 dark:text-white/60 text-sm">
                 Add a card to start managing your finances
               </p>
             </div>
@@ -117,7 +117,7 @@ export default function CardSection() {
                 type="button"
                 onClick={() => navigate("/TransferMoney")}
                 disabled
-                className="py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/40 font-semibold
+                className="py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-400 dark:text-white/40 font-semibold
                   cursor-not-allowed text-sm"
                 title="Add a card first to transfer money"
               >
@@ -141,14 +141,14 @@ export default function CardSection() {
                   </svg>
                 </button>
 
-                <div className="flex-1 bg-white/5 rounded-xl p-4 sm:p-6">
+                <div className="flex-1 bg-gray-100 dark:bg-white/5 rounded-xl p-4 sm:p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       {renderCardLogo(cards[selectedIndex].cardType)}
-                      <span className="text-white/60 text-sm">{cards[selectedIndex].cardType}</span>
+                      <span className="text-gray-500 dark:text-white/60 text-sm">{cards[selectedIndex].cardType}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-white/60 text-xs">Balance</p>
+                      <p className="text-gray-500 dark:text-white/60 text-xs">Balance</p>
                       <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] font-bold text-xl">
                         {cards[selectedIndex].currency} {new Intl.NumberFormat().format(cards[selectedIndex].balance)}
                       </p>
@@ -157,16 +157,16 @@ export default function CardSection() {
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <p className="text-white/50 text-xs mb-1">Card Number</p>
-                      <p className="text-white font-mono">{cards[selectedIndex].maskedNumber}</p>
+                      <p className="text-gray-400 dark:text-white/50 text-xs mb-1">Card Number</p>
+                      <p className="text-gray-900 dark:text-white font-mono">{cards[selectedIndex].maskedNumber}</p>
                     </div>
                     <div>
-                      <p className="text-white/50 text-xs mb-1">Card Holder</p>
-                      <p className="text-white">{cards[selectedIndex].cardHolder}</p>
+                      <p className="text-gray-400 dark:text-white/50 text-xs mb-1">Card Holder</p>
+                      <p className="text-gray-900 dark:text-white">{cards[selectedIndex].cardHolder}</p>
                     </div>
                     <div>
-                      <p className="text-white/50 text-xs mb-1">Expires</p>
-                      <p className="text-white">{cards[selectedIndex].expiryDate}</p>
+                      <p className="text-gray-400 dark:text-white/50 text-xs mb-1">Expires</p>
+                      <p className="text-gray-900 dark:text-white">{cards[selectedIndex].expiryDate}</p>
                     </div>
                   </div>
 
@@ -178,7 +178,7 @@ export default function CardSection() {
                         onClick={() => setSelectedIndex(index)}
                         className={`w-2 h-2 rounded-full transition-all duration-200 ${index === selectedIndex
                           ? "bg-gradient-to-r from-[#62A6BF] to-[#49EB8C] w-5"
-                          : "bg-white/30 hover:bg-white/50"
+                          : "bg-gray-400 dark:bg-white/30 hover:bg-gray-500 dark:hover:bg-white/50"
                           }`}
                         aria-label={`Select card ${index + 1}`}
                       />
@@ -213,8 +213,8 @@ export default function CardSection() {
               <button
                 type="button"
                 onClick={() => navigate("/TransferMoney")}
-                className="py-2.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold
-                  hover:bg-white/20 transition-all duration-300 text-sm"
+                className="py-2.5 rounded-xl bg-gray-200 dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-semibold
+                  hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-300 text-sm"
               >
                 Transfer Money
               </button>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
 import { useUser } from "../context/UserContext";
@@ -23,7 +24,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className="bg-ff-bg-dark backdrop-blur-md text-white fixed w-full top-0 z-50 shadow-md"
+      className="bg-white dark:bg-ff-bg-dark backdrop-blur-md text-gray-900 dark:text-white fixed w-full top-0 z-50 shadow-md border-b border-gray-200 dark:border-transparent"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -83,10 +84,10 @@ const NavBar = () => {
             <Link
               to="/Notifications"
               aria-label="View notifications"
-              className="relative p-2 rounded-lg hover:bg-white/10 transition-all duration-200"
+              className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-200"
             >
               <svg
-                className="w-6 h-6 text-white/80 hover:text-white"
+                className="w-6 h-6 text-gray-600 dark:text-white/80 hover:text-gray-900 dark:hover:text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -98,9 +99,17 @@ const NavBar = () => {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-              {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-ff-accent rounded-full" />
-              )}
+              <AnimatePresence>
+                {unreadCount > 0 && (
+                  <motion.span
+                    className="absolute top-1 right-1 w-2 h-2 bg-ff-accent rounded-full"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                  />
+                )}
+              </AnimatePresence>
             </Link>
 
             {/* Profile */}
@@ -149,12 +158,17 @@ const NavBar = () => {
           </button>
 
           {/* MOBILE MENU */}
-          <ul
+          <AnimatePresence>
+            {isMenuOpen && (
+          <motion.ul
             id="mobile-menu"
-            className={`${isMenuOpen ? "flex" : "hidden"
-              } flex-col absolute top-16 right-0 w-56 bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40`}
+            className="flex flex-col absolute top-16 right-0 w-56 bg-white dark:bg-ff-bg-dark/90 p-4 space-y-2 rounded-md shadow-lg z-40 border border-gray-200 dark:border-transparent"
             role="menu"
             aria-label="Mobile Main Menu"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             <li>
               <Link
@@ -194,14 +208,14 @@ const NavBar = () => {
 
             {isNotLandingPage ? (
               <>
-                <li className="pt-2 border-t border-zinc-800">
+                <li className="pt-2 border-t border-gray-200 dark:border-zinc-800">
                   <SearchBar />
                 </li>
 
                 <li>
                   <Link
                     to="/Notifications"
-                    className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800 flex items-center justify-between"
+                    className="block px-4 py-2 rounded-md font-semibold hover:bg-gray-100 dark:hover:bg-zinc-800 flex items-center justify-between"
                     onClick={toggleMenu}
                   >
                     <span>Notifications</span>
@@ -216,7 +230,7 @@ const NavBar = () => {
                 <li>
                   <Link
                     to="/Settings"
-                    className="block px-4 py-2 rounded-md font-semibold hover:bg-zinc-800"
+                    className="block px-4 py-2 rounded-md font-semibold hover:bg-gray-100 dark:hover:bg-zinc-800"
                   >
                     Profile
                   </Link>
@@ -231,7 +245,9 @@ const NavBar = () => {
                 Log in
               </Link>
             )}
-          </ul>
+          </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </nav>

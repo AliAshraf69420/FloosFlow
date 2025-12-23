@@ -1,13 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 @layer base {
   body {
-    font-family: "Inter", sans-serif;
     font-family: "Inter", sans-serif;
   }
 }
@@ -15,14 +17,14 @@
 @layer components {
   /* Base button: gradient on hover, works with/without SVG */
   .ff-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-ff-gradient hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-ff-gradient hover:text-white text-gray-900 dark:text-white;
   }
   .ff-dashboard-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-[#1f1f1f]/30 bg-[#1f1f1f]/50 hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 hover:bg-[#1f1f1f]/30 bg-gray-200 dark:bg-[#1f1f1f]/50 hover:text-white text-gray-900 dark:text-white;
   }
 
   .ff-card {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-ff-gradient hover:text-white;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-lg text-gray-900 dark:text-white transition-all duration-300 hover:bg-ff-gradient hover:text-white;
   }
 
   /* Settings cards reuse the base card styling but keep hover to 10% opacity of the gradient */
@@ -40,18 +42,18 @@
   }
 
   .ff-card-transaction {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:bg-white hover:text-white;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-lg text-gray-900 dark:text-white transition-all duration-300 hover:bg-white hover:text-gray-900 dark:hover:text-white;
   }
 
   .ff-card-AddTransaction {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300  hover:text-white;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-lg text-gray-900 dark:text-white transition-all duration-300 hover:text-gray-900 dark:hover:text-white;
   }
   .ff-card-Transfer {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition-all duration-300 hover:text-white;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-lg text-gray-900 dark:text-white transition-all duration-300 hover:text-gray-900 dark:hover:text-white;
   }
 
   .ff-dashboard-card {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg text-white transition ease-in-out duration-300 hover:bg-ff-gradient hover:text-black;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-lg text-gray-900 dark:text-white transition ease-in-out duration-300 hover:bg-ff-gradient hover:text-black;
   }
 
   .ff-search {
@@ -63,16 +65,16 @@
   }
 
   .ff-search-input {
-    @apply pl-10 pr-4 py-2 
-        rounded-lg 
-        bg-ff-input/80 
-        text-gray-100 
-        placeholder-gray-400
-        focus:outline-none 
-        focus:ring-2 
-        focus:ring-green-400 
-        transition-all 
-        duration-200 
+    @apply pl-10 pr-4 py-2
+        rounded-lg
+        bg-gray-100 dark:bg-ff-input/80
+        text-gray-900 dark:text-gray-100
+        placeholder-gray-500 dark:placeholder-gray-400
+        focus:outline-none
+        focus:ring-2
+        focus:ring-green-400
+        transition-all
+        duration-200
         w-full;
     font-size: clamp(0.75rem, 1.2vw, 1rem);
   }
@@ -82,11 +84,11 @@
   }
 
   .ff-input {
-    @apply w-full px-4 py-2 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-gray-100 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-ff-accent transition-all duration-300 hover:bg-white/20;
+    @apply w-full px-4 py-2 rounded-xl bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-ff-accent transition-all duration-300 hover:bg-gray-200 dark:hover:bg-white/20;
   }
 
   .ff-sidebar {
-    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-xl;
+    @apply bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl p-6 text-xl text-gray-900 dark:text-white;
   }
 
   /* gradient helper */
@@ -107,7 +109,7 @@
   }
 
   .ff-search-input-Transfer {
-    @apply pl-10 pr-4 py-2 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 hover:bg-ff-input-hover w-full;
+    @apply pl-10 pr-4 py-2 rounded-lg bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-ff-input-hover w-full;
   }
 
   .ff-search-icon-Transfer {
@@ -119,7 +121,7 @@
   }
 
   .ff-search-input-transaction {
-    @apply pl-10 pr-4 py-2 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 hover:bg-ff-input-hover w-full;
+    @apply pl-10 pr-4 py-2 rounded-lg bg-gray-100 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-ff-input-hover w-full;
   }
 
   .ff-search-icon-transaction {
@@ -140,7 +142,7 @@
 
   /* Secondary button */
   .ff-btn-secondary {
-    @apply w-full py-2 sm:py-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white font-semibold hover:bg-white/20 transition-all duration-300;
+    @apply w-full py-2 sm:py-3 rounded-xl bg-gray-200 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-semibold hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-300;
   }
 
   /* Danger button */
@@ -150,12 +152,12 @@
 
   /* Navigation button (arrows) */
   .ff-nav-btn {
-    @apply p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200;
+    @apply p-2 rounded-full bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-200;
   }
 
   /* Form label */
   .ff-label {
-    @apply block text-xs font-medium mb-1 text-white/90;
+    @apply block text-xs font-medium mb-1 text-gray-700 dark:text-white/90;
   }
 
   /* Gradient text */
@@ -164,7 +166,6 @@
     background-image: linear-gradient(90deg, #62a6bf 0%, #49eb8c 50%, #65e67f 100%);
   }
 
-  /* Popup backdrop */
   .ff-popup-backdrop {
     @apply fixed inset-0 z-50 flex items-center justify-center;
   }
@@ -176,20 +177,328 @@
 
   /* Popup content */
   .ff-popup-content {
-    @apply relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-4 text-white;
+    @apply relative bg-white dark:bg-white/10 backdrop-blur-xl border border-gray-200 dark:border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-4 text-gray-900 dark:text-white;
   }
 
   /* Card info box */
   .ff-info-box {
-    @apply bg-white/5 rounded-xl p-4;
+    @apply bg-gray-100 dark:bg-white/5 rounded-xl p-4;
   }
 
   /* Dot indicator */
   .ff-dot {
-    @apply w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-200;
+    @apply w-2 h-2 rounded-full bg-gray-400 dark:bg-white/30 hover:bg-gray-500 dark:hover:bg-white/50 transition-all duration-200;
   }
   .ff-dot-active {
     @apply w-5 rounded-full;
     background: linear-gradient(90deg, #62a6bf 0%, #49eb8c 100%);
   }
+}
+
+/* ============================================
+   ADVANCED ANIMATIONS
+   ============================================ */
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(73, 235, 140, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(73, 235, 140, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animation Utility Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Stagger Animation Delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Initially hidden for staggered animations */
+.animate-on-scroll {
+  opacity: 0;
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(73, 235, 140, 0.4);
+}
+
+/* Button Press Effect */
+.press-effect {
+  transition: transform 0.1s ease;
+}
+.press-effect:active {
+  transform: scale(0.97);
+}
+
+/* Card Hover with Gradient Border */
+.hover-gradient-border {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.hover-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(90deg, #62a6bf, #49eb8c, #65e67f);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.hover-gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Skeleton Loading Animation */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+}
+
+.light .skeleton {
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.05) 25%,
+    rgba(0,0,0,0.1) 50%,
+    rgba(0,0,0,0.05) 75%
+  );
+}
+
+/* Ripple Effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.ripple:active::after {
+  transform: scale(4);
+  opacity: 1;
+  transition: transform 0s, opacity 0s;
+}
+
+/* Notification Badge Pulse */
+.badge-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Text Gradient Animation */
+.text-gradient-animate {
+  background: linear-gradient(90deg, #62a6bf, #49eb8c, #65e67f, #62a6bf);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease infinite;
 }

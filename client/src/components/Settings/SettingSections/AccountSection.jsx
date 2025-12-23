@@ -75,7 +75,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
 
   return (
     <section id="account" className="ff-card ff-settings-card">
-      <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-white text-center sm:text-left">
+      <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white text-center sm:text-left">
         Account
       </h2>
 
@@ -91,8 +91,8 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
       <div className="space-y-12">
         {/* Email Update */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-white">Update Email</h3>
-          <label className="block text-gray-200 mb-2">Email Address</label>
+          <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Update Email</h3>
+          <label className="block text-gray-700 dark:text-gray-200 mb-2">Email Address</label>
           <input
             type="email"
             className="ff-input w-full"
@@ -111,10 +111,10 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
 
         {/* Password Update */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-white">Change Password</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Change Password</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-200 mb-2">Current Password</label>
+              <label className="block text-gray-700 dark:text-gray-200 mb-2">Current Password</label>
               <input
                 type="password"
                 className="ff-input w-full"
@@ -124,7 +124,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
               />
             </div>
             <div>
-              <label className="block text-gray-200 mb-2">New Password</label>
+              <label className="block text-gray-700 dark:text-gray-200 mb-2">New Password</label>
               <input
                 type="password"
                 className="ff-input w-full"
@@ -134,7 +134,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
               />
             </div>
             <div>
-              <label className="block text-gray-200 mb-2">Confirm New Password</label>
+              <label className="block text-gray-700 dark:text-gray-200 mb-2">Confirm New Password</label>
               <input
                 type="password"
                 className="ff-input w-full"
@@ -157,7 +157,7 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
         {/* Delete Account */}
         <div className="pt-6 border-t border-red-500/30">
           <h3 className="text-xl font-semibold text-red-400 mb-3">Danger Zone</h3>
-          <p className="text-gray-300 mb-4">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Permanently delete your account and all associated data. This action cannot be undone.
           </p>
           <button

@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-ff-bg-dark text-white backdrop-blur-md border-t border-gray-700 py-6 text-center  bottom-0 left-0 w-full">
+    <footer className="bg-white dark:bg-ff-bg-dark text-gray-900 dark:text-white backdrop-blur-md border-t border-gray-200 dark:border-gray-700 py-6 text-center bottom-0 left-0 w-full">
       <div className="max-w-7xl mx-auto px-4">
         <p className="text-sm">
           &copy; 2025 FloosFlow Inc. All rights reserved.
