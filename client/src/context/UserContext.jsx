@@ -76,6 +76,7 @@ export function UserProvider({ children }) {
     fetchUser,
     updateUser,
     clearUser,
+    setError,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

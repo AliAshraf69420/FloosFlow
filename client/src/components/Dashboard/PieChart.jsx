@@ -24,6 +24,13 @@ export default function PieChart({ chartData = [] }) {
     ],
   };
 
+  const formatEGP = (val) =>
+    new Intl.NumberFormat("en-EG", {
+      style: "currency",
+      currency: "EGP",
+      maximumFractionDigits: 0,
+    }).format(val);
+
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -33,7 +40,7 @@ export default function PieChart({ chartData = [] }) {
         callbacks: {
           label: (ctx) => {
             const item = chartData[ctx.dataIndex];
-            return `${item.label}: ${item.value} (${item.percentage ?? 0}%)`;
+            return `${item.label}: ${formatEGP(item.value)} (${item.percentage ?? 0}%)`;
           },
         },
       },
@@ -60,7 +67,7 @@ export default function PieChart({ chartData = [] }) {
                 className={`transition ${hoverIndex === i ? "text-white" : "text-white/70"}`}
                 style={{ fontWeight: hoverIndex === i ? "bold" : "normal" }}
               >
-                {label}: {values[i]} ({chartData[i]?.percentage ?? 0}%)
+                {label}: {formatEGP(values[i])} ({chartData[i]?.percentage ?? 0}%)
               </li>
             ))}
           </ul>

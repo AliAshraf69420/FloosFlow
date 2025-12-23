@@ -1,5 +1,6 @@
 const express = require("express");
 const prisma = require("../prisma/prisma-client");
+const { Prisma } = require("../generated/prisma");
 const { authenticate } = require("../middleware/auth");
 const NotificationService = require("../services/notificationService");
 
@@ -54,8 +55,20 @@ router.get("/transfers", authenticate, async (req, res) => {
 router.post("/add-transaction", authenticate, async (req, res) => {
     const { transactionName, money, category, merchantName, message, cardId } = req.body;
 
-    if (!money || !category || !merchantName || !cardId) {
-        return res.status(400).json({ error: "money, category, merchantName, and cardId are required" });
+    if (!money) return res.status(400).json({ error: "Amount (money) is missing" });
+    if (!category) return res.status(400).json({ error: "Category is missing" });
+    if (!merchantName) return res.status(400).json({ error: "Merchant Name is missing" });
+    if (!cardId) return res.status(400).json({ error: "Card Id is missing" });
+
+    // Sanitize money input to a valid positive decimal
+    let sanitizedMoney;
+    try {
+        sanitizedMoney = new Prisma.Decimal(money);
+        if (sanitizedMoney.lte(0)) {
+            return res.status(400).json({ error: "Amount must be greater than zero" });
+        }
+    } catch (e) {
+        return res.status(400).json({ error: "Invalid amount format" });
     }
 
     try {
@@ -65,12 +78,12 @@ router.post("/add-transaction", authenticate, async (req, res) => {
         if (card.userId !== req.userId) return res.status(403).json({ error: "Card does not belong to user" });
 
         // Check if the card has enough balance
-        if (card.balance < money) return res.status(400).json({ error: "Insufficient balance" });
+        if (card.balance.lessThan(sanitizedMoney)) return res.status(400).json({ error: "Insufficient balance" });
 
-        // Deduct balance
+        // Deduct balance using decimal arithmetic
         await prisma.card.update({
             where: { id: cardId },
-            data: { balance: card.balance - money }
+            data: { balance: card.balance.minus(sanitizedMoney) }
         });
 
         // Create transaction
@@ -78,7 +91,7 @@ router.post("/add-transaction", authenticate, async (req, res) => {
             data: {
                 userId: req.userId,
                 cardId,
-                money,
+                money: sanitizedMoney,
                 category,
                 merchantName,
                 message,
@@ -103,10 +116,19 @@ router.post("/transfer-money", authenticate, async (req, res) => {
     const { recipientEmail, amount, senderCardId, reason, message } = req.body;
 
     // Validate required fields
-    if (!recipientEmail || !amount || !senderCardId) {
-        return res.status(400).json({
-            error: "recipientEmail, amount, and senderCardId are required"
-        });
+    if (!recipientEmail) return res.status(400).json({ error: "Recipient Email is missing" });
+    if (!amount) return res.status(400).json({ error: "Amount is missing" });
+    if (!senderCardId) return res.status(400).json({ error: "Sender Card Id is missing" });
+
+    // Sanitize amount input
+    let sanitizedAmount;
+    try {
+        sanitizedAmount = new Prisma.Decimal(amount);
+        if (sanitizedAmount.lte(0)) {
+            return res.status(400).json({ error: "Transfer amount must be greater than zero" });
+        }
+    } catch (e) {
+        return res.status(400).json({ error: "Invalid amount format" });
     }
 
     try {
@@ -114,7 +136,7 @@ router.post("/transfer-money", authenticate, async (req, res) => {
         if (!senderCard) return res.status(404).json({ error: "Sender card not found" });
         if (senderCard.userId !== req.userId)
             return res.status(403).json({ error: "Card does not belong to sender" });
-        if (senderCard.balance < amount)
+        if (senderCard.balance.lessThan(sanitizedAmount))
             return res.status(400).json({ error: "Insufficient balance" });
 
         const recipient = await prisma.user.findUnique({ where: { email: recipientEmail } });
@@ -134,11 +156,11 @@ router.post("/transfer-money", authenticate, async (req, res) => {
         await prisma.$transaction([
             prisma.card.update({
                 where: { id: senderCard.id },
-                data: { balance: senderCard.balance - amount }
+                data: { balance: senderCard.balance.minus(sanitizedAmount) }
             }),
             prisma.card.update({
                 where: { id: recipientCard.id },
-                data: { balance: recipientCard.balance + amount }
+                data: { balance: recipientCard.balance.plus(sanitizedAmount) }
             }),
             prisma.transfer.create({
                 data: {
@@ -146,7 +168,7 @@ router.post("/transfer-money", authenticate, async (req, res) => {
                     senderCardId: senderCard.id,
                     recipientId: recipient.id,
                     recipientCardId: recipientCard.id,
-                    amount,
+                    amount: sanitizedAmount,
                     reason,
                     message
                 }
@@ -188,10 +210,18 @@ router.post("/request-money", authenticate, async (req, res) => {
     const { recipientEmail, amount, reason, message } = req.body;
 
     // Validate required fields
-    if (!recipientEmail || !amount) {
-        return res.status(400).json({
-            error: "recipientEmail and amount are required"
-        });
+    if (!recipientEmail) return res.status(400).json({ error: "Recipient Email is missing" });
+    if (!amount) return res.status(400).json({ error: "Amount is missing" });
+
+    // Sanitize amount input
+    let sanitizedAmount;
+    try {
+        sanitizedAmount = new Prisma.Decimal(amount);
+        if (sanitizedAmount.lte(0)) {
+            return res.status(400).json({ error: "Request amount must be greater than zero" });
+        }
+    } catch (e) {
+        return res.status(400).json({ error: "Invalid amount format" });
     }
 
     try {
@@ -231,11 +261,11 @@ router.post("/request-money", authenticate, async (req, res) => {
         // Send notification to recipient (person who will send money)
         await notificationService.sendNotification(
             recipient.id,
-            `${requester.firstName} ${requester.lastName} is requesting $${amount}${reason ? ` for ${reason}` : ''}${message ? ` - "${message}"` : ''}`,
+            `${requester.firstName} ${requester.lastName} is requesting $${amount}`,
             "request",
             message,
             requester.email,  // Pass requester's email so recipient knows who to send to
-            amount            // Pass the amount so recipient knows how much to send
+            sanitizedAmount   // Pass the amount so recipient knows how much to send
         );
 
         // Send confirmation to requester

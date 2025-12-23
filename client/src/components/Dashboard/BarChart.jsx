@@ -36,6 +36,13 @@ export default function BarChart({ chartData = [] }) {
     ],
   };
 
+  const formatEGP = (val) =>
+    new Intl.NumberFormat("en-EG", {
+      style: "currency",
+      currency: "EGP",
+      maximumFractionDigits: 0,
+    }).format(val);
+
   const options = {
     maintainAspectRatio: false,
     plugins: {
@@ -44,7 +51,7 @@ export default function BarChart({ chartData = [] }) {
         callbacks: {
           label: (ctx) => {
             const item = chartData[ctx.dataIndex];
-            return `${item.label}: ${item.value} (${item.percentage ?? 0}%)`;
+            return `${item.label}: ${formatEGP(item.value)} (${item.percentage ?? 0}%)`;
           },
         },
       },
@@ -55,7 +62,10 @@ export default function BarChart({ chartData = [] }) {
         grid: { display: false },
       },
       y: {
-        ticks: { color: "#ffffffb3" },
+        ticks: {
+          color: "#ffffffb3",
+          callback: (value) => formatEGP(value),
+        },
         grid: { color: "#ffffff20" },
       },
     },
