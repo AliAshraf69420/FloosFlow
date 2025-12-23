@@ -39,9 +39,9 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
   };
 
   const title = getTitle(message);
-  const body = getMessageBody(message);
 
-
+  console.log(title)
+  console.log(UserMessage)
   // Handle accepting money request
   const handleAcceptRequest = async () => {
     try {
@@ -119,12 +119,7 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
             {formatTime(createdAt)}
           </span>
         </div>
-        {body && (
-          <p className={`text-sm mt-1 ${!read ? "text-white/80" : "text-white/50"}`}>
-            {body}
 
-          </p>
-        )}
         {UserMessage && (
           <p className={`text-sm mt-1 ${!read ? "text-white/80" : "text-white/50"}`}>
             Message : {UserMessage}

@@ -2,9 +2,18 @@ import { useNotifications } from "../context/NotificationsContext";
 import NotificationHeader from "../components/Notifications/NotificationHeader";
 import NotificationItem from "../components/Notifications/NotificationItem";
 import EmptyNotifications from "../components/Notifications/EmptyNotifications";
+import { useUser } from "../context/UserContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationsPage() {
   const { notifications, unreadCount, loading, error, markAsRead, markAllAsRead } = useNotifications();
+  const { fetchUser } = useUser()
+  const navigate = useNavigate(); // to redirect after login
+
+  useEffect(async () => {
+    await fetchUser()
+  }, [])
 
   if (loading) {
     return (

@@ -21,6 +21,7 @@ import NotificationsPage from "./routes/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProvider } from "./context/UserContext";
 import AuthCallback from "./routes/AuthCallback";
+import PageNotFound from "./routes/PageNotFound";
 function App() {
   return (
     <UserProvider>
@@ -34,7 +35,8 @@ function App() {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
-                <Route path="/loading" element={<LoadingPage />} />
+                <Route path="/Loading" element={<LoadingPage />} />
+                <Route path="/Error" element={<ErrorPage />} />
 
                 {/* Protected routes individually wrapped */}
                 <Route
@@ -63,9 +65,7 @@ function App() {
                 />
 
                 <Route path="/auth/callback" element={
-                  <ProtectedRoute>
-                    <AuthCallback />
-                  </ProtectedRoute>
+                  <AuthCallback />
                 } />
                 <Route
                   path="/TransactionDetails/:id"
@@ -125,7 +125,7 @@ function App() {
                 />
 
                 {/* Catch-all route */}
-                <Route path="*" element={<ErrorPage />} />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
 
             </main>

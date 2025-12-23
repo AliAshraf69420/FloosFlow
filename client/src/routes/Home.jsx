@@ -2,6 +2,8 @@ import WelcomeCard from '../components/Home/WelcomeCard';
 import CardSection from '../components/Home/CardSection';
 import Service from '../components/Home/services';
 import { useUser } from '../context/UserContext';
+import { Navigate, useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../components/Notifications/LoadingSpinner';
 
 const services = [
     'Service 1',
@@ -16,9 +18,14 @@ const services = [
 
 const Home = () => {
     const { user, loading, error } = useUser();
+    const { fetchUser } = useUser();
+    const navigate = useNavigate(); // to redirect after login
 
-    if (loading) return <p>Loading user data...</p>;
-    if (error) return <p>Error loading user: {error}</p>;
+    if (loading) return LoadingSpinner();
+    if (error) {
+        console.error(error)
+        navigate("/Error", { state: { error } })
+    };
     return (
         <div className="pt-24 px-4 sm:px-8 flex flex-col items-center space-y-10 bg-ff-bg-dark pb-32">
             {/* Pass user to child components if needed */}

@@ -42,17 +42,21 @@ export default function ManageCardsPage() {
 
     try {
       const response = await cardService.addCard(payload);
-      const savedCard = response?.data?.card;
+
+      const savedCard = response?.card;
 
 
-      setCards((prev) => [
-        ...prev,
-        {
-          ...savedCard,
-          maskedNumber: "**** **** **** " + savedCard.cardNumber.slice(-4),
-          currency: "EGP",
-        },
-      ]);
+      setCards((prev) => {
+        const last4 = String(savedCard.cardNumber || "").slice(-4);
+        return [
+          ...prev,
+          {
+            ...savedCard,
+            maskedNumber: "**** **** **** " + last4,
+            currency: "EGP",
+          },
+        ]
+      });
 
       setShowAddForm(false);
 

@@ -110,10 +110,8 @@ router.get(
             profileImage: user.profileImage,
         }));
 
-        const redirectUrl = `${frontendUrl}/auth/callback?token=${token}&user=${userData}`;
-        console.log("Redirecting to:", redirectUrl);
+        res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${userData}`);
 
-        res.redirect(redirectUrl);
     }
 );
 

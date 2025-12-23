@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
 import { useUser } from "../context/UserContext";
+import LoadingSpinner from "./Notifications/LoadingSpinner";
 
 const NavBar = () => {
   const location = useLocation();
   const { unreadCount } = useNotifications();
-
   const isLandingPage = location.pathname === "/";
   const isNotLandingPage = !isLandingPage;
   const { user, loading, error } = useUser();
 
-  if (loading) return <p>Loading user data...</p>;
-  if (error) return <p>Error loading user: {error}</p>;
+  if (loading) return LoadingSpinner();
+
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

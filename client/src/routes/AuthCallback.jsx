@@ -14,12 +14,12 @@ export default function AuthCallback() {
         // Parse URL params
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
-        const userStr = params.get("user");
+        const user = params.get("user");
 
         console.log("Token received:", token ? "Yes" : "No");
-        console.log("User data received:", userStr ? "Yes" : "No");
+        console.log("User data received:", user ? "Yes" : "No");
 
-        if (!token || !userStr) {
+        if (!token || !user) {
             console.error("Missing token or user data");
             alert("Authentication failed");
             navigate("/Login");
@@ -33,7 +33,7 @@ export default function AuthCallback() {
                 console.log("Token saved to localStorage");
 
                 // Parse the basic user data from URL (just for logging)
-                const basicUser = JSON.parse(decodeURIComponent(userStr));
+                const basicUser = JSON.parse(decodeURIComponent(user));
                 console.log("Basic user from OAuth:", basicUser);
 
                 // Fetch FULL user data from backend (like regular login does)

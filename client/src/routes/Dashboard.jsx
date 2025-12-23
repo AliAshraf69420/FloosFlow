@@ -14,6 +14,7 @@ export default function Dashboard() {
   const nextChart = () => setIndex((prev) => (prev + 1) % 2);
   const prevChart = () => setIndex((prev) => (prev - 1 + 2) % 2);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
