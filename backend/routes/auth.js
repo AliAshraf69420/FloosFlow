@@ -87,8 +87,18 @@ router.get(
     "/google/callback",
     passport.authenticate("google", { session: false, failureRedirect: "/login" }),
     (req, res) => {
+        console.log("=== Google OAuth Callback ===");
+        console.log("User from passport:", req.user);
+
         const user = req.user;
+
+        if (!user) {
+            console.error("No user returned from passport!");
+            return res.redirect("http://localhost:5173/Login?error=auth_failed");
+        }
+
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+        console.log("Generated token for user:", user.id);
 
         // Redirect to frontend with token & user
         const frontendUrl = "http://localhost:5173";
@@ -99,7 +109,11 @@ router.get(
             lastName: user.lastName,
             profileImage: user.profileImage,
         }));
-        res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${userData}`);
+
+        const redirectUrl = `${frontendUrl}/auth/callback?token=${token}&user=${userData}`;
+        console.log("Redirecting to:", redirectUrl);
+
+        res.redirect(redirectUrl);
     }
 );
 

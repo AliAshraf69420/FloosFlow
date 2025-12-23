@@ -227,7 +227,9 @@ router.post("/request-money", authenticate, async (req, res) => {
             recipient.id,
             `${requester.firstName} ${requester.lastName} is requesting $${amount}${reason ? ` for ${reason}` : ''}${message ? ` - "${message}"` : ''}`,
             "request",
-            message
+            message,
+            requester.email,  // Pass requester's email so recipient knows who to send to
+            amount            // Pass the amount so recipient knows how much to send
         );
 
         // Send confirmation to requester

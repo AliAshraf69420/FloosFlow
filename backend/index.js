@@ -12,6 +12,7 @@ const { Server } = require("socket.io");
 const NotificationService = require("./services/notificationService.js");
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const passport = require('./utils/oauth'); // Import passport configuration
 
 dotenv.config();
 
@@ -23,6 +24,10 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
+// Initialize Passport
+app.use(passport.initialize());
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const server = http.createServer(app);

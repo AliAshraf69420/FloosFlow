@@ -41,37 +41,46 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
   const title = getTitle(message);
   const body = getMessageBody(message);
 
+
   // Handle accepting money request
   const handleAcceptRequest = async () => {
     try {
-      // Extract amount and requester email from the message
-      // Message format: "FirstName LastName is requesting $amount..."
-      const amountMatch = message.match(/\$(\d+(?:\.\d+)?)/);
-      const amount = amountMatch ? parseFloat(amountMatch[1]) : null;
+      // Get amount and requester email directly from notification data
+      const amount = notification.requestAmount ? parseFloat(notification.requestAmount) : null;
+      const requesterEmail = notification.requesterEmail;
 
-      if (!amount) {
+      if (!amount || !requesterEmail) {
         alert("Unable to process request - missing information");
+        return;
+      }
+
+      // Get user's selected receiving card
+      const selectedCard = user?.selectedReceivingCard;
+      if (!selectedCard) {
+        alert("You don't have a card selected for receiving/sending money");
+        return;
+      }
+
+      // Check if user has sufficient balance
+      if (parseFloat(selectedCard.balance) < amount) {
+        alert(`Insufficient balance. You need $${amount} but only have $${parseFloat(selectedCard.balance).toFixed(2)}`);
         return;
       }
 
       // Show confirmation prompt
       const confirmation = window.confirm(
-        `Accept money request for $${amount}?\n\nThis will transfer the money from your selected card.`
+        `Accept money request for $${amount} from ${requesterEmail}?\n\nThis will transfer the money from your card ending in ${selectedCard.cardNumber.slice(-4)}.`
       );
 
       if (!confirmation) return;
 
       setIsProcessing(true);
 
-      // Call transferMoney - you'll need to get the requester's email and your card ID
-      // For now, we'll need to extract or pass additional data
-      // This is a simplified version - you may need to store more data in the notification
-
       await transactionService.transferMoney({
-        recipientEmail: user.email,
+        recipientEmail: requesterEmail,  // Send to the person who requested
         amount: amount,
-        senderCardId: user.cards.find(card => card.isSelectedForReceiving).id,
-        message: `Accepting your request: ${UserMessage || ''}`
+        senderCardId: selectedCard.id,
+        message: `Accepting your request${UserMessage ? `: ${UserMessage}` : ''}`
       });
 
       alert("Transfer successful!");

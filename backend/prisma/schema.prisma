@@ -85,6 +85,8 @@ model Notification {
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   UserMessage String?
+  requesterEmail String?  // Email of person requesting money (for Accept button)
+  requestAmount  Decimal? // Amount being requested (for Accept button)
 }
 
 enum Category {
