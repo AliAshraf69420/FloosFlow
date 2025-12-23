@@ -20,9 +20,7 @@ import LoadingPage from "./routes/LoadingPage";
 import ManageCardsPage from "./routes/ManageCards";
 import NotificationsPage from "./routes/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { UserProvider, useUser } from "./context/UserContext";
-import { NotificationsProvider } from "./context/NotificationsContext";
-import { ThemeProvider } from "./context/ThemeContext";
+import { useUser } from "./context/UserContext";
 import AuthCallback from "./routes/AuthCallback";
 import PageNotFound from "./routes/PageNotFound";
 import Admin from "./routes/Admin";
@@ -46,129 +44,122 @@ function App() {
   }, [user, loading, isAdminPath, isAuthPath, navigate]);
 
   return (
-    <ThemeProvider>
-      <UserProvider>
-        <NotificationsProvider>
-          <div className="flex flex-col min-h-screen bg-ff-bg-light dark:bg-ff-bg-dark text-gray-900 dark:text-gray-100 font-sans">
-            {!shouldHideSiteNav && <NavBar />}
-            <main className="flex-grow">
-              <AnimatePresence mode="wait">
-                <Routes location={location} key={location.pathname}>
-                  {/* Public routes */}
-                  <Route path="/" element={<LandingPage />} />
-                  <Route path="/Login" element={<Login />} />
-                  <Route path="/Register" element={<Register />} />
-                  <Route path="/Loading" element={<LoadingPage />} />
-                  <Route path="/Error" element={<ErrorPage />} />
+    <div className="flex flex-col min-h-screen bg-ff-bg-light dark:bg-ff-bg-dark text-gray-900 dark:text-gray-100 font-sans">
+      {!shouldHideSiteNav && <NavBar />}
+      <main className="flex-grow">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            {/* Public routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Register" element={<Register />} />
+            <Route path="/Loading" element={<LoadingPage />} />
+            <Route path="/Error" element={<ErrorPage />} />
 
-                  {/* Protected routes */}
-                  <Route
-                    path="/AddTransaction"
-                    element={
-                      <ProtectedRoute>
-                        <AddTransactionPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Help"
-                    element={
-                      <ProtectedRoute>
-                        <HelpPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Home"
-                    element={
-                      <ProtectedRoute>
-                        <Home />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/auth/callback"
-                    element={
-                      <ProtectedRoute>
-                        <AuthCallback />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/TransactionDetails/:id"
-                    element={
-                      <ProtectedRoute>
-                        <TransactionDetails />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Transactions"
-                    element={
-                      <ProtectedRoute>
-                        <Transactions />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/TransferMoney"
-                    element={
-                      <ProtectedRoute>
-                        <TransferMoney />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/ManageCards"
-                    element={
-                      <ProtectedRoute>
-                        <ManageCardsPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Notifications"
-                    element={
-                      <ProtectedRoute>
-                        <NotificationsPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ProtectedRoute>
-                        <SettingsPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/Admin"
-                    element={
-                      <ProtectedRoute>
-                        <Admin />
-                      </ProtectedRoute>
-                    }
-                  />
+            {/* Protected routes */}
+            <Route
+              path="/AddTransaction"
+              element={
+                <ProtectedRoute>
+                  <AddTransactionPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Help"
+              element={
+                <ProtectedRoute>
+                  <HelpPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/auth/callback"
+              element={
 
-                  {/* Catch-all */}
-                  <Route path="*" element={<PageNotFound />} />
-                </Routes>
-              </AnimatePresence>
-            </main>
-            {!shouldHideSiteNav && <Footer />}
-          </div>
-        </NotificationsProvider>
-      </UserProvider>
-    </ThemeProvider>
+                <AuthCallback />
+              }
+            />
+            <Route
+              path="/TransactionDetails/:id"
+              element={
+                <ProtectedRoute>
+                  <TransactionDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Transactions"
+              element={
+                <ProtectedRoute>
+                  <Transactions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/TransferMoney"
+              element={
+                <ProtectedRoute>
+                  <TransferMoney />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ManageCards"
+              element={
+                <ProtectedRoute>
+                  <ManageCardsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Notifications"
+              element={
+                <ProtectedRoute>
+                  <NotificationsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch-all */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+      {!shouldHideSiteNav && <Footer />}
+    </div>
   );
 }
 

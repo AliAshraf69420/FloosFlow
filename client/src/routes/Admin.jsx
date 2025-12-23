@@ -74,9 +74,9 @@ export default function Admin() {
     if (!user || user.role !== 'ADMIN') return null;
 
     return (
-        <div className="min-h-screen bg-ff-bg-dark text-gray-100">
+        <div className="min-h-screen bg-ff-bg-light dark:bg-ff-bg-dark text-gray-900 dark:text-gray-100">
             {/* Admin Specialized Header */}
-            <header className="bg-ff-bg-dark border-b border-white/10 sticky top-0 z-50">
+            <header className="bg-white dark:bg-ff-bg-dark border-b border-gray-200 dark:border-white/10 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-8">
                         <Link to="/Admin" className="flex items-center gap-2">
@@ -90,9 +90,9 @@ export default function Admin() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-3 mr-4 border-r border-white/10 pr-4">
+                        <div className="flex items-center gap-3 mr-4 border-r border-gray-200 dark:border-white/10 pr-4">
                             <div className="text-right hidden sm:block">
-                                <p className="text-sm font-medium leading-none">{user.firstName} {user.lastName}</p>
+                                <p className="text-sm font-medium leading-none text-gray-900 dark:text-white">{user.firstName} {user.lastName}</p>
                                 <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{user.role}</p>
                             </div>
                             <img
@@ -114,8 +114,8 @@ export default function Admin() {
 
             <div className="p-4 sm:p-8 max-w-7xl mx-auto">
                 <div className="mb-8">
-                    <h2 className="text-3xl font-bold mb-2 text-white">User Management</h2>
-                    <p className="text-gray-400">Search, edit, and manage all users on the platform.</p>
+                    <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">User Management</h2>
+                    <p className="text-gray-500 dark:text-gray-400">Search, edit, and manage all users on the platform.</p>
                 </div>
 
                 <UserFilter onFilter={handleFilter} />

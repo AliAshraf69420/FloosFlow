@@ -36,12 +36,12 @@ export default function UserFilter({ onFilter }) {
     };
 
     return (
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg p-6 mb-8">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-white">Filter Users</h3>
+        <div className="ff-card p-6 mb-8 hover:bg-none hover:text-inherit cursor-default">
+            <div className="flex justify-between items-center mb-4 border-b border-gray-200 dark:border-white/10 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Filter Users</h3>
                 <button
                     onClick={clearFilters}
-                    className="text-xs text-gray-400 hover:text-white transition-colors"
+                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                     Clear All
                 </button>
