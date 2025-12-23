@@ -20,7 +20,6 @@ export default function NotificationItem({ notification, onMarkAsRead }) {
     return date.toLocaleDateString();
   };
 
-  // Extract title from message (first line or first 50 chars)
   const getTitle = (msg) => {
     const firstLine = msg.split('\n')[0];
     return firstLine.length > 50 ? firstLine.substring(0, 50) + '...' : firstLine;

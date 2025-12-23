@@ -36,13 +36,11 @@ function App() {
             <main className="flex-grow">
               <AnimatePresence mode="wait">
               <Routes location={location} key={location.pathname}>
-                {/* Public routes */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/loading" element={<LoadingPage />} />
 
-                {/* Protected routes individually wrapped */}
                 <Route
                   path="/AddTransaction"
                   element={
