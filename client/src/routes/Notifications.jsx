@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNotifications } from "../context/NotificationsContext";
 import NotificationHeader from "../components/Notifications/NotificationHeader";
 import NotificationItem from "../components/Notifications/NotificationItem";
 import EmptyNotifications from "../components/Notifications/EmptyNotifications";
+import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -20,20 +23,26 @@ const listVariants = {
 
 const itemVariants = {
   initial: { opacity: 0, x: -20 },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }
-  },
-  exit: {
-    opacity: 0,
-    x: 20,
-    transition: { duration: 0.2 }
-  }
+  animate: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } },
+  exit: { opacity: 0, x: 20, transition: { duration: 0.2 } }
 };
 
 export default function NotificationsPage() {
   const { notifications, unreadCount, loading, error, markAsRead, markAllAsRead } = useNotifications();
+  const { fetchUser } = useUser();
+  const navigate = useNavigate();
+
+  // Optionally fetch user data on mount
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        await fetchUser();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadUser();
+  }, [fetchUser]);
 
   if (loading) {
     return (
@@ -77,31 +86,15 @@ export default function NotificationsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <NotificationHeader
-            unreadCount={unreadCount}
-            onMarkAllAsRead={markAllAsRead}
-          />
+          <NotificationHeader unreadCount={unreadCount} onMarkAllAsRead={markAllAsRead} />
         </motion.div>
 
         {notifications.length > 0 ? (
-          <motion.div
-            className="space-y-3"
-            variants={listVariants}
-            initial="initial"
-            animate="animate"
-          >
+          <motion.div className="space-y-3" variants={listVariants} initial="initial" animate="animate">
             <AnimatePresence>
-              {notifications.map((notification, index) => (
-                <motion.div
-                  key={notification.id}
-                  variants={itemVariants}
-                  layout
-                  className="hover-lift"
-                >
-                  <NotificationItem
-                    notification={notification}
-                    onMarkAsRead={markAsRead}
-                  />
+              {notifications.map((notification) => (
+                <motion.div key={notification.id} variants={itemVariants} layout className="hover-lift">
+                  <NotificationItem notification={notification} onMarkAsRead={markAsRead} />
                 </motion.div>
               ))}
             </AnimatePresence>

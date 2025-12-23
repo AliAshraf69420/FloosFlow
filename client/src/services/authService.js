@@ -4,33 +4,64 @@ import { useNotifications } from '../context/NotificationsContext';
 const authService = {
     // Register new user
     register: async (userData) => {
-        const response = await apiClient.post('/auth/register', userData);
-        if (response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+        try {
+            const response = await apiClient.post('/auth/register', userData);
+            if (response.data.token) {
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            }
+            return response.data;
         }
-        return response.data;
+        catch (err) {
+            const message =
+                err?.response?.data?.error ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to register";
+            console.log(message)
+            throw new Error(message);
+        }
     },
 
     // Login user
     login: async (credentials) => {
-        const response = await apiClient.post('/auth/login', credentials);
-        console.log(response.status);
-        if (response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+        try {
+            const response = await apiClient.post('/auth/login', credentials);
+            console.log(response.status);
+            if (response.data.token) {
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            }
+            return response.data;
+        } catch (err) {
+            const message =
+                err?.response?.data?.error ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to login";
+            console.log(message)
+            throw new Error(message);
         }
-        return response.data;
     },
 
     // Google OAuth login
     googleAuth: async (googleToken) => {
-        const response = await apiClient.post('/auth/google', { token: googleToken });
-        if (response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+        try {
+            const response = await apiClient.post('/auth/google', { token: googleToken });
+            if (response.data.token) {
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            }
+            return response.data;
+        } catch (err) {
+            const message =
+                err?.response?.data?.error ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to login";
+            console.log(message)
+            throw new Error(message);
         }
-        return response.data;
     },
 
     // Logout user

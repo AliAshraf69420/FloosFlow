@@ -4,6 +4,8 @@ import VisaLogo from "../../assets/Visa_Inc._logo.svg";
 import MastercardLogo from "../../assets/Mastercard_2019_logo.svg";
 import AmexLogo from "../../assets/American_Express_logo_(2018).svg";
 import cardService from "../../services/cardService";
+import { useUser } from "../../context/UserContext";
+import LoadingSpinner from "../Notifications/LoadingSpinner";
 
 const cardLogos = {
   VISA: VisaLogo,
@@ -18,26 +20,28 @@ export default function CardSection() {
   const [cards, setCards] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const fetchCards = async () => {
+    setLoading(true);
+    try {
+      const cardsData = await cardService.getAllCards();
+      setCards(
+        cardsData.map((c) => ({
+          ...c,
+          maskedNumber: "**** **** **** " + c.cardNumber.slice(-4),
+          currency: c.currency || "EGP",
+        }))
+      );
+    } catch (error) {
+      console.error(error.response?.data?.error || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const cardsData = await cardService.getAllCards();
-        setCards(
-          cardsData.map((c) => ({
-            ...c,
-            maskedNumber: "**** **** **** " + c.cardNumber.slice(-4),
-            currency: c.currency || "EGP",
-          }))
-        );
-      } catch (error) {
-        console.error(error.response?.data?.error || error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchCards();
   }, []);
+
 
   const handlePrev = () => setSelectedIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
   const handleNext = () => setSelectedIndex((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
@@ -49,6 +53,7 @@ export default function CardSection() {
       const cardId = cards[selectedIndex].id;
       await cardService.selectReceivingCard(cardId);
       alert("Card selected for receiving successfully!");
+      fetchCards()
     } catch (error) {
       console.error(error.response?.data?.error || error.message);
       alert((error.response?.data?.error || "Failed to select receiving card"));
@@ -76,9 +81,13 @@ export default function CardSection() {
 
       <div className="ff-card-Transfer p-6 sm:p-8">
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="w-8 h-8 border-2 border-white/20 border-t-[#49EB8C] rounded-full animate-spin" />
+
+
+          <div className="flex items-center justify-center h-screen">
+            <LoadingSpinner />
           </div>
+
+
         ) : cards.length === 0 ? (
           /* NO CARDS STATE */
           <div className="text-center py-8">
@@ -155,7 +164,7 @@ export default function CardSection() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
                       <p className="text-gray-400 dark:text-white/50 text-xs mb-1">Card Number</p>
                       <p className="text-gray-900 dark:text-white font-mono">{cards[selectedIndex].maskedNumber}</p>
@@ -167,6 +176,11 @@ export default function CardSection() {
                     <div>
                       <p className="text-gray-400 dark:text-white/50 text-xs mb-1">Expires</p>
                       <p className="text-gray-900 dark:text-white">{cards[selectedIndex].expiryDate}</p>
+                    </div>
+                    <div>
+                      {cards[selectedIndex].isSelectedForReceiving ?
+                        <p className="font-bold bg-gradient-to-r from-[#62A6BF] to-[#49EB8C]  text-white rounded text-center px-3 py-1">CURRENT </p>
+                        : <p></p>}
                     </div>
                   </div>
 
@@ -207,7 +221,7 @@ export default function CardSection() {
                   text-white font-semibold hover:from-[#62A6BF] hover:via-[#49EB8C] hover:to-[#65E67F]
                   transition-all duration-300 text-sm"
               >
-                Choose as Receiving Card
+                Choose as Sending/Receiving Card
               </button>
 
               <button
@@ -222,6 +236,6 @@ export default function CardSection() {
           </>
         )}
       </div>
-    </section>
+    </section >
   );
 }

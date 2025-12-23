@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNotifications } from "../context/NotificationsContext";
 import SearchBar from "./SearchBar";
 import { useUser } from "../context/UserContext";
 
+const NavSpinner = () => (
+  <div className="flex items-center justify-center p-7">
+    <div className="w-6 h-6 border-2 border-white/20 border-t-ff-accent rounded-full animate-spin" />
+  </div>
+);
+
 const NavBar = () => {
   const location = useLocation();
   const { unreadCount } = useNotifications();
-
   const isLandingPage = location.pathname === "/";
   const isNotLandingPage = !isLandingPage;
   const { user, loading, error } = useUser();
 
-  if (loading) return <p>Loading user data...</p>;
-  if (error) return <p>Error loading user: {error}</p>;
+  if (loading) return <NavSpinner />;
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -58,7 +62,9 @@ const NavBar = () => {
               ["/Transactions", "Services"],
               ["/Dashboard", "Dashboard"],
               ["/Help", "Help"],
-            ].map(([path, label]) => (
+            ].concat(
+              user?.role === 'ADMIN' ? [['/Admin', 'Admin Panel']] : []
+            ).map(([path, label]) => (
               <li key={label} role="none" className="flex-shrink min-w-[60px]">
                 <Link
                   role="menuitem"
@@ -205,6 +211,18 @@ const NavBar = () => {
                 Help
               </Link>
             </li>
+
+            {user?.role === 'ADMIN' && (
+              <li>
+                <Link
+                  to="/Admin"
+                  className="block px-4 py-2 rounded-md font-semibold hover:bg-ff-gradient hover:text-white"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Admin Panel
+                </Link>
+              </li>
+            )}
 
             {isNotLandingPage ? (
               <>

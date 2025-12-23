@@ -34,12 +34,24 @@ export function UserProvider({ children }) {
   }, []);
 
   const updateUser = useCallback((newData) => {
-    setUser((prev) => ({ ...prev, ...newData }));
+    setUser((prev) => {
+      if (newData === null) return null;
+      return { ...prev, ...newData };
+    });
   }, []);
 
   const clearUser = useCallback(() => {
     setUser(null);
   }, []);
+
+  // Sync user state to localStorage
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   // Auto-fetch on mount
   useEffect(() => {
@@ -68,6 +80,7 @@ export function UserProvider({ children }) {
     fetchUser,
     updateUser,
     clearUser,
+    setError,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

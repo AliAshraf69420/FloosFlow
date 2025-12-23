@@ -72,6 +72,19 @@ const userService = {
             operation, // 'add' or 'subtract'
         });
         return response.data;
+    },
+
+    // Delete account
+    deleteAccount: async () => {
+        const response = await apiClient.delete('/users/me');
+        return response.data;
+    },
+
+    // Disconnect OAuth provider
+    disconnectProvider: async (providerId) => {
+
+        const response = await apiClient.patch('/users/me', { [`${providerId}Id`]: null });
+        return response.data;
     }
 };
 

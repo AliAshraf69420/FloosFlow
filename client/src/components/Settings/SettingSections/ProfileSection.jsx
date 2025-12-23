@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ConnectedProviderList from "../OAuth/ConnectedProviderList";
 import FileUpload from "../FormControls/FileUpload";
 import { useUser } from "../../../context/UserContext";
+import authService from "../../../services/authService";
 
 export default function ProfileSection({ onSave, onDisconnect }) {
-  const { user } = useUser(); // get user
+  const { user, clearUser } = useUser(); // get user and clearUser function
+  const navigate = useNavigate();
   const [prefs, setPrefs] = useState({
     email: user?.preferences?.email ?? false,
     sms: user?.preferences?.sms ?? false,
@@ -17,6 +20,13 @@ export default function ProfileSection({ onSave, onDisconnect }) {
 
   const handleSavePreferences = () => {
     onSave.updatePreferences?.(prefs);
+  };
+
+  const handleLogout = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      authService.logout();
+    }
   };
 
   return (
@@ -81,10 +91,22 @@ export default function ProfileSection({ onSave, onDisconnect }) {
 
         {/* Connected Providers */}
         <ConnectedProviderList
-          providers={user?.providers}
+          providers={[
+            ...(user?.googleId ? [{ id: "google", name: "Google" }] : []),
+          ]}
           onDisconnect={onDisconnect}
           className="mt-6"
         />
+
+        {/* Logout Button */}
+        <div className="mt-8 pt-6 border-t border-white/10">
+          <button
+            onClick={handleLogout}
+            className="w-full sm:w-auto px-6 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -70,6 +70,11 @@ router.patch("/:cardId/balance", authenticate, async (req, res) => {
         // Optional: check if card number already exists
         const existingCard = await prisma.card.findUnique({ where: { cardNumber } });
         if (existingCard) return res.status(400).json({ error: "Card number already exists" });
+        const cardCount = await prisma.card.count({
+            where: { userId: req.userId, isActive: true },
+        });
+
+        const hasCards = cardCount > 0;
 
         const card = await prisma.card.create({
             data: {
@@ -79,7 +84,8 @@ router.patch("/:cardId/balance", authenticate, async (req, res) => {
                 expiryDate,
                 cardType,
                 cvv,
-                userId: req.userId // link card to logged-in user
+                userId: req.userId,// link card to logged-in user
+                isSelectedForReceiving: !hasCards
             }
         });
 

@@ -1,17 +1,18 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import notificationService from "../services/notificationService";
+import { useUser } from "./UserContext";
 
 const NotificationsContext = createContext(null);
 
 const SOCKET_URL = "http://localhost:5000";
 
 export function NotificationsProvider({ children }) {
+  const { user } = useUser();
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
-  const isAuthenticatedRef = useRef(false);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -22,7 +23,7 @@ export function NotificationsProvider({ children }) {
     if (!isAuthenticated() || socketRef.current) return;
 
     const token = localStorage.getItem("authToken");
-    console.log("🔑 Initializing socket with token:", token ? "✅ exists" : "❌ missing");
+    console.log("Initializing socket with token:", token ? "exists" : "missing");
 
     socketRef.current = io(SOCKET_URL, {
       auth: { token },
@@ -32,28 +33,21 @@ export function NotificationsProvider({ children }) {
     });
 
     socketRef.current.on("notification", (notification) => {
-      console.log("🔔 Notification received:", notification);
+      console.log("Notification received:", notification);
       setNotifications((prev) => [notification, ...prev]);
     });
 
     socketRef.current.on("connect", () => {
-      console.log("✅ WebSocket connected! Socket ID:", socketRef.current.id);
+      console.log("WebSocket connected! Socket ID:", socketRef.current.id);
     });
 
     socketRef.current.on("disconnect", () => {
-      console.log("❌ WebSocket disconnected");
+      console.log("WebSocket disconnected");
     });
 
     socketRef.current.on("connect_error", (error) => {
-      console.error("❌ WebSocket connection error:", error.message);
+      console.error("WebSocket connection error:", error.message);
     });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-        socketRef.current = null;
-      }
-    };
   }, []);
 
   // Fetch all notifications
@@ -106,44 +100,25 @@ export function NotificationsProvider({ children }) {
     }
   }, []);
 
-  // Initialize on mount or auth changes
+  // Initialize on mount or user changes
   useEffect(() => {
-    const authenticated = isAuthenticated();
-
-    if (authenticated && !isAuthenticatedRef.current) {
-      isAuthenticatedRef.current = true;
+    if (user) {
+      console.log("User detected, initializing notifications...");
       fetchNotifications();
       initializeSocket();
-    } else if (!authenticated && isAuthenticatedRef.current) {
-      isAuthenticatedRef.current = false;
+    } else {
+      console.log("No user, clearing notifications...");
       clearNotifications();
     }
 
     return () => {
       if (socketRef.current) {
+        console.log("Cleaning up socket connection...");
         socketRef.current.disconnect();
         socketRef.current = null;
       }
     };
-  }, [fetchNotifications, initializeSocket, clearNotifications]);
-
-  // Listen for token changes (logout/login in other tabs)
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === "authToken") {
-        if (!e.newValue) {
-          clearNotifications();
-          isAuthenticatedRef.current = false;
-        } else if (!isAuthenticatedRef.current) {
-          isAuthenticatedRef.current = true;
-          fetchNotifications();
-          initializeSocket();
-        }
-      }
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [clearNotifications, fetchNotifications, initializeSocket]);
+  }, [user, fetchNotifications, initializeSocket, clearNotifications]);
 
   const value = {
     notifications,

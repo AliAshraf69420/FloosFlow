@@ -3,13 +3,20 @@ import userService from "../../../services/userService";
 import { useUser } from "../../../context/UserContext";
 
 export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) {
-  const [email, setEmail] = useState(data?.email || "");
+  const { user, fetchUser } = useUser();
+  const [email, setEmail] = useState(data?.email || user?.email || "");
   const [passwords, setPasswords] = useState({ current: "", new: "", confirm: "" });
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success"); // "success" or "error"
-  const { fetchUser } = useUser();
+
+  // Keep email in sync if user changes
+  useEffect(() => {
+    if (!data && user?.email) {
+      setEmail(user.email);
+    }
+  }, [data, user]);
 
   const updatePassField = (key, value) => {
     setPasswords((prev) => ({ ...prev, [key]: value }));
@@ -27,11 +34,9 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
     setMessage("");
 
     try {
-      const updatedUser = await userService.updateInfo({ email });
+      const res = await onUpdateUser?.(email);
       setMessageType("success");
-      setMessage("Email updated successfully");
-      await fetchUser();
-      onUpdateUser?.(updatedUser);
+      setMessage(res?.message || "Email updated successfully");
     } catch (error) {
       setMessageType("error");
       setMessage(error.response?.data?.error || error.message || "Failed to update email");
@@ -162,7 +167,16 @@ export default function AccountSection({ data, onUpdateUser, onDeleteAccount }) 
           </p>
           <button
             className="ff-btn w-full sm:w-auto bg-red-600/80 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-medium shadow-md transition-colors"
-            onClick={() => onDeleteAccount?.()}
+            onClick={async () => {
+              if (window.confirm("Are you SURE you want to delete your account? This action is permanent and all your data will be lost.")) {
+                try {
+                  await onDeleteAccount?.();
+                } catch (err) {
+                  setMessageType("error");
+                  setMessage("Failed to delete account: " + err.message);
+                }
+              }
+            }}
           >
             Delete Account
           </button>

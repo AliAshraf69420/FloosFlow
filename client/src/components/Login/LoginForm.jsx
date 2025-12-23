@@ -1,40 +1,52 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
-import { UserProvider, useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 import { useNotifications } from "../../context/NotificationsContext";
 
 const LoginForm = () => {
-  const navigate = useNavigate(); // to redirect after login
+  const navigate = useNavigate();
+  const { fetchUser } = useUser();
+  const { fetchNotifications } = useNotifications();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { fetchUser } = useUser();
-  const { fetchNotifications } = useNotifications();
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const data = await authService.login({ email, password });
-      console.log("Logged in user:", data.user);
+      console.log(data);
+      if (!data || !data.token) {
+        // Handle invalid login gracefully
+        setError("Invalid email or password");
+        return; // stop execution
+      }
+
       localStorage.setItem("authToken", data.token);
-      await fetchUser()
-      await fetchNotifications()
+      await fetchUser();
+      await fetchNotifications();
       navigate("/Home");
 
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <form
       onSubmit={handleSubmit}
       className="ff-card p-6 space-y-6 flex flex-col hover:bg-gradient-to-r from-[#62A6BF]/10 via-[#49EB8C]/10 to-[#65E67F]/10 w-full max-w-[1100px]"
     >
-      {/* Email field */}
+      {/* Email */}
       <div className="flex flex-col md:flex-row sm:flex-row sm:items-center sm:space-x-4">
         <label htmlFor="email" className="text-lg font-medium w-32 mb-2">
           Email
@@ -50,7 +62,7 @@ const LoginForm = () => {
         />
       </div>
 
-      {/* Password field */}
+      {/* Password */}
       <div className="flex flex-col md:flex-row sm:flex-row sm:items-center sm:space-x-4">
         <label htmlFor="password" className="text-lg font-medium w-32 mb-2">
           Password
@@ -66,23 +78,24 @@ const LoginForm = () => {
         />
       </div>
 
+      {/* Error message */}
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      {/* Other service buttons (Google/Apple) */}
+      {/* Other login options */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
         <button
           type="button"
           className="ff-btn w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6"
-          onClick={() => {
-            window.location.href = "http://localhost:5000/api/auth/google";
-          }}
+          onClick={() =>
+          (window.location.href =
+            "http://localhost:5000/api/auth/google")
+          }
         >
-          <span>Sign up with Google</span>
+          <span>Sign in with Google</span>
           <img
             src="/google-icon-logo-svgrepo-com.svg"
             alt="Google Icon"
             className="w-6 h-6 ml-4"
-
           />
         </button>
 
@@ -90,7 +103,7 @@ const LoginForm = () => {
           type="button"
           className="ff-btn w-full sm:flex-1 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 flex items-center justify-between px-6"
         >
-          <span>Sign up with Apple</span>
+          <span>Sign in with Apple</span>
           <img
             src="/apple-logo-svgrepo-com.svg"
             alt="Apple Icon"
@@ -103,9 +116,11 @@ const LoginForm = () => {
       <div className="flex justify-center">
         <button
           type="submit"
-          className="ff-btn w-full sm:w-56 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+          disabled={loading}
+          className={`ff-btn w-full sm:w-56 bg-gradient-to-r from-[#62A6BF] via-[#49EB8C] to-[#65E67F] text-white font-semibold py-3 rounded-xl shadow-md transition-transform duration-300 ${loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
+            }`}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </div>
 

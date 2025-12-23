@@ -42,27 +42,27 @@ export default function ManageCardsPage() {
 
     try {
       const response = await cardService.addCard(payload);
-      const savedCard = response?.data?.card;
 
-      if (!savedCard) {
-        throw new Error(response?.data?.error || "Failed to save card");
-      }
+      const savedCard = response?.card;
 
-      setCards((prev) => [
-        ...prev,
-        {
-          ...savedCard,
-          maskedNumber: "**** **** **** " + savedCard.cardNumber.slice(-4),
-          currency: "EGP",
-        },
-      ]);
+
+      setCards((prev) => {
+        const last4 = String(savedCard.cardNumber || "").slice(-4);
+        return [
+          ...prev,
+          {
+            ...savedCard,
+            maskedNumber: "**** **** **** " + last4,
+            currency: "EGP",
+          },
+        ]
+      });
 
       setShowAddForm(false);
 
       return savedCard; // return so child can show success
     } catch (error) {
-      console.error(error.response?.data?.error || error.message);
-      throw error; // let AddCardForm catch it
+      throw error;
     }
   };
 

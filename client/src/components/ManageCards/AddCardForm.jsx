@@ -15,10 +15,10 @@ const detectCardType = (cardNumber) => {
 
 
 const cardLogos = {
-  Visa: VisaLogo,
-  Mastercard: MastercardLogo,
-  "American Express": AmexLogo,
-  Meeza: null,
+  VISA: VisaLogo,
+  MASTERCARD: MastercardLogo,
+  AMEX: AmexLogo,
+  MEEZA: null,
 };
 
 export default function AddCardForm({ onAdd, onCancel }) {
@@ -67,12 +67,14 @@ export default function AddCardForm({ onAdd, onCancel }) {
     } catch (err) {
       alert(err.message || "Failed to create the card");
     }
+
   };
 
 
   const renderCardLogo = () => {
     if (!detectedType) return <span className="text-white/50 text-xs">Enter card</span>;
     const logo = cardLogos[detectedType];
+    console.log(detectedType);
     if (logo) return <img src={logo} alt={detectedType} className="h-6 w-auto object-contain" />;
     return <span className="text-green-400 text-sm font-semibold">{detectedType}</span>;
   };

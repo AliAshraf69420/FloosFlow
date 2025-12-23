@@ -26,6 +26,7 @@
 */
 
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // import NavBar from "../components/NavBar";
 // import Footer from "../components/Footer";
 import Sidebar from "../components/Settings/Sidebar";
@@ -38,63 +39,60 @@ import AccountSection from "../components/Settings/SettingSections/AccountSectio
 import SupportSection from "../components/Settings/SettingSections/SupportSection";
 
 import useSettings from "../hooks/useSettings";
+import LoadingSpinner from "../components/Notifications/LoadingSpinner";
+import { useUser } from "../context/UserContext";
 
 export default function SettingsPage() {
   const {
     settings,
     loading,
     error,
-    save,
+    updatePreferences,
     disconnectProvider,
+    updatePersonalInfo,
+    updateEmail,
+    updatePassword,
+    deleteAccount,
     refresh,
   } = useSettings();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Could be used for analytics, focus management, etc.
-  }, []);
+    if (error) {
+      console.error(error);
+      navigate("/Error", { state: { error } });
+    }
+  }, [error, navigate]);
 
   return (
     <>
-      {/* Mobile Menu */}
       <MobileMenu />
 
       <main id="main-content" className="flex-grow pt-24 px-4 lg:px-8">
-
         <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-10 relative">
 
-          {/* DESKTOP SIDEBAR */}
           <aside className="hidden lg:block lg:sticky lg:top-28 h-fit">
             <Sidebar />
           </aside>
 
-          {/* MAIN SETTINGS CONTENT */}
           <div className="flex-1 p-4 sm:p-6 lg:p-10 space-y-12 max-w-[1100px] mx-auto lg:max-w-none lg:w-full lg:justify-self-end">
 
-            {/* LOADING STATE */}
-            {loading && (
-              <div className="text-gray-300 text-lg py-10 text-center">
-                Loading settings…
+            {/* INITIAL LOADING STATE ONLY */}
+            {loading && !settings && (
+              <div className="flex items-center justify-center h-[60vh]">
+                <LoadingSpinner />
               </div>
             )}
 
-            {/* ERROR STATE */}
-            {error && (
-              <div className="p-4 rounded-lg bg-red-500/20 border border-red-500 text-red-300 text-center">
-                Failed to load settings.
-                <button
-                  onClick={refresh}
-                  className="underline ml-2 text-red-200 hover:text-red-100"
-                >
-                  Retry
-                </button>
-              </div>
-            )}
-
-            {/* CONTENT */}
-            {!loading && !error && (
+            {/* CONTENT - Keep mounted during updates */}
+            {(settings || !loading) && (
               <>
                 <section id="profile">
-                  <ProfileSection />
+                  <ProfileSection
+                    onSave={{ updatePreferences }}
+                    onDisconnect={disconnectProvider}
+                  />
                 </section>
 
                 <section id="theme">
@@ -102,16 +100,22 @@ export default function SettingsPage() {
                 </section>
 
                 <section id="personal">
-                  <PersonalInfoSection />
+                  <PersonalInfoSection
+                    data={settings}
+                    onUpdate={updatePersonalInfo}
+                  />
                 </section>
 
                 <section id="account">
-                  <AccountSection />
+                  <AccountSection
+                    data={settings}
+                    onUpdateUser={updateEmail}
+                    onDeleteAccount={deleteAccount}
+                  />
                 </section>
 
                 <section id="support">
                   <SupportSection />
-
                 </section>
               </>
             )}
