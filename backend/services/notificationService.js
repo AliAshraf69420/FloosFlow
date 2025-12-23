@@ -20,9 +20,9 @@ class NotificationService {
         }
     }
 
-    async sendNotification(userId, message, type) {
+    async sendNotification(userId, message, type, userMessage) {
         const notification = await prisma.notification.create({
-            data: { userId, message, type },
+            data: { userId, message, type, UserMessage: userMessage },
         });
 
         const socketId = this.onlineUsers.get(String(userId));

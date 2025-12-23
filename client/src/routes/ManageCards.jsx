@@ -44,9 +44,6 @@ export default function ManageCardsPage() {
       const response = await cardService.addCard(payload);
       const savedCard = response?.data?.card;
 
-      if (!savedCard) {
-        throw new Error(response?.data?.error || "Failed to save card");
-      }
 
       setCards((prev) => [
         ...prev,
@@ -61,8 +58,7 @@ export default function ManageCardsPage() {
 
       return savedCard; // return so child can show success
     } catch (error) {
-      console.error(error.response?.data?.error || error.message);
-      throw error; // let AddCardForm catch it
+      throw error;
     }
   };
 

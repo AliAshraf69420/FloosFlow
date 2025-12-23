@@ -13,7 +13,6 @@ export default function TransferMoneyCard() {
 
   const [recipientEmail, setRecipientEmail] = useState("");
   const [amount, setAmount] = useState("");
-  const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
   const [senderCardId, setSenderCardId] = useState("");
   const [cards, setCards] = useState([]);
@@ -49,7 +48,6 @@ export default function TransferMoneyCard() {
       await transactionService.requestMoney({
         recipientEmail,
         amount: parseFloat(amount),
-        reason: reason || undefined,
         message: message || undefined,
       });
 
@@ -58,7 +56,6 @@ export default function TransferMoneyCard() {
       // Reset form
       setRecipientEmail("");
       setAmount("");
-      setReason("");
       setMessage("");
     } catch (err) {
       console.error("Request error:", err);
@@ -76,7 +73,6 @@ export default function TransferMoneyCard() {
     console.log("Recipient Email:", recipientEmail);
     console.log("Amount:", amount);
     console.log("Sender Card ID:", senderCardId);
-    console.log("Reason:", reason);
     console.log("Message:", message);
 
     // Validation
@@ -102,7 +98,6 @@ export default function TransferMoneyCard() {
         recipientEmail,
         amount: parseFloat(amount),
         senderCardId: parseInt(senderCardId),
-        reason: reason || undefined,
         message: message || undefined,
       });
 
@@ -111,7 +106,6 @@ export default function TransferMoneyCard() {
       // Reset form
       setRecipientEmail("");
       setAmount("");
-      setReason("");
       setMessage("");
       setSenderCardId(cards[0]?.id || "");
 
@@ -153,16 +147,6 @@ export default function TransferMoneyCard() {
           required
           value={amount}
           onChange={setAmount}
-        />
-
-        {/* Reason */}
-        <TransferMoneyInput
-          id="reason"
-          label="Reason"
-          type="text"
-          placeholder="Reason for transfer (optional)"
-          value={reason}
-          onChange={setReason}
         />
 
         {/* Message */}

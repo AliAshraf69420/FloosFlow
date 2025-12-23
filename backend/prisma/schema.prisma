@@ -30,7 +30,7 @@ model User {
 model Card {
   id         Int    @id @default(autoincrement())
   cardNumber String @unique
-  balance    Float  @default(0)
+  balance    Decimal  @default(0.00)
   expiryDate String?
   cvv String?
     cardType  CardType @default(VISA)
@@ -54,7 +54,7 @@ model Transaction {
   message      String?
   date         DateTime  @default(now())
   category     Category
-  money        Float
+  money        Decimal @default(0.00)
   transactionName String?
   merchantName String
 }
@@ -72,7 +72,7 @@ model Transfer {
   recipientCard  Card?     @relation("RecipientCard", fields: [recipientCardId], references: [id])
   recipientCardId Int?
 
-  amount      Float
+  amount      Decimal @default(0.00)
   reason      String?
   message     String?
   date        DateTime  @default(now())
@@ -84,6 +84,7 @@ model Notification {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+  UserMessage String?
 }
 
 enum Category {

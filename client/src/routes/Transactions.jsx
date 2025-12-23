@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TransactionParentCard from "../components/Transactions/TransactionParentCard";
 import TransactionSearch from "../components/Transactions/TransactionSearch";
 import TransactionCard from "../components/Transactions/TransactionsCard";
@@ -8,6 +8,20 @@ import { useUser } from "../context/UserContext";
 export default function TransactionsPage() {
   const { user, loading, error } = useUser();
   const [searchText, setSearchText] = useState("");
+  // const { fetchUser } = useUser()
+
+  // useEffect(async () => {
+  //   await fetchUser()
+  //   return;
+  // }, [])
+  function formatEGP(amount) {
+    const value = Number(amount);
+    console.log(value)
+    return new Intl.NumberFormat("en-EG", {
+      style: "currency",
+      currency: "EGP",
+    }).format(value);
+  }
 
   if (loading) return <p>Loading transactions...</p>;
   if (error) return <p>Error loading transactions: {error}</p>;
@@ -16,7 +30,7 @@ export default function TransactionsPage() {
   const transactions = user?.transactions?.map((tx) => ({
     id: tx.id,
     name: tx.transactionName ?? "Unnamed Transaction",
-    amount: `EGP ${tx.money.toFixed(2)}`,
+    amount: formatEGP(tx.money),
     to: `/TransactionDetails/${tx.id}`,
     date: tx.date,
     category: tx.category,
@@ -25,6 +39,8 @@ export default function TransactionsPage() {
     transactionName: tx.transactionName,
     cardNumber: tx.card?.cardNumber,
   })) || [];
+
+
 
   const filteredTransactions = transactions.filter((tx) =>
     tx.name.toLowerCase().includes(searchText.toLowerCase())

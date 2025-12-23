@@ -3,12 +3,17 @@ const cardService = {
     addCard: async (cardData) => {
         try {
             const response = await apiClient.post('/cards/add-card', cardData);
-            console.log(response.data);
             return response.data;
         }
 
         catch (error) {
-            console.log(error);
+            const message =
+                error?.response?.data?.error ||
+                error?.response?.data?.message ||
+                error?.message ||
+                "Failed to add card";
+            console.log(message)
+            throw new Error(message);
         }
     },
 
@@ -24,7 +29,12 @@ const cardService = {
             console.log(response.data)
             return response.data;
         } catch (err) {
-            console.log(err)
+            const message =
+                err?.response?.data?.error ||
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to delete card";
+            throw new Error(message);
         }
     },
     selectReceivingCard: async (cardId) => {

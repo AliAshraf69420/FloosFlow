@@ -2,7 +2,7 @@ const express = require("express");
 const prisma = require("../prisma/prisma-client");
 const { authenticate } = require("../middleware/auth");
 const bcrypt = require("bcryptjs");
-const upload = require('../services/uploadService')
+const { upload, handleUploadError, validateFileUpload } = require('../services/uploadService')
 const router = express.Router();
 const path = require("path");
 const fs = require("fs");
@@ -27,8 +27,9 @@ router.get("/me", authenticate, async (req, res) => {
                         balance: true,
                         cardType: true,
                         cardHolder: true,
-                        expiryDate: true
-
+                        expiryDate: true,
+                        isSelectedForReceiving: true,
+                        isActive: true
                     },
                     where: {
                         isActive: true
@@ -52,11 +53,33 @@ router.get("/me", authenticate, async (req, res) => {
                     }
                 },     // or select specific fields if needed
                 sentTransfers: true,
-                receivedTransfers: true
+                receivedTransfers: true,
             }
         });
 
-        res.json(user);
+        // Get the card that is selected for receiving
+        const selectedReceivingCard = await prisma.card.findFirst({
+            where: {
+                userId: req.userId,
+                isSelectedForReceiving: true,
+                isActive: true
+            },
+            select: {
+                id: true,
+                cardNumber: true,
+                balance: true,
+                cardType: true,
+                cardHolder: true,
+                expiryDate: true,
+                isSelectedForReceiving: true,
+                isActive: true
+            }
+        });
+
+        res.json({
+            ...user,
+            selectedReceivingCard
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -96,7 +119,16 @@ router.patch("/me", authenticate, async (req, res) => {
                 profileImage: true,
                 createdAt: true,
                 cards: {
-                    select: { id: true, cardNumber: true, balance: true, cardHolder: true, expiryDate: true },
+                    select: {
+                        id: true,
+                        cardNumber: true,
+                        balance: true,
+                        cardType: true,
+                        cardHolder: true,
+                        expiryDate: true,
+                        isSelectedForReceiving: true,
+                        isActive: true
+                    },
                     where: {
                         isActive: true
                     }
@@ -112,7 +144,7 @@ router.patch("/me", authenticate, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-router.post("/me/upload-image", authenticate, upload.single("image"), async (req, res) => {
+router.post("/me/upload-image", authenticate, upload.single("image"), handleUploadError, async (req, res) => {
     try {
         console.log("Starting")
         if (!req.file) return res.status(400).json({ error: "No file uploaded" });
@@ -149,6 +181,7 @@ router.post("/me/upload-image", authenticate, upload.single("image"), async (req
 
         res.json({ message: "Profile image updated successfully", user: updatedUser });
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ error: error.message });
     }
 });

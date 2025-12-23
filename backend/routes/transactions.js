@@ -90,7 +90,8 @@ router.post("/add-transaction", authenticate, async (req, res) => {
         await notificationService.sendNotification(
             req.userId,
             `You spent $${money} on ${merchantName}`,
-            "transaction"
+            "transaction",
+            message
         );
         res.status(201).json({ message: "Transaction added", transaction });
     } catch (error) {
@@ -109,7 +110,6 @@ router.post("/transfer-money", authenticate, async (req, res) => {
     }
 
     try {
-        // Find sender card
         const senderCard = await prisma.card.findUnique({ where: { id: senderCardId } });
         if (!senderCard) return res.status(404).json({ error: "Sender card not found" });
         if (senderCard.userId !== req.userId)
@@ -117,12 +117,10 @@ router.post("/transfer-money", authenticate, async (req, res) => {
         if (senderCard.balance < amount)
             return res.status(400).json({ error: "Insufficient balance" });
 
-        // Find recipient user by email
         const recipient = await prisma.user.findUnique({ where: { email: recipientEmail } });
         if (!recipient) return res.status(404).json({ error: "Recipient not found" });
         if (recipient.id === req.userId) return res.status(400).json({ error: "Cannot send to yourself" });
 
-        // Find recipient selected card
         const recipientCard = await prisma.card.findFirst({
             where: {
                 userId: recipient.id,
@@ -133,19 +131,15 @@ router.post("/transfer-money", authenticate, async (req, res) => {
         if (!recipientCard)
             return res.status(400).json({ error: "Recipient has no selected receiving card" });
 
-        // Execute transfer atomically
         await prisma.$transaction([
-            // Deduct from sender
             prisma.card.update({
                 where: { id: senderCard.id },
                 data: { balance: senderCard.balance - amount }
             }),
-            // Add to recipient
             prisma.card.update({
                 where: { id: recipientCard.id },
                 data: { balance: recipientCard.balance + amount }
             }),
-            // Create transfer record
             prisma.transfer.create({
                 data: {
                     senderId: req.userId,
@@ -163,14 +157,16 @@ router.post("/transfer-money", authenticate, async (req, res) => {
         await notificationService.sendNotification(
             req.userId,
             `You transfered $${amount} to ${recipientEmail}`,
-            "transfer"
+            "transfer",
+            message
         );
 
 
         await notificationService.sendNotification(
             recipient.id,
             `You recieved $${amount} from ${recipientEmail}`,
-            "transfer"
+            "transfer",
+            message
         );
 
         res.status(201).json({ message: "Transfer successful" });
@@ -230,14 +226,16 @@ router.post("/request-money", authenticate, async (req, res) => {
         await notificationService.sendNotification(
             recipient.id,
             `${requester.firstName} ${requester.lastName} is requesting $${amount}${reason ? ` for ${reason}` : ''}${message ? ` - "${message}"` : ''}`,
-            "request"
+            "request",
+            message
         );
 
         // Send confirmation to requester
         await notificationService.sendNotification(
             req.userId,
             `Money request sent to ${recipient.firstName} ${recipient.lastName} for $${amount}`,
-            "info"
+            "info",
+            message
         );
 
         res.status(201).json({
