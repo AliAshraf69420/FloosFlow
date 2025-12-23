@@ -28,16 +28,3 @@ const useSearch = (initialQuery = "") => {
 };
 
 export default useSearch;
-
-
-/*
-example backend usage for this:
-
-app.get('/api/search', async (req, res) => {
-  const { q } = req.query;
-  //ILIKE to search case insensitively, q is the user input
-  const results = await db.query('SELECT * FROM items WHERE name ILIKE $1', [`%${q}%`]); 
-  res.json(results.rows);
-});
-
-*/
