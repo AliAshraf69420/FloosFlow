@@ -22,8 +22,7 @@ const app = express();
 // Updated CORS configuration for Railway
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    process.env.FRONTEND_URL
+    "*",
   ],
   credentials: true
 }));
@@ -52,12 +51,12 @@ app.set('notificationService', notificationService);
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   console.log("Socket auth attempt, token exists:", !!token);
-  
+
   if (!token) {
     console.log("No token provided");
     return next(new Error("Authentication error - no token"));
   }
-  
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     socket.userId = decoded.userId;
@@ -71,10 +70,10 @@ io.use((socket, next) => {
 
 io.on("connection", async (socket) => {
   console.log(`User ${socket.userId} connected (Socket: ${socket.id})`);
-  
+
   // Register user automatically
   notificationService.registerUser(socket.userId, socket.id);
-  
+
   socket.on("disconnect", () => {
     console.log(`User ${socket.userId} disconnected`);
     notificationService.unregisterSocket(socket.id);
