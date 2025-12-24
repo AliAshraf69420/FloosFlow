@@ -18,4 +18,4 @@ EXPOSE 5000
 
 ENV NODE_ENV=production
 
-CMD ["./start.sh"]
+CMD ["sh", "-c", "npx prisma migrate deploy && ./start.sh"]
