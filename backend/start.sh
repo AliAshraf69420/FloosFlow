@@ -1,43 +1,21 @@
 #!/bin/sh
-set -e
 
 echo "=== DATABASE_URL ==="
 echo "$DATABASE_URL"
 
-echo "=== Waiting for Postgres and running migrations ==="
-RETRIES=30
-MIGRATION_SUCCESS=false
+echo "=== Waiting a few seconds for Postgres to be ready ==="
+sleep 5
 
-while [ $RETRIES -gt 0 ]; do
-  # Try migrate deploy first (if migrations exist)
-  if npx prisma migrate deploy --schema=./prisma/schema.prisma 2>&1; then
-    echo "Migrations applied successfully!"
-    MIGRATION_SUCCESS=true
-    break
-  else
-    # Check if it's because migrations don't exist
-    if npx prisma migrate deploy --schema=./prisma/schema.prisma 2>&1 | grep -q "No migration found"; then
-      echo "No migrations found, using db push instead..."
-      if npx prisma db push --schema=./prisma/schema.prisma --accept-data-loss 2>&1; then
-        echo "Database schema pushed successfully!"
-        MIGRATION_SUCCESS=true
-        break
-      fi
-    fi
-    RETRIES=$((RETRIES-1))
-    if [ $RETRIES -eq 0 ]; then
-      echo "Failed to setup database after 30 attempts!"
-      exit 1
-    fi
-    echo "Database setup failed, retrying in 2 seconds... ($RETRIES retries left)"
-    sleep 2
-  fi
-done
-
-if [ "$MIGRATION_SUCCESS" = false ]; then
-  echo "Failed to setup database!"
-  exit 1
+echo "=== Setting up database schema ==="
+# Check if migrations directory exists and has migration files
+if [ -d "./prisma/migrations" ] && [ -n "$(find ./prisma/migrations -mindepth 1 -type d 2>/dev/null)" ]; then
+  echo "Migrations found, running migrate deploy..."
+  npx prisma migrate deploy --schema=./prisma/schema.prisma
+else
+  echo "No migrations found, using db push to create schema..."
+  npx prisma db push --schema=./prisma/schema.prisma --accept-data-loss
 fi
 
 echo "=== Starting server ==="
-npm start
+set -e
+node index.js
