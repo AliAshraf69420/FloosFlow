@@ -6,9 +6,9 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: floosflow
+      POSTGRES_PASSWORD: floosflow
+      POSTGRES_DB: floosflow
     ports:
       - "5432:5432"
     volumes:
@@ -25,11 +25,11 @@ services:
     ports:
       - "4000:5000"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgresql://floosflow:floosflow@postgres:5432/floosflow
+      JWT_SECRET: change_this_jwt_secret_in_production
       NODE_ENV: production
       PORT: 5000
-      FRONTEND_URL: http://${VPS_IP}:3100
+      FRONTEND_URL: http://localhost:3100
     depends_on:
       - postgres
 
@@ -42,7 +42,7 @@ services:
     ports:
       - "3100:3000"
     environment:
-      VITE_API_URL: http://${VPS_IP}:4000/api
+      VITE_API_URL: http://localhost:4000/api
     depends_on:
       - backend
 
