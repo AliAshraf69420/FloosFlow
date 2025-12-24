@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 if (import.meta.env.MODE === "production" && !API_URL) {
   throw new Error("VITE_API_URL is not defined in production");
 }
-
+//We're spiralliiiiiing
 console.log("API CONFIG:");
 console.log("MODE:", import.meta.env.MODE);
 console.log("VITE_API_URL:", API_URL);
@@ -33,7 +33,7 @@ async function request(endpoint, options = {}) {
     let error = {};
     try {
       error = await response.json();
-    } catch {}
+    } catch { }
     throw new Error(error.message || "API request failed");
   }
 
