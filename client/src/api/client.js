@@ -1,8 +1,10 @@
-// where X the backend link
-const x = import.meta.env.VITE_API_URL || "http://localhost:5000";
-async function request(endpoint, options = {}) {
-  const url = `${x}${endpoint}`;
+// Add /api to the base URL
+const x = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : "http://localhost:5000/api";
 
+async function request(endpoint, options = {}) {
+  const url = `${x}${endpoint}`; // Will become: http://localhost:5000/api/users
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -11,14 +13,12 @@ async function request(endpoint, options = {}) {
     ...options,
   };
 
-
   const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
   const response = await fetch(url, config);
-
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message || "Something went wrong");
