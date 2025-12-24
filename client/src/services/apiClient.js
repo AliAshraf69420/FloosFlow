@@ -8,6 +8,7 @@ const BASE_URL = "https://floosflow-production.up.railway.app/api";
 const apiClient = axios.create({
     baseURL: BASE_URL,
     timeout: 15000,
+
     headers: {
         'Content-Type': 'application/json',
     },

@@ -19,12 +19,11 @@ dotenv.config();
 
 const app = express();
 
-// Updated CORS configuration for Railway
 app.use(cors({
-  origin: [
-    "*",
-  ],
-  credentials: true
+  origin: true, // This allows all origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -38,12 +37,11 @@ const server = http.createServer(app);
 // Updated Socket.IO CORS for Railway
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "*", // Use environment variable
+    origin: true, // Allow all origins
     methods: ["GET", "POST"],
     credentials: true
   }
 });
-
 // Create notification service
 const notificationService = new NotificationService(io);
 app.set('notificationService', notificationService);
