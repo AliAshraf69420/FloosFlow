@@ -2,7 +2,7 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 // Base configuration
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = "https://floosflow-production.up.railway.app/api";
 
 // Create axios instance
 const apiClient = axios.create({
