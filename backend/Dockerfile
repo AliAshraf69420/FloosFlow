@@ -6,7 +6,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY prisma ./prisma/
+# Copy prisma schema and migrations explicitly
+COPY prisma/schema.prisma ./prisma/schema.prisma
+COPY prisma/migrations ./prisma/migrations
 
 RUN npx prisma generate
 
