@@ -6,12 +6,12 @@ COPY package*.json ./
 
 RUN npm install
 
-# Copy prisma schema and migrations explicitly
-COPY prisma/schema.prisma ./prisma/schema.prisma
-COPY prisma/migrations ./prisma/migrations
+# Copy prisma directory (will include migrations if they exist)
+COPY prisma ./prisma/
 
 RUN npx prisma generate
 
+# Copy rest of the app
 COPY . .
 
 RUN chmod +x start.sh
