@@ -2,7 +2,8 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 // Base configuration
-const BASE_URL = "https://floosflow-production.up.railway.app/api";
+// Use Vite env when available, fallback to VPS URL for production build
+const BASE_URL = import.meta?.env?.VITE_API_URL || "http://179.61.219.167:4000/api";
 
 // Create axios instance
 const apiClient = axios.create({
