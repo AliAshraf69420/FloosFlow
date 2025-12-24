@@ -30,18 +30,28 @@ const LandingPage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
+            role="main" // Landmark to indicate main content
         >
-            <motion.div variants={itemVariants}>
+            {/* Welcome Card Section */}
+            <motion.div variants={itemVariants} role="region" aria-labelledby="welcome-card-header">
+                <h2 id="welcome-card-header" className="sr-only">Welcome Card</h2> {/* Visually hidden heading for screen readers */}
                 <WelcomeCard />
             </motion.div>
-            <motion.div variants={itemVariants}>
+
+            {/* Introduction Section */}
+            <motion.div variants={itemVariants} role="region" aria-labelledby="introduction-header">
+                <h2 id="introduction-header" className="sr-only">Introduction</h2> {/* Visually hidden heading for screen readers */}
                 <Introduction />
             </motion.div>
-            <motion.div variants={itemVariants}>
+
+            {/* Start Card Section */}
+            <motion.div variants={itemVariants} role="region" aria-labelledby="start-card-header">
+                <h2 id="start-card-header" className="sr-only">Start Card</h2> {/* Visually hidden heading for screen readers */}
                 <StartCard />
             </motion.div>
         </motion.div>
-    )
-}
+    );
+};
+
 
 export default LandingPage

@@ -30,15 +30,21 @@ const Login = () => {
             initial="initial"
             animate="animate"
             exit="exit"
+            role="main"  // Indicating this is the main content
         >
-            <motion.div variants={itemVariants}>
+            {/* Login Welcome Card Section */}
+            <motion.div variants={itemVariants} role="region" aria-labelledby="login-welcome-card-header">
+                <h2 id="login-welcome-card-header" className="sr-only">Login Welcome</h2>
                 <LoginWelcomeCard />
             </motion.div>
-            <motion.div variants={itemVariants} className="hover-lift">
+
+            {/* Login Form Section */}
+            <motion.div variants={itemVariants} className="hover-lift" role="region" aria-labelledby="login-form-header">
+                <h2 id="login-form-header" className="sr-only">Login Form</h2>
                 <LoginForm />
             </motion.div>
         </motion.div>
-    )
+    );
 }
 
 export default Login

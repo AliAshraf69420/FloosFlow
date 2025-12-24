@@ -95,15 +95,18 @@ export default function ManageCardsPage() {
           <button
             onClick={() => navigate("/Home")}
             className="px-4 py-2 rounded-xl bg-gray-200 dark:bg-white/10 backdrop-blur-xl border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white font-medium hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-300 text-sm"
+            aria-label="Go back to Home page"  // Adds a label for screen readers
           >
             Back to Home
           </button>
         </div>
 
+        {/* Add New Card Button or Form */}
         {!showAddForm ? (
           <button
             onClick={() => setShowAddForm(true)}
             className="w-full mb-6 py-4 rounded-xl border-2 border-dashed border-gray-400 dark:border-white/30 text-gray-600 dark:text-white/70 font-medium hover:border-[#49EB8C]/50 hover:text-[#49EB8C] transition-all duration-300 flex items-center justify-center gap-2"
+            aria-label="Add a new card"  // Adds a label for screen readers
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -112,12 +115,18 @@ export default function ManageCardsPage() {
           </button>
         ) : (
           <div className="mb-6 flex justify-center">
-            <AddCardForm onAdd={handleAddCard} onCancel={() => setShowAddForm(false)} />
+            <AddCardForm
+              onAdd={handleAddCard}
+              onCancel={() => setShowAddForm(false)}
+              aria-labelledby="add-card-form-header" // Provides an accessible label for the form
+            />
           </div>
         )}
 
         <div className="space-y-4">
           <h2 className="text-lg font-medium text-gray-700 dark:text-white/80 mb-4">Your Cards</h2>
+
+          {/* If no cards, display a message */}
           {cards.length === 0 ? (
             <div className="ff-card-Transfer p-8 text-center">
               <p className="text-gray-500 dark:text-white/60">No cards added yet.</p>
@@ -128,18 +137,23 @@ export default function ManageCardsPage() {
                 key={card.id}
                 card={{ ...card, cardNumber: card.maskedNumber }}
                 onRemove={handleRemoveCard}
+                aria-describedby={`card-${card.id}-description`} // Describes each card for screen readers
               />
             ))
           )}
         </div>
       </div>
 
+      {/* Remove Confirmation Popup */}
       <RemoveConfirmPopup
         isOpen={!!cardToRemove}
         card={cardToRemove}
         onConfirm={confirmRemove}
         onCancel={() => setCardToRemove(null)}
+        aria-labelledby="remove-card-popup-header"  // Label for the remove card dialog
+        aria-describedby="remove-card-popup-description" // Describes the action in the popup
       />
     </main>
+
   );
 }

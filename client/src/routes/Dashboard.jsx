@@ -87,6 +87,7 @@ export default function Dashboard() {
       initial="initial"
       animate="animate"
       exit="exit"
+      role="main"  // Added ARIA role for clarity
     >
       <div className="w-full mb-6">
         {/* Range Selector */}
@@ -100,6 +101,7 @@ export default function Dashboard() {
               value={range}
               onChange={(e) => setRange(e.target.value)}
               className="bg-white/10 border border-white/20 text-gray-900 dark:text-white rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-ff-accent transition-all duration-300"
+              aria-label="Select the range for the chart data"
             >
               <option value="24h" className="bg-[#121212]">Last 24 Hours</option>
               <option value="week" className="bg-[#121212]">Last Week</option>
@@ -114,11 +116,25 @@ export default function Dashboard() {
           title="Analytics"
           actions={
             <>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <DashboardButton onClick={prevChart} imgSrc="/left-arrow-backup-2-svgrepo-com.svg" />
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Previous Chart"
+                role="button"
+                tabIndex="0"  // div is focusable via keyboard
+                onClick={prevChart}
+              >
+                <DashboardButton imgSrc="/left-arrow-backup-2-svgrepo-com.svg" />
               </motion.div>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <DashboardButton onClick={nextChart} imgSrc="/right-arrow-svgrepo-com.svg" />
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Next Chart"
+                role="button"
+                tabIndex="0"  // div is focusable via keyboard
+                onClick={nextChart}
+              >
+                <DashboardButton imgSrc="/right-arrow-svgrepo-com.svg" />
               </motion.div>
             </>
           }
@@ -131,6 +147,9 @@ export default function Dashboard() {
               animate="animate"
               exit="exit"
               className="w-full h-[500px]"
+              role="region"
+              aria-live="polite" // chart changes are announced
+              aria-labelledby="chart-container"
             >
               {charts[index]}
             </motion.div>
@@ -138,5 +157,6 @@ export default function Dashboard() {
         </DashboardCard>
       </div>
     </motion.main>
+
   );
 }

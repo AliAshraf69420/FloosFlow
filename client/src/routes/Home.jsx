@@ -65,19 +65,30 @@ const Home = () => {
       initial="initial"
       animate="animate"
       exit="exit"
+      role="main"  // Indicates the main content of the page
     >
+      {/* WelcomeCard Section */}
       <motion.div variants={itemVariants} className="w-full flex justify-center">
-        <WelcomeCard user={user} />
+        <WelcomeCard user={user} aria-labelledby="welcome-card-header" />
       </motion.div>
+
+      {/* CardSection Section */}
       <motion.div variants={itemVariants} className="w-full flex justify-center">
-        <CardSection user={user} />
+        <CardSection user={user} aria-labelledby="card-section-header" />
       </motion.div>
+
+      {/* Services Section */}
       <motion.section
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 justify-items-center w-full max-w-6xl"
         variants={serviceContainerVariants}
+        role="region"  // Identifies this section as a significant region
+        aria-labelledby="services-header"
       >
+        <h2 id="services-header" className="sr-only">
+          Our Services
+        </h2>
         {services.map((label) => (
-          <motion.div key={label} variants={serviceItemVariants}>
+          <motion.div key={label} variants={serviceItemVariants} role="listitem">
             <Service label={label} />
           </motion.div>
         ))}

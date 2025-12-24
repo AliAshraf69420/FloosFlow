@@ -66,8 +66,10 @@ export default function NotificationsPage() {
       initial="initial"
       animate="animate"
       exit="exit"
+      role="main" // Landmark for the main content
     >
       <div className="max-w-3xl mx-auto">
+        {/* Error Message with aria-live for screen readers */}
         <AnimatePresence>
           {error && (
             <motion.div
@@ -75,26 +77,50 @@ export default function NotificationsPage() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
+              role="alert" // Ensures screen readers announce it immediately
+              aria-live="assertive" // Immediate announcement for urgent errors
             >
               {error}
             </motion.div>
           )}
         </AnimatePresence>
 
+        {/* Notification Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <NotificationHeader unreadCount={unreadCount} onMarkAllAsRead={markAllAsRead} />
+          <NotificationHeader
+            unreadCount={unreadCount}
+            onMarkAllAsRead={markAllAsRead}
+            aria-label={`You have ${unreadCount} unread notifications`} // Accessible label for screen readers
+          />
         </motion.div>
 
+        {/* Notifications List */}
         {notifications.length > 0 ? (
-          <motion.div className="space-y-3" variants={listVariants} initial="initial" animate="animate">
+          <motion.div
+            className="space-y-3"
+            variants={listVariants}
+            initial="initial"
+            animate="animate"
+            aria-live="polite" // Announce the notifications updates
+          >
             <AnimatePresence>
               {notifications.map((notification) => (
-                <motion.div key={notification.id} variants={itemVariants} layout className="hover-lift">
-                  <NotificationItem notification={notification} onMarkAsRead={markAsRead} />
+                <motion.div
+                  key={notification.id}
+                  variants={itemVariants}
+                  layout
+                  className="hover-lift"
+                  aria-labelledby={`notification-${notification.id}`} // Adds accessibility label to each notification
+                >
+                  <NotificationItem
+                    notification={notification}
+                    onMarkAsRead={markAsRead}
+                    aria-label={`Mark notification from ${notification.sender} as read`} // Label for screen readers
+                  />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -110,5 +136,6 @@ export default function NotificationsPage() {
         )}
       </div>
     </motion.main>
+
   );
 }

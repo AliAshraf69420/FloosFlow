@@ -75,67 +75,95 @@ export default function Admin() {
 
     return (
         <div className="min-h-screen bg-ff-bg-light dark:bg-ff-bg-dark text-gray-900 dark:text-gray-100">
-            {/* Admin Specialized Header */}
-            <header className="bg-white dark:bg-ff-bg-dark border-b border-gray-200 dark:border-white/10 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
-                    <div className="flex items-center gap-8">
-                        <Link to="/Admin" className="flex items-center gap-2">
-                            <img src="/logo.svg" alt="FloosFlow" className="h-8" />
-                            <span className="text-xl font-bold tracking-tight">Admin<span className="text-green-500">Panel</span></span>
-                        </Link>
+        {/* Admin Specialized Header */}
+        <header className="bg-white dark:bg-ff-bg-dark border-b border-gray-200 dark:border-white/10 sticky top-0 z-50" role="banner">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
+            <div className="flex items-center gap-8">
+                <Link 
+                to="/Admin" 
+                className="flex items-center gap-2" 
+                aria-label="Go to Admin Panel"
+                >
+                <img 
+                    src="/logo.svg" 
+                    alt="FloosFlow Logo" 
+                    className="h-8" 
+                    role="img" 
+                    aria-label="FloosFlow" 
+                />
+                <span className="text-xl font-bold tracking-tight">
+                    Admin<span className="text-green-500">Panel</span>
+                </span>
+                </Link>
 
-                        <nav className="hidden md:flex items-center gap-6">
-                            <span className="text-sm font-medium text-green-400">User Management</span>
-                        </nav>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-3 mr-4 border-r border-gray-200 dark:border-white/10 pr-4">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-medium leading-none text-gray-900 dark:text-white">{user.firstName} {user.lastName}</p>
-                                <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{user.role}</p>
-                            </div>
-                            <img
-                                src={user.profileImage ?? "../../assets/defaultimage.png"}
-                                alt="Admin"
-                                className="w-10 h-10 rounded-full border border-green-500/50 object-cover"
-                            />
-                        </div>
-
-                        <button
-                            onClick={handleLogout}
-                            className="px-4 py-2 text-sm font-semibold text-white bg-red-600/50 border border-red-600/30 rounded-lg hover:bg-red-600/20 transition-all active:scale-95"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            <div className="p-4 sm:p-8 max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">User Management</h2>
-                    <p className="text-gray-500 dark:text-gray-400">Search, edit, and manage all users on the platform.</p>
-                </div>
-
-                <UserFilter onFilter={handleFilter} />
-
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <LoadingSpinner size="lg" />
-                    </div>
-                ) : error ? (
-                    <div className="ff-card p-12 text-center text-red-400">
-                        {error}
-                    </div>
-                ) : (
-                    <UsersTable
-                        users={users}
-                        onUpdate={handleUpdateUser}
-                        onDelete={handleDeleteUser}
-                    />
-                )}
+                <nav className="hidden md:flex items-center gap-6" aria-label="Admin Navigation">
+                <span className="text-sm font-medium text-green-400" role="link">User Management</span>
+                </nav>
             </div>
+
+            <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 mr-4 border-r border-gray-200 dark:border-white/10 pr-4">
+                <div className="text-right hidden sm:block">
+                    <p className="text-sm font-medium leading-none text-gray-900 dark:text-white">
+                    {user.firstName} {user.lastName}
+                    </p>
+                    <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{user.role}</p>
+                </div>
+                <img
+                    src={user.profileImage ?? "../../assets/defaultimage.png"}
+                    alt={`${user.firstName} ${user.lastName}'s Profile`}
+                    className="w-10 h-10 rounded-full border border-green-500/50 object-cover"
+                    role="img"
+                    aria-label="User Profile"
+                />
+                </div>
+
+                <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-semibold text-white bg-red-600/50 border border-red-600/30 rounded-lg hover:bg-red-600/20 transition-all active:scale-95"
+                aria-label="Log out of the Admin Panel"
+                type="button"
+                >
+                Logout
+                </button>
+            </div>
+            </div>
+        </header>
+
+        <main className="p-4 sm:p-8 max-w-7xl mx-auto">
+            <section className="mb-8">
+            <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white" id="user-management-header">
+                User Management
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400">
+                Search, edit, and manage all users on the platform.
+            </p>
+            </section>
+
+            <UserFilter onFilter={handleFilter} />
+
+            {loading ? (
+            <div className="flex justify-center py-20">
+                <LoadingSpinner size="lg" role="progressbar" aria-live="polite" />
+            </div>
+            ) : error ? (
+            <div 
+                className="ff-card p-12 text-center text-red-400" 
+                role="alert" 
+                aria-live="assertive"
+            >
+                {error}
+            </div>
+            ) : (
+            <UsersTable
+                users={users}
+                onUpdate={handleUpdateUser}
+                onDelete={handleDeleteUser}
+                aria-labelledby="user-management-header"
+            />
+            )}
+        </main>
         </div>
+
     );
 }

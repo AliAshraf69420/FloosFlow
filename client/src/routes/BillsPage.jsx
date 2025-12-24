@@ -44,20 +44,32 @@ export default function BillsPage() {
     .reduce((sum, bill) => sum + bill.amount, 0);
 
   return (
-    <main className="min-h-screen bg-[#121212] px-4 sm:px-6 lg:px-10 py-24 overflow-y-auto">
+    <main className="min-h-screen bg-[#121212] px-4 sm:px-6 lg:px-10 py-24 overflow-y-auto" role="main">
       <div className="max-w-3xl mx-auto">
-        <BillsHeader totalDue={totalDue} />
+        {/* Bills Header with ARIA Landmark */}
+        <BillsHeader totalDue={totalDue} aria-labelledby="bills-header" />
 
         {bills.length > 0 ? (
-          <div className="space-y-3">
-            {bills.map((bill) => (
-              <BillItem key={bill.id} bill={bill} onTogglePaid={togglePaid} />
-            ))}
-          </div>
+          <section aria-labelledby="bills-list-header">
+            <h2 id="bills-list-header" className="sr-only">
+              Bills List
+            </h2>
+            <div className="space-y-3">
+              {bills.map((bill) => (
+                <BillItem
+                  key={bill.id}
+                  bill={bill}
+                  onTogglePaid={togglePaid}
+                  aria-labelledby={`bill-item-${bill.id}`}
+                />
+              ))}
+            </div>
+          </section>
         ) : (
-          <EmptyBills />
+          <EmptyBills aria-live="polite" />
         )}
       </div>
     </main>
+
   );
 }

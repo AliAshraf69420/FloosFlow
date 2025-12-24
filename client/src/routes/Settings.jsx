@@ -67,46 +67,66 @@ export default function SettingsPage() {
 
   return (
     <>
+      {/* Mobile Menu */}
       <MobileMenu />
 
-      <main id="main-content" className="flex-grow pt-24 px-4 lg:px-8">
+      <main 
+        id="main-content" 
+        className="flex-grow pt-24 px-4 lg:px-8" 
+        role="main" 
+        aria-labelledby="settings-heading" // Identifies the purpose of the main content
+      >
         <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start lg:gap-10 relative">
-
-          <aside className="hidden lg:block lg:sticky lg:top-28 h-fit">
+          
+          {/* Sidebar - Complementary Content */}
+          <aside 
+            className="hidden lg:block lg:sticky lg:top-28 h-fit" 
+            role="complementary" 
+            aria-label="Settings Navigation"
+          >
             <Sidebar />
           </aside>
 
+          {/* Main Content */}
           <div className="flex-1 p-4 sm:p-6 lg:p-10 space-y-12 max-w-[1100px] mx-auto lg:max-w-none lg:w-full lg:justify-self-end">
-
-            {/* INITIAL LOADING STATE ONLY */}
+            
+            {/* Loading Spinner with aria-live region */}
             {loading && !settings && (
-              <div className="flex items-center justify-center h-[60vh]">
+              <div 
+                className="flex items-center justify-center h-[60vh]" 
+                role="status" 
+                aria-live="polite" // Let screen readers know to announce dynamic loading content
+              >
                 <LoadingSpinner />
               </div>
             )}
 
-            {/* CONTENT - Keep mounted during updates */}
+            {/* Main Content Sections */}
             {(settings || !loading) && (
               <>
-                <section id="profile">
+                <section id="profile" aria-labelledby="profile-section-heading">
+                  <h2 id="profile-section-heading" className="sr-only">Profile Section</h2> {/* Visually hidden but accessible for screen readers */}
                   <ProfileSection
                     onSave={{ updatePreferences }}
                     onDisconnect={disconnectProvider}
                   />
                 </section>
 
-                <section id="theme">
+                <section id="theme" aria-labelledby="theme-section-heading">
+                  <h2 id="theme-section-heading" className="sr-only">Theme Settings</h2>
                   <ThemeSection />
                 </section>
 
-                <section id="personal">
+                <section id="personal" aria-labelledby="personal-section-heading">
+                  <h2 id="personal-section-heading" className="sr-only">Personal Information</h2>
                   <PersonalInfoSection
                     data={settings}
                     onUpdate={updatePersonalInfo}
                   />
                 </section>
 
-                <section id="account">
+                <section id="account" aria-labelledby="account-section-heading">
+                  <h2 id="account-section-heading" className="sr-only">Account Settings</h2>
                   <AccountSection
                     data={settings}
                     onUpdateUser={updateEmail}
@@ -114,7 +134,8 @@ export default function SettingsPage() {
                   />
                 </section>
 
-                <section id="support">
+                <section id="support" aria-labelledby="support-section-heading">
+                  <h2 id="support-section-heading" className="sr-only">Support Section</h2>
                   <SupportSection />
                 </section>
               </>
@@ -123,5 +144,6 @@ export default function SettingsPage() {
         </div>
       </main>
     </>
+
   );
 }

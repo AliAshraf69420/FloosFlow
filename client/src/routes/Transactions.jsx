@@ -65,30 +65,48 @@ export default function TransactionsPage() {
   );
 
   return (
-    <main className="flex-grow pt-24 px-2 sm:px-8 min-h-screen text-center overflow-hidden">
+    <main 
+      className="flex-grow pt-24 px-2 sm:px-8 min-h-screen text-center overflow-hidden" 
+      role="main" 
+      aria-labelledby="transaction-heading"
+    >
+      <h1 id="transaction-heading" className="sr-only">Transaction Management</h1> {/* Heading for screen readers */}
+
       <TransactionParentCard className="overflow-hidden">
-        {/* Search */}
+        {/* Search Input with ARIA label */}
         <TransactionSearch
+          id="transaction-search"
           placeholder="Search transactions..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           className="mb-4"
+          aria-label="Search for transactions" // Ensure screen reader can identify the search functionality
         />
 
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-end gap-4 mb-6">
-          <TransactionButton to="/AddTransaction" className="flex-1 sm:flex-auto">
+          <TransactionButton 
+            to="/AddTransaction" 
+            className="flex-1 sm:flex-auto" 
+            aria-label="Add a new transaction" // Clear action for screen readers
+          >
             + Add Transaction
           </TransactionButton>
-          <TransactionButton to="/TransferMoney" className="flex-1 sm:flex-auto">
+          <TransactionButton 
+            to="/TransferMoney" 
+            className="flex-1 sm:flex-auto" 
+            aria-label="Transfer money to another account" // Clear action for screen readers
+          >
             $ Transfer Money
           </TransactionButton>
         </div>
 
-        {/* Transaction List */}
-        <div className="flex flex-col space-y-4 max-h-[65vh]  overflow-x-hidden pr-2">
+        {/* Transaction List with ARIA Live for dynamic updates */}
+        <div className="flex flex-col space-y-4 max-h-[65vh] overflow-x-hidden pr-2" role="region" aria-labelledby="transaction-list-heading">
+          <h2 id="transaction-list-heading" className="sr-only">Transaction List</h2> {/* Visually hidden heading for screen readers */}
+          
           {filteredTransactions.length === 0 ? (
-            <div className="ff-card-Transfer p-6 text-center">
+            <div className="ff-card-Transfer p-6 text-center" role="status" aria-live="assertive">
               <p className="text-gray-500 dark:text-white/60">No transactions found.</p>
             </div>
           ) : (
@@ -96,12 +114,14 @@ export default function TransactionsPage() {
               <TransactionCard
                 key={tx.id}
                 {...tx}
-                className="break-words" // ensures text wraps inside cards
+                className="break-words"
+                aria-labelledby={`transaction-card-${tx.id}`} // Announce each transaction card separately
               />
             ))
           )}
         </div>
       </TransactionParentCard>
     </main>
+
   );
 }
