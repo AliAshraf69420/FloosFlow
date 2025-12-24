@@ -21,12 +21,32 @@ const app = express();
 
 // Updated CORS configuration for Railway
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*", // Use environment variable
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5000',
+      process.env.FRONTEND_URL,
+      'https://accurate-renewal-production.up.railway.app'
+    ].filter(Boolean); // Remove undefined values
+    
+    console.log('🔍 CORS Check:');
+    console.log('Request origin:', origin);
+    console.log('Allowed origins:', allowedOrigins);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('❌ CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-
 app.use(express.json());
 
 // Initialize Passport
